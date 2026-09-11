@@ -126,8 +126,11 @@ table.cmp td:nth-child(3),table.cmp td:nth-child(2){font-family:var(--mono);font
 
 /* ── 人物表（原 .sci 卡片阵 → 图纸式名录） ───────────────────────── */
 .sci-grid{margin:28px 0 22px;border-top:1px solid var(--ink)}
-.sci{display:grid;grid-template-columns:minmax(150px,1.1fr) 92px minmax(0,2.6fr) 130px;gap:18px;align-items:baseline;
-  padding:13px 0;border-bottom:1px solid var(--ruleSoft)}
+.sci{display:grid;grid-template-columns:46px minmax(140px,1.05fr) 92px minmax(0,2.4fr) 130px;gap:16px;align-items:baseline;
+  padding:14px 0;border-bottom:1px solid var(--ruleSoft)}
+.sci .pt{width:46px;height:58px;object-fit:cover;object-position:center 18%;align-self:start;
+  filter:grayscale(1) contrast(1.04);border:1px solid var(--frame);background:var(--paper2)}
+.science-credit{margin-top:-6px;font-size:12.5px;color:var(--dim)}
 .sci .nm{font-weight:700;font-size:15.5px}
 .sci .yr{font-family:var(--mono);font-size:12.5px;color:var(--dim)}
 .sci .did{font-size:14.5px;line-height:1.7;color:var(--ink);opacity:.88}
@@ -234,7 +237,8 @@ html[data-theme="dark"] .chain span{border-color:var(--frame)}
   .nav .in{padding:0 20px;gap:14px}
   .nav .brand{display:none}
   .chain span{font-size:11.5px}
-  .sci{grid-template-columns:1fr;gap:4px;padding:14px 0}
+  .sci{grid-template-columns:46px minmax(0,1fr);gap:4px 12px;padding:16px 0}
+  .sci .pt{width:40px;height:50px}
   .sci .link{text-align:left}
   table.cmp{display:block;width:100%;font-size:14.5px;margin:18px 0 22px}
   table.cmp caption{display:block;white-space:normal}
@@ -580,18 +584,19 @@ html[data-theme="dark"] .chain span{border-color:var(--frame)}
     <h3>这条链上的十个人</h3>
     <p>每人只写一句话：<b>他解决了链条上的哪一环。</b></p>
     <div class="sci-grid">
-      <div class="sci"><div class="nm">查尔斯·库仑</div><div class="yr">1736–1806</div><div class="did">1785 年用扭秤把"电的力"量出来：与距离平方成反比。</div><div class="link">环节：力有多大</div></div>
-      <div class="sci"><div class="nm">约瑟夫·普里斯特利</div><div class="yr">1733–1804</div><div class="did">1767 年就猜到平方反比（从万有引力类推），但只是猜想。</div><div class="link">环节：提出猜测</div></div>
-      <div class="sci"><div class="nm">汉斯·奥斯特</div><div class="yr">1777–1851</div><div class="did">1820 年发现通电导线能让磁针偏转，电与磁第一次接上。</div><div class="link">环节：电生磁</div></div>
-      <div class="sci"><div class="nm">安德烈-马里·安培</div><div class="yr">1775–1836</div><div class="did">用数学把电流与磁的关系写清楚；提出"分子电流"解释磁铁。</div><div class="link">环节：写清规则</div></div>
-      <div class="sci"><div class="nm">卡尔·高斯</div><div class="yr">1777–1855</div><div class="did">1835 年写出"场与源的账"（高斯定律），1867 年才发表。</div><div class="link">环节：场的源头</div></div>
-      <div class="sci"><div class="nm">迈克尔·法拉第</div><div class="yr">1791–1867</div><div class="did">1831 年发现电磁感应；用"力线"把场画了出来。</div><div class="link">环节：变化生电</div></div>
-      <div class="sci"><div class="nm">詹姆斯·克拉克·麦克斯韦</div><div class="yr">1831–1879</div><div class="did">1864 年提出光是电磁波，1873 年写下完整的方程组。</div><div class="link">环节：统一</div></div>
-      <div class="sci"><div class="nm">海因里希·赫兹</div><div class="yr">1857–1894</div><div class="did">1887 年用实验证实电磁波存在，1888 年发表。</div><div class="link">环节：实证</div></div>
-      <div class="sci"><div class="nm">尼古拉·特斯拉</div><div class="yr">1856–1943</div><div class="did">1887 年做出交流感应电动机；多相交流体系成为今天的电网基础。</div><div class="link">环节：让它可用</div></div>
-      <div class="sci"><div class="nm">托马斯·爱迪生</div><div class="yr">1847–1931</div><div class="did">1882 年建成珍珠街发电站（110V 直流，59 户）；把电灯变成商品。</div><div class="link">环节：让它普及</div></div>
+      <div class="sci"><img class="pt" src="assets/pt-charles-augustin-de-coulomb.webp" alt="查尔斯·库仑肖像" width="46" height="58" loading="lazy" decoding="async"><div class="nm">查尔斯·库仑</div><div class="yr">1736–1806</div><div class="did">1785 年用扭秤把"电的力"量出来：与距离平方成反比。</div><div class="link">环节：力有多大</div></div>
+      <div class="sci"><img class="pt" src="assets/pt-joseph-priestley.webp" alt="约瑟夫·普里斯特利肖像" width="46" height="58" loading="lazy" decoding="async"><div class="nm">约瑟夫·普里斯特利</div><div class="yr">1733–1804</div><div class="did">1767 年就猜到平方反比（从万有引力类推），但只是猜想。</div><div class="link">环节：提出猜测</div></div>
+      <div class="sci"><img class="pt" src="assets/pt-hans-christian-rsted.webp" alt="汉斯·奥斯特肖像" width="46" height="58" loading="lazy" decoding="async"><div class="nm">汉斯·奥斯特</div><div class="yr">1777–1851</div><div class="did">1820 年发现通电导线能让磁针偏转，电与磁第一次接上。</div><div class="link">环节：电生磁</div></div>
+      <div class="sci"><img class="pt" src="assets/pt-andr-marie-amp-re.webp" alt="安德烈-马里·安培肖像" width="46" height="58" loading="lazy" decoding="async"><div class="nm">安德烈-马里·安培</div><div class="yr">1775–1836</div><div class="did">用数学把电流与磁的关系写清楚；提出"分子电流"解释磁铁。</div><div class="link">环节：写清规则</div></div>
+      <div class="sci"><img class="pt" src="assets/pt-carl-friedrich-gauss.webp" alt="卡尔·高斯肖像" width="46" height="58" loading="lazy" decoding="async"><div class="nm">卡尔·高斯</div><div class="yr">1777–1855</div><div class="did">1835 年写出"场与源的账"（高斯定律），1867 年才发表。</div><div class="link">环节：场的源头</div></div>
+      <div class="sci"><img class="pt" src="assets/pt-faraday-dec.webp" alt="迈克尔·法拉第肖像" width="46" height="58" loading="lazy" decoding="async"><div class="nm">迈克尔·法拉第</div><div class="yr">1791–1867</div><div class="did">1831 年发现电磁感应；用"力线"把场画了出来。</div><div class="link">环节：变化生电</div></div>
+      <div class="sci"><img class="pt" src="assets/pt-james-clerk-maxwell.webp" alt="詹姆斯·克拉克·麦克斯韦肖像" width="46" height="58" loading="lazy" decoding="async"><div class="nm">詹姆斯·克拉克·麦克斯韦</div><div class="yr">1831–1879</div><div class="did">1864 年提出光是电磁波，1873 年写下完整的方程组。</div><div class="link">环节：统一</div></div>
+      <div class="sci"><img class="pt" src="assets/pt-heinrich-hertz.webp" alt="海因里希·赫兹肖像" width="46" height="58" loading="lazy" decoding="async"><div class="nm">海因里希·赫兹</div><div class="yr">1857–1894</div><div class="did">1887 年用实验证实电磁波存在，1888 年发表。</div><div class="link">环节：实证</div></div>
+      <div class="sci"><img class="pt" src="assets/pt-nikola-tesla.webp" alt="尼古拉·特斯拉肖像" width="46" height="58" loading="lazy" decoding="async"><div class="nm">尼古拉·特斯拉</div><div class="yr">1856–1943</div><div class="did">1887 年做出交流感应电动机；多相交流体系成为今天的电网基础。</div><div class="link">环节：让它可用</div></div>
+      <div class="sci"><img class="pt" src="assets/pt-thomas-edison.webp" alt="托马斯·爱迪生肖像" width="46" height="58" loading="lazy" decoding="async"><div class="nm">托马斯·爱迪生</div><div class="yr">1847–1931</div><div class="did">1882 年建成珍珠街发电站（110V 直流，59 户）；把电灯变成商品。</div><div class="link">环节：让它普及</div></div>
     </div>
-    <p class="dim" style="font-size:.9rem;">术语：直流 DC、交流 AC、频率（赫兹）、变压器、匝数比、损耗 I²R。</p>
+    <p class="science-credit">肖像来源：Wikimedia Commons，公有领域（经各人 Wikipedia 条目主图接口取得，未作美化；黑白处理只为版面统一）。</p>
+    、频率（赫兹）、变压器、匝数比、损耗 I²R。</p>
   </section>
 
   <section id="quiz">
