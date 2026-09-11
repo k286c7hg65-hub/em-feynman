@@ -133,6 +133,7 @@ caption{caption-side:bottom;text-align:left;font-size:var(--fs-12);color:var(--i
 /* 图与装置 */
 figure{margin:0 0 var(--sp-5)}
 figure svg{display:block;width:100%;height:auto;background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg)}
+figure img{display:block;width:100%;height:auto;background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);margin-bottom:var(--sp-1)}
 figcaption{font-size:var(--fs-12);color:var(--ink-dim);padding-top:var(--sp-2)}
 .dev{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);padding:var(--sp-4);margin:0 0 var(--sp-5)}
 .dev-h{display:flex;justify-content:space-between;align-items:baseline;gap:var(--sp-3);margin-bottom:var(--sp-3)}
@@ -262,11 +263,15 @@ footer a{color:var(--ink-dim)}
             <g stroke="#3fc7d4" stroke-width="2" fill="none"><line x1="470" y1="120" x2="600" y2="120"/></g>
             <g stroke="#ffb454" stroke-width="2" fill="none"><circle cx="535" cy="120" r="26"/><circle cx="535" cy="120" r="44"/></g>
             <g transform="translate(500,58) rotate(-24)"><line x1="0" y1="0" x2="70" y2="0" stroke="#e8eef0" stroke-width="2"/><path d="M0 -4 l-8 4 l8 4 z" fill="#e8eef0"/></g>
-            <g fill="#a9b9be" font-family="sans-serif" font-size="11">
+            <g fill="#a9b9be" font-family="sans-serif" font-size="12">
               <text x="24" y="176">擦过的尺子把纸屑吸起来</text><text x="237" y="176">脱毛衣时的放电</text><text x="450" y="176">电流周围有磁场</text>
             </g>
           </svg>
           <figcaption>三件都能在桌上做。① 和 ② 是电，③ 是磁——本页要说明它们是同一件事的两段。</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/em-chain.webp" alt="电磁学概念链条全景图：九个概念、四道关卡，一条链走完" width="1600" height="868" loading="lazy" decoding="async">
+          <figcaption>整页的全景图：九个概念、四道关卡，一条链走完。往下每一节都是这条链上的一环。图由 archify 生成（架构/流程图工具），配色自成一套，与本页主色无关。</figcaption>
         </figure>
       </section>
 
@@ -299,7 +304,7 @@ footer a{color:var(--ink-dim)}
               <circle id="inv-a" cx="50" cy="70" r="9" fill="#3fc7d4"/><text x="50" y="52" fill="#3fc7d4" font-size="12" text-anchor="middle" font-family="monospace">+</text>
               <circle id="inv-b" cx="180" cy="70" r="9" fill="#ffb454"/><text x="180" y="52" fill="#ffb454" font-size="12" text-anchor="middle" font-family="monospace">−</text>
               <g id="inv-arrow" stroke="#ffb454" stroke-width="2"><path d="M70 70 H110"/><path d="M110 70 l-8 -5 v10 z" fill="#ffb454" stroke="none"/></g>
-              <text id="inv-sep" x="115" y="94" fill="#a9b9be" font-size="11" text-anchor="middle" font-family="monospace">10 cm</text>
+              <text id="inv-sep" x="115" y="94" fill="#a9b9be" font-size="12" text-anchor="middle" font-family="monospace">10 cm</text>
             </svg>
             <div class="dev-read">F ≈ <b id="inv-f">0.90</b> N</div>
           </div>
@@ -324,7 +329,7 @@ footer a{color:var(--ink-dim)}
             <g stroke="#3fc7d4" stroke-width="1.2" fill="none" opacity=".55" stroke-dasharray="3 4">
               <circle cx="160" cy="110" r="40"/><circle cx="160" cy="110" r="72"/>
             </g>
-            <g fill="#a9b9be" font-family="sans-serif" font-size="11">
+            <g fill="#a9b9be" font-family="sans-serif" font-size="12">
               <text x="300" y="46">近处线密 → 力大</text><text x="300" y="72">远处线疏 → 力小</text><text x="300" y="98">线的方向 = 正电荷受力方向</text><text x="300" y="124">线起于正、止于负，不会打结</text><text x="300" y="150">线永不相交（否则同一点有两个方向）</text><text x="300" y="176">总共画几条不重要，疏密比才有意义</text>
             </g>
             <g stroke="#ffb454" stroke-width="0" fill="#ffb454"><circle cx="470" cy="196" r="3"/></g>
@@ -405,7 +410,7 @@ footer a{color:var(--ink-dim)}
             <g stroke="#ffb454" stroke-width="2" fill="none" opacity=".95">
               <circle cx="450" cy="110" r="26"/><circle cx="450" cy="110" r="46"/><circle cx="450" cy="110" r="66"/><circle cx="450" cy="110" r="86"/>
             </g>
-            <g fill="#ffb454" font-family="sans-serif" font-size="11"><text x="352" y="196">磁场线围着导线转，是闭合的圈</text></g>
+            <g fill="#ffb454" font-family="sans-serif" font-size="12"><text x="352" y="196">磁场线围着导线转，是闭合的圈</text></g>
           </svg>
           <figcaption>电场的线有头有尾（起于正、止于负）；磁场的线是闭合圈。这个差别一直保留到麦克斯韦方程组里。</figcaption>
         </figure>
@@ -455,7 +460,7 @@ footer a{color:var(--ink-dim)}
                 <text x="-11" y="4" fill="#0d1012" font-size="12" text-anchor="middle" font-weight="700">N</text><text x="11" y="4" fill="#0d1012" font-size="12" text-anchor="middle" font-weight="700">S</text>
               </g>
               <g id="ind-needle" transform="translate(226,70)"><line x1="0" y1="0" x2="0" y2="-26" stroke="#ffb454" stroke-width="2"/><circle cx="0" cy="0" r="3" fill="#ffb454"/></g>
-              <text x="226" y="100" fill="#a9b9be" font-size="11" text-anchor="middle" font-family="monospace">电流表</text>
+              <text x="226" y="100" fill="#a9b9be" font-size="12" text-anchor="middle" font-family="monospace">电流表</text>
             </svg>
             <div class="dev-read">I ≈ <b id="ind-i">0.00</b></div>
           </div>
@@ -476,12 +481,28 @@ footer a{color:var(--ink-dim)}
             <g stroke="#ffb454" stroke-width="2" fill="none" opacity=".95">
               <path d="M52 90 l0 -18"/><path d="M82 90 l0 18"/><path d="M112 90 l0 -18"/><path d="M142 90 l0 18"/><path d="M172 90 l0 -18"/><path d="M202 90 l0 18"/><path d="M232 90 l0 -18"/><path d="M262 90 l0 18"/><path d="M292 90 l0 -18"/><path d="M322 90 l0 18"/><path d="M352 90 l0 -18"/><path d="M382 90 l0 18"/><path d="M412 90 l0 -18"/><path d="M442 90 l0 18"/><path d="M472 90 l0 -18"/><path d="M502 90 l0 18"/><path d="M532 90 l0 -18"/><path d="M562 90 l0 18"/><path d="M592 90 l0 -18"/>
             </g>
-            <g font-family="sans-serif" font-size="11"><text x="40" y="30" fill="#3fc7d4">电场</text><text x="88" y="30" fill="#ffb454">磁场</text><text x="40" y="160" fill="#a9b9be">两者互相垂直，一起向远处跑</text></g>
+            <g font-family="sans-serif" font-size="12"><text x="40" y="30" fill="#3fc7d4">电场</text><text x="88" y="30" fill="#ffb454">磁场</text><text x="40" y="160" fill="#a9b9be">两者互相垂直，一起向远处跑</text></g>
           </svg>
           <figcaption>电场（青）与磁场（琥珀）互相垂直，互相生成，一起向前传播。这就是电磁波。</figcaption>
         </figure>
         <p>接着算它的速度：从两个电磁常数算出来的传播速度是 <span class="mono">1/√(ε₀μ₀) ≈ 3 × 10⁸ m/s</span>——正好是<strong>光速</strong>。</p>
         <p>于是麦克斯韦写下那句话：<strong>光就是电磁波</strong>。二十多年后赫兹在实验室里造出了它，证明了这件事。</p>
+        <h3>在麦克斯韦之前，法拉第先把它做出来了</h3>
+        <p>法拉第没受过多少数学训练。他 1791 年出生在伦敦南边，家里是铁匠，14 岁去装订铺当学徒。他靠装订书的时候读书自学，后来进了皇家研究院当戴维的助手。</p>
+        <p>1821 年，他让一根通电的导线绕着磁铁转起来，这是人类第一台电动机的雏形。真正关键的是 1831 年 8 月 29 日：他在一个铁环两侧各绕一组线圈，一组通断电，另一组的电流表就动。<strong>变化的磁场能生电，不是磁本身。</strong>他在《实验日记》里记下了这一天。今天所有发电站、所有充电器，做事的都是这一条。</p>
+        <p>他没有方程，他画"力线"。当时很多人觉得那只是画着好看的曲线，麦克斯韦却把它当了真。1845 年他还发现：磁场能让偏振光的偏振面转一个角度（法拉第效应）。这是光第一次被电和磁碰到。</p>
+        <h3>麦克斯韦把力线写成方程，用了四步</h3>
+        <table>
+          <caption>每一步都只做一件事，四步走完，电磁波就自己跑出来了。</caption>
+          <thead><tr><th>年份</th><th>他做了什么</th><th>多出来什么</th></tr></thead>
+          <tbody>
+            <tr><td class="num">1855–56</td><td>把法拉第的力线翻译成数学</td><td>场第一次有了方程</td></tr>
+            <tr><td class="num">1861–62</td><td>补上"位移电流"这一项</td><td>变化的电场也能生磁</td></tr>
+            <tr><td class="num">1864–65</td><td>用韦伯与科尔劳施测的电磁比值算传播速度</td><td>速度算出来正好是光速</td></tr>
+            <tr><td class="num">1873</td><td>出版《电磁通论》</td><td>四条规则并成一组方程</td></tr>
+          </tbody>
+        </table>
+        <p>两个人，两种走法：法拉第把现象攒到足够多，麦克斯韦把现象写成方程。少一个都不行，需要量的先量，需要写的先写。这一页里每一环几乎都能对到某一个人身上，就是这个意思。</p>
         <p class="hard">这一站是真的难。上面那段"自己接力"的推导，完整版要用偏微分方程。这一页的目标不是让你会算，而是让你知道<strong>四条规则并成一条之后，多出来的是"波"</strong>。</p>
         <p class="say"><textarea rows="2" aria-label="用自己的话说说麦克斯韦的发现" placeholder="用一句话说：为什么电磁波不需要电线也能传播？"></textarea></p>
       </section>
@@ -503,6 +524,12 @@ footer a{color:var(--ink-dim)}
           </tbody>
         </table>
         <p>顺带一句：你手机充电器把交流变成低压直流——所以它其实是"电流之战"两边在同一个插头里握手。</p>
+        <h3>1882 年 9 月 4 日，珍珠街</h3>
+        <p>爱迪生在曼哈顿珍珠街建了第一座商用发电站：六台 100 千瓦的直流发电机，总容量 600 千瓦，送出去的是 110 伏直流。开业当天接了 82 户、点了 400 盏灯（另有资料记的是 59 户，这里按维基条目记的 82 户）。两年后涨到 508 户、10,164 盏灯。1890 年，这座电站毁于一场火灾。</p>
+        <p>它证明了一件事：电可以像自来水一样，从一家工厂送到一整片街区。</p>
+        <h3>交流是怎么翻盘的</h3>
+        <p>1886 年 3 月，斯坦利在马萨诸塞州大巴林顿做出第一条多电压交流系统；同年秋天，布法罗出现了第一张商业交流电网。真正定局的是 1888 年 7 月：西屋买下特斯拉的多相感应电机专利。一套能发电、能变压、能驱动电机的组合就此凑齐。</p>
+        <p class="hard">这段历史不好看。1888 年 6 月，布朗（Harold Brown）在爱迪生的支持下当众用交流电电死猫狗，想证明交流危险，演示用的设备借自爱迪生实验室。1890 年 8 月 6 日，第一把电椅用的正是西屋的交流发电机。技术被当成武器，是这一页里最该记住的一课。</p>
       </section>
 
       <section id="s9">
@@ -617,7 +644,7 @@ footer a{color:var(--ink-dim)}
     }
     svg.appendChild(g);
     svg.appendChild(el('circle', {cx:cx, cy:cy, r:13, fill:'#3fc7d4'}));
-    var t = el('text', {x:cx, y:cy+5, fill:'#0d1012', 'font-size':15, 'font-weight':700, 'text-anchor':'middle'}); t.textContent='+'; svg.appendChild(t);
+    var t = el('text', {x:cx, y:cy+5, fill:'#0d1012', 'font-size':14, 'font-weight':700, 'text-anchor':'middle'}); t.textContent='+'; svg.appendChild(t);
   }
 
   function drawGauss(r){
@@ -654,7 +681,7 @@ footer a{color:var(--ink-dim)}
     svg.appendChild(el('circle', {cx:a.x, cy:a.y, r:12, fill:'#3fc7d4'}));
     svg.appendChild(el('circle', {cx:b.x, cy:b.y, r:12, fill:'#ffb454'}));
     [['+', a.x, a.y], ['−', b.x, b.y]].forEach(function(x){
-      var t = el('text', {x:x[1], y:x[2]+5, fill:'#0d1012', 'font-size':15, 'font-weight':700, 'text-anchor':'middle'}); t.textContent = x[0]; svg.appendChild(t);
+      var t = el('text', {x:x[1], y:x[2]+5, fill:'#0d1012', 'font-size':14, 'font-weight':700, 'text-anchor':'middle'}); t.textContent = x[0]; svg.appendChild(t);
     });
   }
 
