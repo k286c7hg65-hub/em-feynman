@@ -3,7 +3,6 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23101315'/%3E%3Ccircle cx='16' cy='16' r='2.6' fill='%23ffb454'/%3E%3Cg stroke='%233fc7d4' stroke-width='1.7' stroke-linecap='round'%3E%3Cpath d='M16 4.5v6M16 21.5v6M4.5 16h6M21.5 16h6M8.2 8.2l4.2 4.2M19.6 19.6l4.2 4.2M23.8 8.2l-4.2 4.2M12.4 19.6l-4.2 4.2'/%3E%3C/g%3E%3C/svg%3E">
 <title>电与磁 · 一条线讲到底</title>
 <meta name="description" content="从一根塑料尺开始，沿一条场线走到麦克斯韦：电与磁的费曼式讲法。每节一个能动手的装置。">
 <style>
@@ -123,7 +122,6 @@ h3{font-size:var(--fs-20);margin:var(--sp-5) 0 var(--sp-2)}
 }
 .fig .k{color:var(--sig-ink)}
 .fig .u{color:var(--ink-dim)}
-.note{font-size:var(--fs-12);color:var(--ink-dim);margin-top:var(--sp-2)}
 table{width:100%;border-collapse:collapse;font-size:var(--fs-14);margin:0 0 var(--sp-4)}
 th,td{text-align:left;padding:var(--sp-2) var(--sp-3);border-bottom:1px solid var(--line)}
 th{color:var(--ink-dim);font-weight:var(--wt-600);font-size:var(--fs-12);letter-spacing:.04em}
@@ -210,7 +208,7 @@ footer a{color:var(--ink-dim)}
       <a href="#s6">⑥ 变化生电</a>
       <a href="#s7">⑦ 统一</a>
       <a href="#s8">⑧ 应用</a>
-      <a href="#s9">⑨ 十八个人</a>
+      <a href="#s9">⑨ 十个人</a>
       <a href="#quiz">找错</a>
       <a href="#recite">讲一遍</a>
     </nav>
@@ -430,6 +428,7 @@ footer a{color:var(--ink-dim)}
               <text id="rhr-label" x="24" y="26" fill="#a9b9be" font-size="12">电流向右：磁场从纸面看是顺时针</text>
             </svg>
             <div class="dev-read">B 绕向 <b id="rhr-way">顺时针</b></div>
+          </div>
         </div>
         <p class="hard">这里先跳过一件事：磁铁为什么也有磁场？它内部有微观的环形电流（电子自旋和轨道运动）。这句话现在只需要知道结论，细节留到以后。</p>
       </section>
@@ -507,43 +506,20 @@ footer a{color:var(--ink-dim)}
 
       <section id="s9">
         <span class="st-no">⑨ 人物</span>
-        <h2>这条链上的十八个人</h2>
-        <p>顺着这条线走下来，每一站都对应一个具体的人。从富兰克林的风筝到密立根的油滴，两百年的接力。</p>
+        <h2>这条链上的十个人</h2>
+        <p>顺着这条线走下来，每一站都对应一个具体的人。</p>
         <div class="people">
-          <div class="person"><img src="assets/pt-benjamin-franklin.webp" alt="本杰明·富兰克林肖像" width="152" height="203" loading="lazy"><b>本杰明·富兰克林</b><span>1706–1790 · 风筝实验：闪电就是电</span></div>
-          <div class="person"><img src="assets/pt-joseph-priestley.webp" alt="约瑟夫·普利斯特利肖像" width="152" height="203" loading="lazy"><b>约瑟夫·普利斯特利</b><span>1733–1804 · 更早猜到"跟距离平方成反比"</span></div>
-          <div class="person"><img src="assets/pt-charles-augustin-de-coulomb.webp" alt="查尔斯·库仑肖像" width="152" height="203" loading="lazy"><b>查尔斯·库仑</b><span>1736–1806 · 用扭秤把静电力测成平方反比（1785）</span></div>
-          <div class="person"><img src="assets/pt-alessandro-volta.webp" alt="亚历山德罗·伏打肖像" width="152" height="203" loading="lazy"><b>亚历山德罗·伏打</b><span>1745–1827 · 伏打电堆：第一块能持续供电的电池（1799）</span></div>
-          <div class="person"><img src="assets/pt-andr-marie-amp-re.webp" alt="安德烈-马里·安培肖像" width="152" height="203" loading="lazy"><b>安德烈-马里·安培</b><span>1775–1836 · 把"电流生磁"算成了规律</span></div>
-          <div class="person"><img src="assets/pt-hans-christian-rsted.webp" alt="汉斯·奥斯特肖像" width="152" height="203" loading="lazy"><b>汉斯·奥斯特</b><span>1777–1851 · 课堂意外：电流让磁针动了（1820）</span></div>
-          <div class="person"><img src="assets/pt-carl-friedrich-gauss.webp" alt="卡尔·高斯肖像" width="152" height="203" loading="lazy"><b>卡尔·高斯</b><span>1777–1855 · 给场找到了源头</span></div>
-          <div class="person"><img src="assets/pt-georg-ohm.webp" alt="格奥尔格·欧姆肖像" width="152" height="203" loading="lazy"><b>格奥尔格·欧姆</b><span>1789–1854 · 欧姆定律：电压与电流成正比</span></div>
-          <div class="person"><img src="assets/pt-faraday-dec.webp" alt="迈克尔·法拉第肖像" width="152" height="203" loading="lazy"><b>迈克尔·法拉第</b><span>1791–1867 · 十年实验，找到"变化生电"（1831）</span></div>
-          <div class="person"><img src="assets/pt-heinrich-lenz.webp" alt="海因里希·楞次肖像" width="152" height="203" loading="lazy"><b>海因里希·楞次</b><span>1804–1865 · 楞次定律：感应电流总要"对抗"变化（1834）</span></div>
-          <div class="person"><img src="assets/pt-james-prescott-joule.webp" alt="詹姆斯·焦耳肖像" width="152" height="203" loading="lazy"><b>詹姆斯·焦耳</b><span>1818–1889 · 热与功是一回事：能量守恒</span></div>
-          <div class="person"><img src="assets/pt-gustav-kirchhoff.webp" alt="古斯塔夫·基尔霍夫肖像" width="152" height="203" loading="lazy"><b>古斯塔夫·基尔霍夫</b><span>1824–1887 · 电路两条定律；1860 年提出"黑体"</span></div>
-          <div class="person"><img src="assets/pt-james-clerk-maxwell.webp" alt="詹姆斯·克拉克·麦克斯韦肖像" width="152" height="203" loading="lazy"><b>詹姆斯·克拉克·麦克斯韦</b><span>1831–1879 · 把四条并成一条，看见了光</span></div>
-          <div class="person"><img src="assets/pt-thomas-edison.webp" alt="托马斯·爱迪生肖像" width="152" height="203" loading="lazy"><b>托马斯·爱迪生</b><span>1847–1931 · 对手阵营；电灯与直流电网</span></div>
-          <div class="person"><img src="assets/pt-jj-thomson.webp" alt="约瑟夫·汤姆孙肖像" width="152" height="203" loading="lazy"><b>约瑟夫·汤姆孙</b><span>1856–1940 · 1897 年把电子揪出来（阴极射线）</span></div>
-          <div class="person"><img src="assets/pt-nikola-tesla.webp" alt="尼古拉·特斯拉肖像" width="152" height="203" loading="lazy"><b>尼古拉·特斯拉</b><span>1856–1943 · 交流电与感应电动机</span></div>
-          <div class="person"><img src="assets/pt-heinrich-hertz.webp" alt="海因里希·赫兹肖像" width="152" height="203" loading="lazy"><b>海因里希·赫兹</b><span>1857–1894 · 把电磁波真的做出来（1887–1888）</span></div>
-          <div class="person"><img src="assets/pt-robert-millikan.webp" alt="罗伯特·密立根肖像" width="152" height="203" loading="lazy"><b>罗伯特·密立根</b><span>1868–1953 · 油滴实验量出元电荷（1909）</span></div>
+          <div class="person"><img src="assets/pt-charles-augustin-de-coulomb.webp" alt="查尔斯·库仑肖像" width="152" height="203"><b>库仑</b><span>把静电力量成了平方反比</span></div>
+          <div class="person"><img src="assets/pt-joseph-priestley.webp" alt="约瑟夫·普利斯特利肖像" width="152" height="203"><b>普利斯特利</b><span>更早猜到"跟距离平方成反比"</span></div>
+          <div class="person"><img src="assets/pt-hans-christian-rsted.webp" alt="汉斯·奥斯特肖像" width="152" height="203"><b>奥斯特</b><span>课堂意外：电流让磁针动了</span></div>
+          <div class="person"><img src="assets/pt-andr-marie-amp-re.webp" alt="安德烈-马里·安培肖像" width="152" height="203"><b>安培</b><span>把这件事算成了规律</span></div>
+          <div class="person"><img src="assets/pt-carl-friedrich-gauss.webp" alt="卡尔·高斯肖像" width="152" height="203"><b>高斯</b><span>给场找到了源头</span></div>
+          <div class="person"><img src="assets/pt-faraday-dec.webp" alt="迈克尔·法拉第肖像" width="152" height="203"><b>法拉第</b><span>十年实验，找到"变化生电"</span></div>
+          <div class="person"><img src="assets/pt-james-clerk-maxwell.webp" alt="詹姆斯·克拉克·麦克斯韦肖像" width="152" height="203"><b>麦克斯韦</b><span>把四条并成一条，看见了光</span></div>
+          <div class="person"><img src="assets/pt-heinrich-hertz.webp" alt="海因里希·赫兹肖像" width="152" height="203"><b>赫兹</b><span>把电磁波真的做出来</span></div>
+          <div class="person"><img src="assets/pt-nikola-tesla.webp" alt="尼古拉·特斯拉肖像" width="152" height="203"><b>特斯拉</b><span>交流电与感应电动机</span></div>
+          <div class="person"><img src="assets/pt-thomas-edison.webp" alt="托马斯·爱迪生肖像" width="152" height="203"><b>爱迪生</b><span>对手阵营；电灯与直流电网</span></div>
         </div>
-
-        <h3>改变历史的六个实验</h3>
-        <p>这条线上的每一步，都不是靠想出来的，是靠一个装置试出来的。六个实验，六个装置：</p>
-        <table>
-          <thead><tr><th>年</th><th>实验</th><th>装置</th><th>它改变了什么</th></tr></thead>
-          <tbody>
-            <tr><td class="num">1785</td><td><b>库仑扭秤</b></td><td>一根丝线吊着横杆，靠扭转角度读出力的比例</td><td>「平方反比」从猜变成了测——第一个把静电力量出来的实验</td></tr>
-            <tr><td class="num">1799</td><td><b>伏打电堆</b></td><td>铜片、锌片、浸盐水的纸交替叠成一柱</td><td>第一次有了能持续供电的东西；电学从"玩火花"变成可以做实验</td></tr>
-            <tr><td class="num">1820</td><td><b>奥斯特的课堂意外</b></td><td>通电导线 + 一枚小磁针</td><td>电和磁第一次被看见有关系——整个电磁学从这里拐弯</td></tr>
-            <tr><td class="num">1831</td><td><b>法拉第的感应实验</b></td><td>一个线圈、一块磁铁、一个检流计</td><td>磁铁「动」才有电流：变化生电，这是发电机的起点</td></tr>
-            <tr><td class="num">1887–1888</td><td><b>赫兹的电磁波实验</b></td><td>火花隙（发射端）+ 环形天线（接收端）</td><td>麦克斯韦纸上算出来的波，被真的造了出来</td></tr>
-            <tr><td class="num">1909</td><td><b>密立根油滴实验</b></td><td>两片电极板之间悬浮的带电油滴</td><td>电荷是一份一份的，这一份有多大第一次被量出来</td></tr>
-          </tbody>
-        </table>
-        <p class="note">油滴实验是密立根与哈维·弗莱彻（Harvey Fletcher）共同完成的——教科书上常只写前者的名字。</p>
       </section>
 
       <section id="quiz">
