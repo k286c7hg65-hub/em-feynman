@@ -19,52 +19,52 @@
   /* ===== 主题变量 =====
      默认「演算纸」（亮色），html[data-theme="dark"] 切「黑板」 */
   :root{
-    --bgPage:#e7eeea;
-    --paper:#fbfcfa;
-    --paper2:#eff4f1;
-    --ink:#1d2b36;
-    --ink-dim:#586875;
-    --pen:#1668a8;
-    --pen2:#0e7a63;
-    --penRed:#c23a30;
-    --frame:#dde5e1;
-    --frame2:#c8d4ce;
+    --bgPage:#f6f7f6;
+    --paper:#ffffff;
+    --paper2:#eef1f0;
+    --ink:#16191c;
+    --ink-dim:#5b646a;
+    --pen:#0e6f7a;
+    --pen2:#0a545c;
+    --penRed:#8c2f39;
+    --frame:#dbddda;
+    --frame2:#dbddda;
     --frameW:1px;
-    --ruleSolid:#1d2b36;
+    --ruleSolid:#16191c;
     --rule:color-mix(in srgb, var(--ruleSolid) 16%, transparent);
-    --cardBg:rgba(255,255,255,.78);
+    --cardBg:rgba(255,255,255,.72);
     --inputBg:#ffffff;
-    --mark:rgba(255,224,102,.9);
-    --grid:rgba(22,104,168,.055);
+    --mark:rgba(127,208,218,.32);
+    --grid:rgba(14,111,122,.05);
     --boardInner:inset 0 1px 0 rgba(255,255,255,.9);
-    --boardShadow:0 14px 40px rgba(29,43,54,.13), 0 2px 6px rgba(29,43,54,.06);
-    --grain:rgba(29,43,54,.05);
+    --boardShadow:0 12px 34px rgba(22,25,28,.10), 0 2px 6px rgba(22,25,28,.05);
+    --grain:rgba(22,25,28,.04);
     --grainSize:6px;
-    --titleFont:system-ui,-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    --titleFont:"Noto Sans CJK SC",system-ui,-apple-system,sans-serif;
   }
   html[data-theme="dark"]{
-    --bgPage:#101a16;
-    --paper:#1d302a;
-    --paper2:#24382f;
-    --ink:#f2eee3;
-    --ink-dim:#b7c5bb;
-    --pen:#f4d35e;
-    --pen2:#8fc9e2;
-    --penRed:#e9a2a0;
-    --frame:#6b4a32;
-    --frame2:#3d2a1c;
+    --bgPage:#111416;
+    --paper:#1a1e21;
+    --paper2:rgba(255,255,255,.035);
+    --ink:#e9edec;
+    --ink-dim:#9aa4a8;
+    --pen:#7fd0da;
+    --pen2:#7fd0da;
+    --penRed:#d98b93;
+    --frame:rgba(255,255,255,.14);
+    --frame2:rgba(255,255,255,.14);
     --frameW:14px;
-    --ruleSolid:#f2eee3;
+    --ruleSolid:#e9edec;
     --rule:color-mix(in srgb, var(--ruleSolid) 22%, transparent);
-    --cardBg:rgba(255,255,255,.02);
+    --cardBg:rgba(255,255,255,.03);
     --inputBg:rgba(0,0,0,.28);
-    --mark:rgba(244,211,94,.22);
+    --mark:rgba(127,208,218,.22);
     --grid:rgba(255,255,255,.028);
     --boardInner:inset 0 0 90px rgba(0,0,0,.45);
     --boardShadow:0 24px 60px rgba(0,0,0,.55);
     --grain:rgba(255,255,255,.05);
     --grainSize:7px;
-    --titleFont:"Kaiti SC","STKaiti","KaiTi","Songti SC",serif;
+    --titleFont:"Noto Sans CJK SC",system-ui,-apple-system,sans-serif;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
@@ -435,9 +435,9 @@
   /* ===== 打印：强制亮色 + 展开折叠 + 隐藏交互件，可打印成一页纸 ===== */
   @media print{
     html, html[data-theme="dark"]{
-      --bgPage:#fff;--paper:#fff;--paper2:#fff;--ink:#111c26;--ink-dim:#41505c;
-      --pen:#0d4f80;--pen2:#0a5646;--penRed:#8f2d27;--frame:#fff;--frame2:#fff;--frameW:0;
-      --rule:rgba(17,28,38,.4);--cardBg:#fff;--inputBg:#fff;--mark:#ffeaa6;
+      --bgPage:#fff;--paper:#fff;--paper2:#fff;--ink:#111416;--ink-dim:#5b646a;
+      --pen:#0e6f7a;--pen2:#0a545c;--penRed:#8c2f39;--frame:#fff;--frame2:#fff;--frameW:0;
+      --rule:rgba(17,28,38,.4);--cardBg:#fff;--inputBg:#fff;--mark:#d98b93;
       --grid:transparent;--boardInner:none;--boardShadow:none;--grain:transparent;--titleFont:inherit;
     }
     body{background:#fff;padding:0;font-size:11.5pt;line-height:1.65;}
@@ -518,17 +518,21 @@
   }
 
 
-  /* ===== 本页主题色：铜橙（线圈/导线）× 电磁青（电火花/场线）=====
-     沿用 planck-feynman 的变量骨架，只替换强调色，避免撞 AI 默认配色 */
+  /* ===== 本页主题色：单一强调族（电青 hue 186）=====
+     2026-09-11 改：原来这里是"铜橙（线圈）× 电磁青（场线）"双强调，
+     实测落在 AI 默认一号（暖米底+陶土橙）的色相带里，已收成一个族；
+     层次改由明度（--pen / --pen2）和字重承担，不再用第二个色相。 */
   :root{
-    --copper:#b8561b;
-    --spark:#0f7b8a;
-    --pen:var(--copper);
-    --pen2:var(--spark);
+    --copper:#0a545c;
+    --spark:#0e6f7a;
+    --pen:#0e6f7a;
+    --pen2:#0a545c;
   }
   html[data-theme="dark"]{
-    --pen:#f0a24b;
-    --pen2:#6fd3e0;
+    --pen:#7fd0da;
+    --pen2:#7fd0da;
+    --copper:#7fd0da;
+    --spark:#7fd0da;
   }
 
   /* ===== 链条 ===== */
