@@ -1,224 +1,396 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23101315'/%3E%3Ccircle cx='16' cy='16' r='2.6' fill='%23ffb454'/%3E%3Cg stroke='%233fc7d4' stroke-width='1.7' stroke-linecap='round'%3E%3Cpath d='M16 4.5v6M16 21.5v6M4.5 16h6M21.5 16h6M8.2 8.2l4.2 4.2M19.6 19.6l4.2 4.2M23.8 8.2l-4.2 4.2M12.4 19.6l-4.2 4.2'/%3E%3C/g%3E%3C/svg%3E">
-<title>电与磁 · 一条线讲到底</title>
-<meta name="description" content="从一根塑料尺开始，沿一条场线走到麦克斯韦：电与磁的费曼式讲法。每节一个能动手的装置。">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>电与磁：不接触，怎么推？· 费曼学习法</title>
+<meta name="description" content="用第一性原理＋费曼学习法给 14 岁孩子讲透电与磁：从不接触却互相推的矛盾出发，走到场、高斯、法拉第、麦克斯韦，再看直流与交流、特斯拉与爱迪生。含先猜后验、两级找错题、60 秒复述。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="电与磁：不接触，怎么推？">
+<meta property="og:description" content="电荷不碰你，你却被电到；磁铁不碰铁，铁却会动。从这一个矛盾出发，走完整条电与磁的链条。">
+<meta property="og:url" content="https://k286c7hg65-hub.github.io/em-feynman/">
+<meta property="og:image" content="https://k286c7hg65-hub.github.io/em-feynman/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<script>(function(){try{var t=localStorage.getItem('em-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <style>
+/* ══════════════════════════════════════════════════════════════════════════
+   em-feynman 视觉层 v3 ：A 图册打底 + C 工程图语言（B 只做深色仪器面板）
+   2026-09-11 v3：按独立体验审计（Ariste）重做「标尺层」
+     · 字号 6 档（删掉全部 clamp()/vw ：流体字号是同角色多字号的根因）
+     · 字重 3 档 · 行高 3 档 · 字距 2 档（0 与 1px 标签）
+     · 间距 7 档（4/8/12/16/24/32/48）：非 4px 网格归零
+     · 导航热区：inline-flex + min-height 44px，手机端横向 chip 条（消除行盒重叠）
+   ══════════════════════════════════════════════════════════════════════════ */
 :root{
-  /* 字号 6 档（上限，不是目标） */
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans CJK SC","PingFang SC","Microsoft YaHei",sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Noto Sans Mono CJK SC",monospace;
+
+  /* 色板：1 主色族（场青 186°）+ 1 语义色族（茜红，仅用于「错」） */
+  --bg:#f6f7f6;
+  --paper:#ffffff;
+  --paper2:#eef1f0;
+  --ink:#16191c;
+  --dim:#5b646a;
+  --frame:#dbddda;
+  --sig:#0e6f7a;
+  --sig2:#0a545c;
+  --sigSoft:#e8f1f1;
+  --wrong:#8c2f39;
+  --rule:rgba(22,25,28,.14);
+  --ruleSoft:rgba(22,25,28,.07);
+  --void:#111416;
+  --void2:#1a1e21;
+  --voidInk:#e9edec;
+  --voidDim:#9aa4a8;
+  --voidSig:#7fd0da;
+
+  /* 字号 6 档 */
   --fs-12:12px; --fs-14:14px; --fs-16:16px; --fs-20:20px; --fs-26:26px; --fs-34:34px;
   /* 字重 3 档 */
   --wt-400:400; --wt-600:600; --wt-700:700;
-  /* 行高 */
-  --lh-body:1.85; --lh-title:1.25;
-  /* 间距 7 档（全落 4px 网格） */
-  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:24px; --sp-6:32px; --sp-7:48px;
-  /* 圆角 3 档 */
-  --r-sm:4px; --r-md:8px; --r-lg:14px;
-  /* 色彩：哑光石墨底 + 青白 + 两族强调（青=信息，琥珀=场线本体） */
-  --bg:#101315;
-  --paper:#171c1f;
-  --paper-2:#1d2428;
-  --ink:#e8eef0;
-  --ink-dim:#a9b9be;
-  --line:#2a3438;
-  --sig:#3fc7d4;
-  --sig-ink:#7fdfe8;
-  --amber:#ffb454;
-  --wrong:#ff8a7a;
-  --ok:#6fd08c;
-  --font:"PingFang SC","Hiragino Sans GB","Noto Sans CJK SC","Microsoft YaHei",system-ui,-apple-system,sans-serif;
-  --mono:"SF Mono",ui-monospace,"Noto Sans Mono CJK SC",Menlo,Consolas,monospace;
-  --measure:38rem;           /* 正文行宽 ≈ 62 个汉字 */
-  --nav-h:52px;
+  /* 行高 3 档 */
+  --lh-title:1.3; --lh-body:1.8; --lh-small:1.5;
+  /* 间距 7 档 */
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px;
+  /* 字距只两档：正文 0，标签 1px（用 px 不用 em，避免随字号漂移） */
+  --ls:1px;
+
+  --measure:33em;
 }
-@media (prefers-reduced-motion: reduce){ *{animation:none !important;transition:none !important} }
+html[data-theme="dark"]{
+  --bg:#111416; --paper:#1a1e21; --paper2:rgba(255,255,255,.035);
+  --ink:#e9edec; --dim:#9aa4a8; --frame:rgba(255,255,255,.14);
+  --sig:#7fd0da; --sig2:#7fd0da; --sigSoft:rgba(127,208,218,.10);
+  --wrong:#d98b93;
+  --rule:rgba(255,255,255,.16); --ruleSoft:rgba(255,255,255,.08);
+}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{
-  margin:0;background:var(--bg);color:var(--ink);
-  font:var(--wt-400) var(--fs-16)/var(--lh-body) var(--font);
-  -webkit-text-size-adjust:100%;
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);
+  font-size:var(--fs-16);line-height:var(--lh-body);font-weight:var(--wt-400);letter-spacing:0;
+  -webkit-font-smoothing:antialiased;overflow-wrap:break-word}
+.mono,.big,.timer{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.dim{color:var(--dim);font-size:var(--fs-14);line-height:var(--lh-small)}
+.hl{background:var(--sigSoft);box-shadow:inset 0 -1px 0 var(--sig);padding:0 var(--s1);border-radius:2px}
+b,strong{font-weight:var(--wt-700)}
+i,em{font-style:italic}
+button{font-family:inherit}
+a{color:var(--sig)}
+a,button,summary,.opt,.term-inline{transition:color .15s ease,background-color .15s ease,border-color .15s ease,opacity .15s ease}
+img,svg{max-width:100%}
+:focus-visible{outline:2px solid var(--sig);outline-offset:2px}
+
+/* ── 顶部：进度线 + 导航（细规则线，不用圆角盒子） ───────────────── */
+.progress{position:fixed;top:0;left:0;right:0;height:2px;background:transparent;z-index:60}
+.progress i{display:block;height:100%;width:0;background:var(--sig)}
+.nav{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 92%,transparent);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
+.nav .in{max-width:1080px;margin:0 auto;padding:var(--s1) var(--s6);display:flex;align-items:center;gap:var(--s4)}
+.nav .links{display:flex;flex-wrap:wrap;gap:0 var(--s2);flex:1;min-width:0}
+.nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 var(--s3);color:var(--dim);
+  text-decoration:none;font-size:var(--fs-14);letter-spacing:0;white-space:nowrap;
+  border-bottom:2px solid transparent}
+.nav a:hover{color:var(--ink);opacity:1}
+.nav a.on{color:var(--ink);font-weight:var(--wt-700);border-bottom-color:var(--sig);opacity:1}
+.theme-btn{appearance:none;background:none;border:0;color:var(--dim);font-size:var(--fs-16);
+  cursor:pointer;min-height:44px;min-width:44px;padding:0 var(--s2);line-height:var(--lh-small)}
+.theme-btn:hover{color:var(--ink)}
+
+/* ── 版心 ─────────────────────────────────────────────────────────── */
+.wrap,.in2{max-width:1080px;margin:0 auto;padding:0 var(--s7)}
+header{padding:var(--s7) 0 var(--s2)}
+h1{font-weight:var(--wt-700);font-size:var(--fs-34);line-height:var(--lh-title);letter-spacing:0;margin:0 0 var(--s4)}
+h2{font-weight:var(--wt-700);font-size:var(--fs-26);line-height:var(--lh-title);letter-spacing:0;margin:0 0 var(--s4);max-width:24em}
+h3{font-weight:var(--wt-600);font-size:var(--fs-20);line-height:var(--lh-title);margin:var(--s6) 0 var(--s3);letter-spacing:0}
+p{margin:0 0 var(--s4);max-width:var(--measure)}
+.rule{height:1px;background:var(--rule);border:0;margin:var(--s6) 0}
+
+/* 链条：细规则线 + 等宽字，读起来像图纸上的行程条 */
+.chain{display:flex;flex-wrap:wrap;gap:var(--s1);align-items:center;margin:var(--s5) 0 var(--s3);
+  padding:var(--s3) 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.chain span{font-family:var(--mono);font-size:var(--fs-12);color:var(--ink);padding:var(--s1) var(--s2);border:1px solid var(--frame)}
+.chain i{font-style:normal;color:var(--dim);font-size:var(--fs-12)}
+
+/* ── 章节骨架：编号走左栏，正文走中栏（图册版式） ──────────────── */
+section{max-width:1080px;margin:0 auto;padding:var(--s7) var(--s7) var(--s4);border-top:1px solid var(--rule);scroll-margin-top:64px}
+section:first-of-type{border-top:0}
+.sec-no{font-family:var(--mono);font-size:var(--fs-12);letter-spacing:var(--ls);color:var(--dim);text-transform:uppercase;margin-bottom:var(--s2)}
+section>p,section>h2,section>h3,section>table,section>.predict,section>.tracks,section>.pit,section>.sci-grid,
+section>.quiz-lv,section>.recite,section>.final,section>.quote,section>.claim,section>.fig,section>.callout,
+section>.eq,section>.eqset,section>details{max-width:1000px}
+
+/* “上一章留下的坑”：左边注式，不做成卡片 */
+.pit{margin:var(--s5) 0;padding:var(--s3) 0 var(--s3) var(--s4);border-left:2px solid var(--sig);
+  background:linear-gradient(90deg,var(--sigSoft),transparent 70%)}
+.pit p{margin:0;font-size:var(--fs-16)}
+
+/* ── 图：矢量图统一框（细规则线 + 图注 + 来源行） ────────────────── */
+.fig{margin:var(--s5) 0;padding:var(--s4) var(--s4) var(--s3);background:var(--paper);border:1px solid var(--rule)}
+.fig svg{display:block;width:100%;height:auto;color:var(--ink)}
+.fig figcaption{margin-top:var(--s3);padding-top:var(--s2);border-top:1px solid var(--ruleSoft);
+  font-size:var(--fs-12);line-height:var(--lh-small);color:var(--dim);letter-spacing:0}
+.fig figcaption b{color:var(--ink);font-weight:var(--wt-600)}
+
+/* ── 全景图（archify 出的链条图，光栅嵌进浅色页）────────── */
+.map{margin:var(--s5) 0;padding:var(--s3);background:var(--paper);border:1px solid var(--rule);border-radius:4px}
+.map img{display:block;width:100%;height:auto}
+.map figcaption{margin-top:var(--s3);padding-top:var(--s2);border-top:1px solid var(--ruleSoft);
+  font-size:var(--fs-12);line-height:var(--lh-small);color:var(--dim)}
+
+
+/* ── 公式：独立成块（等宽 + 居中 + 浅底），不混在正文行内 ────────── */
+.eq{margin:var(--s5) 0;padding:var(--s4) var(--s3);background:var(--paper2);border-top:1px solid var(--rule);
+  border-bottom:1px solid var(--rule);font-family:var(--mono);font-size:var(--fs-16);text-align:center;letter-spacing:0}
+.eq .note{display:block;margin-top:var(--s2);font-family:var(--font);font-size:var(--fs-12);color:var(--dim);letter-spacing:0}
+.eqset{margin:var(--s5) 0;border-top:1px solid var(--rule)}
+.eqset .row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:var(--s3);align-items:baseline;
+  padding:var(--s3) 0;border-bottom:1px solid var(--ruleSoft)}
+.eqset .f{font-family:var(--mono);font-size:var(--fs-14);color:var(--ink)}
+.eqset .r{font-size:var(--fs-14);line-height:var(--lh-small);color:var(--dim)}
+
+/* ── 每节小结框：三选一（一句话 / 反直觉点 / 常见错） ───────────── */
+.callout{margin:var(--s5) 0 0;padding:var(--s3) 0 var(--s3) var(--s4);border-left:2px solid var(--sig);max-width:var(--measure)}
+.callout .tag{display:block;font-family:var(--mono);font-size:var(--fs-12);letter-spacing:var(--ls);
+  color:var(--sig);margin-bottom:var(--s1);text-transform:uppercase}
+.callout p.co{margin:0;font-size:var(--fs-14);line-height:var(--lh-small)}
+.callout.miss{border-left-color:var(--wrong)}
+.callout.miss .tag{color:var(--wrong)}
+
+/* ── 表格：当图纸用（细规则线 / 等宽数字 / 无斑马纹） ────────────── */
+table.cmp{width:100%;border-collapse:collapse;margin:var(--s5) 0;font-size:var(--fs-14)}
+table.cmp caption{caption-side:top;text-align:left;font-size:var(--fs-12);color:var(--dim);
+  padding-bottom:var(--s2);border-bottom:1px solid var(--ink);letter-spacing:0}
+table.cmp th{font-size:var(--fs-12);letter-spacing:var(--ls);color:var(--dim);font-weight:var(--wt-600);text-align:left;
+  padding:var(--s2) var(--s3) var(--s2) 0;border-bottom:1px solid var(--rule);font-family:var(--mono);text-transform:uppercase}
+table.cmp td{padding:var(--s3) var(--s3) var(--s3) 0;border-bottom:1px solid var(--ruleSoft);vertical-align:top;line-height:var(--lh-small)}
+table.cmp td:nth-child(2),table.cmp td:nth-child(3){font-family:var(--mono);font-size:var(--fs-14);white-space:nowrap}
+
+/* ── 人物名录（图纸式：肖像 / 姓名 / 生卒 / 做了什么 / 环节） ─────── */
+.sci-grid{margin:var(--s5) 0;border-top:1px solid var(--ink)}
+.sci{display:grid;grid-template-columns:48px minmax(140px,1.05fr) 96px minmax(0,2.4fr) 128px;gap:var(--s4);
+  align-items:baseline;padding:var(--s3) 0;border-bottom:1px solid var(--ruleSoft)}
+.sci .pt{width:48px;height:60px;object-fit:cover;object-position:center 18%;align-self:start;
+  filter:grayscale(1) contrast(1.04);border:1px solid var(--frame);background:var(--paper2)}
+.sci .nm{font-weight:var(--wt-700);font-size:var(--fs-16)}
+.sci .yr{font-family:var(--mono);font-size:var(--fs-12);color:var(--dim)}
+.sci .did{font-size:var(--fs-14);line-height:var(--lh-small);color:var(--ink);opacity:.9}
+.sci .link{font-family:var(--mono);font-size:var(--fs-12);letter-spacing:var(--ls);color:var(--sig);text-align:right}
+.science-credit{margin:var(--s2) 0 0;font-size:var(--fs-12);line-height:var(--lh-small);color:var(--dim)}
+
+/* ── 先猜：边注式（不用边框盒子） ───────────────────────────────── */
+.predict{margin:var(--s5) 0;padding-top:var(--s4);border-top:1px solid var(--ink);max-width:34em}
+.predict-q{font-size:var(--fs-16);color:var(--ink);margin-bottom:var(--s4);font-weight:var(--wt-600)}
+.predict-row{counter-reset:pg;border-top:1px solid var(--ruleSoft)}
+.predict-row button{appearance:none;background:none;border:0;border-bottom:1px solid var(--ruleSoft);
+  display:grid;grid-template-columns:2.1em minmax(0,1fr);gap:var(--s3);align-items:baseline;text-align:left;
+  padding:var(--s3) var(--s1);color:var(--ink);font-size:var(--fs-16);line-height:var(--lh-small);cursor:pointer;width:100%}
+.predict-row button:before{content:counter(pg,upper-alpha);counter-increment:pg;font-family:var(--mono);font-size:var(--fs-12);color:var(--dim)}
+.predict-row button:hover{background:var(--sigSoft)}
+.predict-row button.right{font-weight:var(--wt-700)}
+.predict-row button.right:before{color:var(--sig)}
+.predict-row button.wrong{color:var(--dim);text-decoration:line-through}
+.predict-row button.wrong:before{color:var(--wrong)}
+.predict-row button:disabled{cursor:default}
+.predict-fb{font-size:var(--fs-14);line-height:var(--lh-small);margin-top:var(--s3);color:var(--sig)}
+.predict-fb.miss{color:var(--wrong)}
+.predict-fb.ok{color:var(--sig)}
+.predict [data-answer]{margin-top:var(--s4);padding-top:var(--s4);border-top:1px solid var(--ruleSoft)}
+.predict [data-answer] p{font-size:var(--fs-16)}
+
+/* ── 双轨：下划线标签页 ─────────────────────────────────────────── */
+.tracks{margin:var(--s5) 0;max-width:36em;border-top:1px solid var(--ink);padding-top:var(--s4)}
+.track-tabs{display:flex;gap:var(--s5);border-bottom:1px solid var(--rule)}
+.track-tabs button{appearance:none;background:none;border:0;font-size:var(--fs-16);color:var(--dim);
+  min-height:44px;padding:0;position:relative;cursor:pointer}
+.track-tabs button[aria-selected=true]{color:var(--ink);font-weight:var(--wt-700)}
+.track-tabs button[aria-selected=true]:after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--sig)}
+.track-panel{padding:var(--s4) 0 0}
+.track-panel .who{display:block;font-family:var(--mono);font-size:var(--fs-12);letter-spacing:var(--ls);color:var(--sig);
+  text-transform:uppercase;margin-bottom:var(--s3)}
+
+/* ── 找错游戏：编号引注式选项（不是问卷） ───────────────────────── */
+.quiz-lv{margin:var(--s5) 0 0;padding-top:var(--s4);border-top:1px solid var(--ink)}
+.lv-tag{display:inline-block;font-family:var(--mono);font-size:var(--fs-12);letter-spacing:var(--ls);color:var(--sig);text-transform:uppercase}
+.ask{font-size:var(--fs-14);color:var(--dim);margin:var(--s2) 0 var(--s4)}
+.opts{display:grid;gap:var(--s1);border-top:1px solid var(--ruleSoft);counter-reset:opt}
+.opt{display:grid;grid-template-columns:2.1em minmax(0,1fr) auto;gap:var(--s3);align-items:baseline;text-align:left;
+  appearance:none;background:none;border:0;border-bottom:1px solid var(--ruleSoft);padding:var(--s3) var(--s1);
+  font-size:var(--fs-16);color:var(--ink);line-height:var(--lh-small);cursor:pointer;counter-increment:opt;width:100%}
+.opt:before{content:counter(opt,upper-alpha);font-family:var(--mono);font-size:var(--fs-12);color:var(--dim)}
+.opt:hover{background:var(--sigSoft)}
+.opt.right{font-weight:var(--wt-700)}
+.opt.right:before,.opt.right .mark{color:var(--sig)}
+.opt.wrong{color:var(--dim)}
+.opt.wrong:before,.opt.wrong .mark{color:var(--wrong)}
+.qfb{margin-top:var(--s3);font-size:var(--fs-14);line-height:var(--lh-small)}
+.qfb p{margin:0 0 var(--s2)}
+.qfb.ok{color:var(--sig)}
+.qfb.miss{color:var(--wrong)}
+.qfb.miss p{color:var(--ink)}
+.qscore{margin-top:var(--s3);font-family:var(--mono);font-size:var(--fs-12);color:var(--dim)}
+
+/* ── 六十秒复述：仪表读数气质 ───────────────────────────────────── */
+.recite{margin:var(--s5) 0;padding:var(--s5) 0 var(--s2);border-top:1px solid var(--ink);max-width:34em}
+.timer{font-size:var(--fs-34);font-weight:var(--wt-400);color:var(--sig);line-height:var(--lh-title)}
+.timer.low{color:var(--wrong)}
+.one-shot,.ghost{appearance:none;background:none;border:0;min-height:44px;padding:0 var(--s3) 0 0;margin-right:var(--s4);
+  color:var(--sig);font-size:var(--fs-16);cursor:pointer;border-bottom:1px solid var(--sig)}
+.one-shot:hover,.ghost:hover{color:var(--sig2);border-bottom-color:var(--sig2)}
+.save-note{font-size:var(--fs-12);color:var(--dim);margin-top:var(--s3)}
+
+/* ── 引用 / 结论 / 收尾 ─────────────────────────────────────────── */
+.quote{margin:var(--s5) 0;padding-left:var(--s4);border-left:2px solid var(--sig);
+  font-size:var(--fs-20);line-height:var(--lh-body);font-weight:var(--wt-600);max-width:26em}
+.claim{margin:var(--s5) 0;padding:var(--s4);background:var(--paper);border:1px solid var(--rule);font-size:var(--fs-16);max-width:34em}
+.final{margin:var(--s5) 0;padding:var(--s4) 0;border-top:1px solid var(--ink);max-width:34em}
+.big{font-size:var(--fs-34);line-height:var(--lh-title);color:var(--sig);font-weight:var(--wt-400)}
+.small-num{font-family:var(--mono);font-size:var(--fs-12);color:var(--dim)}
+.ruler{height:1px;background:var(--rule);border:0;margin:var(--s5) 0}
+
+/* 表单控件：浏览器默认（13.33px / 1px 6px 内边距）会把标尺打乱，显式接管 */
+textarea{font-family:var(--font);font-size:var(--fs-16);line-height:var(--lh-body);color:var(--ink);
+  background:var(--paper);border:1px solid var(--rule);padding:var(--s3);width:100%;min-height:112px}
+.recite button,#reciteStart,#reciteSave{min-height:44px;padding:0 var(--s3);background:var(--sigSoft);
+  color:var(--sig);border:1px solid var(--sig);font-size:var(--fs-16);cursor:pointer}
+.recite button:hover,#reciteStart:hover,#reciteSave:hover{background:var(--sig);color:var(--paper)}
+svg,svg *{line-height:var(--lh-small)}
+button,summary,input,select{line-height:var(--lh-small)}
+.fc-t{font-weight:var(--wt-600);color:var(--ink)}
+.bi,.bi-s,.bi-c{font-weight:var(--wt-700)}
+.qfb .line{margin:0 0 var(--s2);font-size:var(--fs-14);line-height:var(--lh-small)}
+
+/* 术语注解（JS 生成 .term-def） */
+.term-inline{background:none;border:0;font:inherit;color:inherit;cursor:pointer;
+  display:inline-flex;align-items:center;min-height:44px;vertical-align:middle;
+  padding:0 var(--s1);margin:0 calc(-1 * var(--s1));
+  border-bottom:1px dashed var(--sig);line-height:var(--lh-small)}
+.term-def{margin:var(--s3) 0;padding:var(--s3) var(--s3) var(--s3) var(--s3);border-left:2px solid var(--sig);
+  background:var(--sigSoft);font-size:var(--fs-14);line-height:var(--lh-small);max-width:32em}
+.term-def[hidden]{display:none!important}
+
+/* ── 折叠（手机端关键节点可收起） ───────────────────────────────── */
+details{margin:var(--s4) 0;padding:var(--s2) 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+details summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font-size:var(--fs-14);
+  color:var(--sig);font-weight:var(--wt-600)}
+details summary::marker{color:var(--sig)}
+details[open] summary{margin-bottom:var(--s2)}
+details .body{padding:var(--s2) 0 var(--s3)}
+
+/* ── 深色（B 的气质只在这里） ───────────────────────────────────── */
+html[data-theme="dark"] body{background:var(--bg)}
+html[data-theme="dark"] .claim,html[data-theme="dark"] .fig{background:var(--paper)}
+html[data-theme="dark"] .eq{background:var(--paper2);border-color:var(--rule)}
+
+/* 淡入：只做一次 6px 位移，尊重 prefers-reduced-motion */
+.fadein{opacity:1;transform:none}
+@media(prefers-reduced-motion:no-preference){
+  .fadein{opacity:0;transform:translateY(6px);transition:opacity .4s ease,transform .4s ease}
+  .fadein.in{opacity:1;transform:none}
 }
-h1,h2,h3,h4{line-height:var(--lh-title);margin:0;font-weight:var(--wt-600)}
-p{margin:0 0 var(--sp-4)}
-a{color:var(--sig-ink);text-decoration:none;border-bottom:1px solid rgba(127,223,232,.35)}
-a:hover{border-bottom-color:var(--sig-ink)}
-strong{font-weight:var(--wt-600);color:#fff}
-sub,sup{font-size:inherit;vertical-align:baseline}
-code,.mono{font-family:var(--mono);font-size:inherit;letter-spacing:-.01em}
 
-/* ---------- 外壳 ---------- */
-.skip{position:absolute;left:-9999px;display:flex;align-items:center;min-height:44px}
-.skip:focus{left:var(--sp-3);top:var(--sp-3);z-index:99;display:flex;align-items:center;min-height:44px;background:var(--paper);padding:0 var(--sp-3);border-radius:var(--r-md)}
-
-.topbar{
-  position:sticky;top:0;z-index:20;background:rgba(16,19,21,.92);
-  backdrop-filter:blur(8px);border-bottom:1px solid var(--line);
+/* ── 窄屏 ───────────────────────────────────────────────────────── */
+@media(max-width:820px){
+  .wrap,.in2{padding:0 var(--s4)}
+  section{padding:var(--s6) var(--s4) var(--s4);scroll-margin-top:60px}
+  .nav .in{padding:var(--s1) var(--s4);gap:var(--s2);align-items:center}
+  /* 手机端：横向 chip 条（取消换行 → 行盒不再重叠） */
+  .nav .links{flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;
+    scrollbar-width:none;-webkit-overflow-scrolling:touch;gap:var(--s1)}
+  .nav .links::-webkit-scrollbar{display:none}
+  .nav a{scroll-snap-align:start;min-height:44px}
+  .chain span{font-size:var(--fs-12)}
+  .sci{grid-template-columns:48px minmax(0,1fr);gap:var(--s1) var(--s3);padding:var(--s3) 0}
+  .sci .link{text-align:left}
+  .sci .did{grid-column:2}
+  table.cmp{display:block;width:100%;font-size:var(--fs-14);margin:var(--s4) 0}
+  table.cmp caption{display:block;white-space:normal}
+  table.cmp thead{display:none}
+  table.cmp tbody,table.cmp tr,table.cmp td{display:block;width:auto}
+  table.cmp tr{padding:var(--s3) 0;border-bottom:1px solid var(--ruleSoft)}
+  table.cmp td{padding:var(--s1) 0;border-bottom:0}
+  table.cmp td:nth-child(2),table.cmp td:nth-child(3){white-space:normal}
+  table.cmp td:first-child{font-weight:var(--wt-600);margin-bottom:var(--s1)}
+  table.cmp td:last-child{color:var(--dim);font-size:var(--fs-14)}
+  .eqset .row{grid-template-columns:minmax(0,1fr);gap:var(--s1);padding:var(--s3) 0}
+  .opt{grid-template-columns:1.9em minmax(0,1fr)}
+  .quote{font-size:var(--fs-20)}
+  .fig{padding:var(--s3) var(--s3) var(--s2)}
 }
-.topbar-in{max-width:78rem;margin:0 auto;padding:0 var(--sp-4);height:var(--nav-h);display:flex;align-items:center;gap:var(--sp-4)}
-.brand{font-size:var(--fs-14);font-weight:var(--wt-600);letter-spacing:.04em;white-space:nowrap}
-.brand em{font-style:normal;color:var(--sig)}
-.rail{display:flex;gap:var(--sp-1);overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;flex:1;min-width:0}
-.rail::-webkit-scrollbar{display:none}
-.rail a{
-  display:inline-flex;align-items:center;min-height:44px;padding:0 var(--sp-3);
-  font-size:var(--fs-14);color:var(--ink-dim);border:0;border-radius:var(--r-sm);
-  white-space:nowrap;flex:0 0 auto;
+@media print{
+  .nav,.progress,.theme-btn{display:none}
+  body{background:#fff}
+  section{page-break-inside:avoid}
 }
-.rail a[aria-current="true"]{color:#0d1012;background:var(--sig);font-weight:var(--wt-600)}
-.rail a:focus-visible{outline:2px solid var(--sig);outline-offset:2px}
 
-/* ---------- 主布局：左场线 / 右正文 ---------- */
-.shell{max-width:78rem;margin:0 auto;padding:0 var(--sp-4) var(--sp-7);display:grid;grid-template-columns:minmax(0,0.85fr) minmax(0,1.15fr);gap:var(--sp-7);align-items:start}
-.spine{position:sticky;top:calc(var(--nav-h) + var(--sp-4));height:calc(100vh - var(--nav-h) - var(--sp-7));display:flex;flex-direction:column;gap:var(--sp-3)}
-.spine-frame{position:relative;flex:1;min-height:0;border:1px solid var(--line);border-radius:var(--r-lg);background:
-  radial-gradient(120% 90% at 50% 0%,rgba(63,199,212,.07),transparent 60%),var(--paper);overflow:hidden}
-#field{display:block;width:100%;height:100%}
-.spine-cap{font-size:var(--fs-12);color:var(--ink-dim);display:flex;justify-content:space-between;gap:var(--sp-3)}
-.spine-cap b{color:var(--sig-ink);font-weight:var(--wt-600)}
-.spine-note{font-size:var(--fs-12);color:var(--ink-dim);border-top:1px solid var(--line);padding-top:var(--sp-3)}
+/* 兜底：button 全族统一 16px（避免「同角色多字号」） */
+button{font-size:var(--fs-16)}
 
-main{min-width:0}
-article{max-width:var(--measure)}
-section{padding:var(--sp-6) 0 var(--sp-5);border-top:1px solid var(--line);scroll-margin-top:calc(var(--nav-h) + var(--sp-4))}
-section:first-child{border-top:0;padding-top:var(--sp-5)}
-.st-no{font-family:var(--mono);font-size:var(--fs-12);color:var(--sig);letter-spacing:.14em;display:block;margin-bottom:var(--sp-2)}
-h1{font-size:var(--fs-34);font-weight:var(--wt-700);letter-spacing:-.01em}
-h2{font-size:var(--fs-26);margin-bottom:var(--sp-3)}
-h3{font-size:var(--fs-20);margin:var(--sp-5) 0 var(--sp-2)}
-.lede{font-size:var(--fs-20);color:var(--ink);margin-bottom:var(--sp-4)}
 
-/* 费曼四件：现象 / 猜 / 说 / 难 */
-.phenomenon{border-left:2px solid var(--amber);padding-left:var(--sp-4);margin:0 0 var(--sp-5);color:var(--ink)}
-.phenomenon b{color:var(--amber);font-weight:var(--wt-600)}
-.guess{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);padding:var(--sp-4);margin:0 0 var(--sp-5)}
-.guess p{margin-bottom:var(--sp-3)}
-.guess-q{font-size:var(--fs-16);color:#fff;font-weight:var(--wt-600);margin-bottom:var(--sp-3)}
-.guess-opts{display:flex;flex-wrap:wrap;gap:var(--sp-2)}
-.guess-opts button{
-  font:inherit;font-size:var(--fs-14);color:var(--ink);background:var(--paper-2);
-  border:1px solid var(--line);border-radius:var(--r-md);padding:0 var(--sp-3);min-height:44px;cursor:pointer;
-}
-.guess-opts button:hover{border-color:var(--sig)}
-.guess-opts button[data-picked]{border-color:var(--sig);background:rgba(63,199,212,.12)}
-.guess-fb{font-size:var(--fs-14);margin-top:var(--sp-3);display:none}
-.guess.answered .guess-fb{display:block}
-.guess-fb b{color:var(--amber)}
-.hard{font-size:var(--fs-14);color:var(--ink-dim);border-left:2px solid var(--line);padding-left:var(--sp-3);margin:0 0 var(--sp-5)}
-.say{display:flex;gap:var(--sp-2);align-items:flex-start;margin:0 0 var(--sp-4)}
-.say textarea{
-  flex:1;font:inherit;font-size:var(--fs-14);color:var(--ink);background:var(--paper);
-  border:1px solid var(--line);border-radius:var(--r-md);padding:var(--sp-2) var(--sp-3);min-height:44px;resize:vertical;
-}
-.say textarea::placeholder{color:#7d8b90}
-
-/* 数字与表 */
-.fig{
-  font-family:var(--mono);font-size:var(--fs-14);background:var(--paper-2);border:1px solid var(--line);
-  border-radius:var(--r-md);padding:var(--sp-3) var(--sp-4);margin:0 0 var(--sp-4);overflow-x:auto
-}
-.fig .k{color:var(--sig-ink)}
-.fig .u{color:var(--ink-dim)}
-.note{font-size:var(--fs-12);color:var(--ink-dim);margin-top:var(--sp-2)}
-table{width:100%;border-collapse:collapse;font-size:var(--fs-14);margin:0 0 var(--sp-4)}
-th,td{text-align:left;padding:var(--sp-2) var(--sp-3);border-bottom:1px solid var(--line)}
-th{color:var(--ink-dim);font-weight:var(--wt-600);font-size:var(--fs-12);letter-spacing:.04em}
-td.num{font-family:var(--mono);white-space:nowrap}
-caption{caption-side:bottom;text-align:left;font-size:var(--fs-12);color:var(--ink-dim);padding-top:var(--sp-2)}
-
-/* 图与装置 */
-figure{margin:0 0 var(--sp-5)}
-figure svg{display:block;width:100%;height:auto;background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg)}
-figure img{display:block;width:100%;height:auto;background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);margin-bottom:var(--sp-1)}
-figcaption{font-size:var(--fs-12);color:var(--ink-dim);padding-top:var(--sp-2)}
-.dev{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);padding:var(--sp-4);margin:0 0 var(--sp-5)}
-.dev-h{display:flex;justify-content:space-between;align-items:baseline;gap:var(--sp-3);margin-bottom:var(--sp-3)}
-.dev-h b{font-size:var(--fs-14);color:#fff;font-weight:var(--wt-600)}
-.dev-h span{font-family:var(--mono);font-size:var(--fs-12);color:var(--sig-ink)}
-.dev input[type=range]{width:100%;height:44px;background:transparent;-webkit-appearance:none;appearance:none;margin:0;font:inherit}
-.dev input[type=range]::-webkit-slider-runnable-track{height:6px;background:var(--paper-2);border:1px solid var(--line);border-radius:var(--r-sm)}
-.dev input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;margin-top:-12px;border-radius:50%;background:var(--sig);border:2px solid #0d1012;cursor:pointer}
-.dev input[type=range]::-moz-range-track{height:6px;background:var(--paper-2);border:1px solid var(--line);border-radius:var(--r-sm)}
-.dev input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:var(--sig);border:2px solid #0d1012;cursor:pointer}
-.dev-out{display:flex;gap:var(--sp-4);align-items:center;margin-top:var(--sp-2)}
-.dev-out svg{flex:1;height:auto;background:transparent;border:0;border-radius:0}
-.dev-read{font-family:var(--mono);font-size:var(--fs-14);color:var(--ink);min-width:9ch;text-align:right}
-.dev-read b{color:var(--sig-ink)}
-.btn{font:inherit;font-size:var(--fs-14);color:var(--ink);background:var(--paper-2);border:1px solid var(--line);border-radius:var(--r-md);padding:0 var(--sp-4);min-height:44px;cursor:pointer}
+/* ═══ 融合追加：场线主脊 + 4 个可拖装置（源自 v2.1，变量已映射到 v4 令牌）═══ */
+:root{--nav-h:48px}
+.shell{ max-width:78rem;margin:0 auto;padding:0 var(--s4) var(--s7);display:grid;grid-template-columns:minmax(0,0.85fr) minmax(0,1.15fr);gap:var(--s7);align-items:start }
+.spine{ position:sticky;top:calc(var(--nav-h) + var(--s4));height:calc(100vh - var(--nav-h) - var(--s7));display:flex;flex-direction:column;gap:var(--s3) }
+.spine-frame{ position:relative;flex:1;min-height:0;border:1px solid var(--frame);border-radius:var(14px);background:
+  radial-gradient(120% 90% at 50% 0%,rgba(63,199,212,.07),transparent 60%),var(--paper);overflow:hidden }
+.spine-cap{ font-size:var(--fs-12);color:var(--dim);display:flex;justify-content:space-between;gap:var(--s3) }
+.spine-cap b{ color:var(--sig2);font-weight:var(--wt-600) }
+.spine-note{ font-size:var(--fs-12);color:var(--dim);border-top:1px solid var(--frame);padding-top:var(--s3) }
+.dev{ background:var(--paper);border:1px solid var(--frame);border-radius:var(14px);padding:var(--s4);margin:0 0 var(--s5) }
+.dev-h{ display:flex;justify-content:space-between;align-items:baseline;gap:var(--s3);margin-bottom:var(--s3) }
+.dev-h b{ color:var(--ink);font-weight:var(--wt-600) }
+.dev-h span{ font-family:var(--mono);font-size:var(--fs-12);color:var(--sig2) }
+.dev input[type=range]{ width:100%;height:44px;background:transparent;-webkit-appearance:none;appearance:none;margin:0;font:inherit }
+.dev input[type=range]::-webkit-slider-runnable-track{ height:6px;background:var(--paper2);border:1px solid var(--frame);border-radius:var(4px) }
+.dev input[type=range]::-webkit-slider-thumb{ -webkit-appearance:none;width:28px;height:28px;margin-top:-12px;border-radius:50%;background:var(--sig);border:2px solid #0d1012;cursor:pointer }
+.dev input[type=range]::-moz-range-track{ height:6px;background:var(--paper2);border:1px solid var(--frame);border-radius:var(4px) }
+.dev input[type=range]::-moz-range-thumb{ width:26px;height:26px;border-radius:50%;background:var(--sig);border:2px solid #0d1012;cursor:pointer }
+.dev-out{ display:flex;gap:var(--s4);align-items:center;margin-top:var(--s2) }
+.dev-out svg{ flex:1;height:auto;background:transparent;border:0;border-radius:0 }
+.dev-read{ font-family:var(--mono);font-size:var(--fs-14);color:var(--ink);min-width:9ch;text-align:right }
+.dev-read b{ color:var(--sig2) }
+.dev-steps{ display:flex;flex-wrap:wrap;gap:var(--s2);margin-bottom:var(--s3) }
+@media (max-width:900px){ .shell{ grid-template-columns:1fr;gap:var(--s5);padding-bottom:var(--s6) } }
+@media (max-width:900px){ .spine{ position:sticky;top:var(--nav-h);z-index:10;height:auto;padding:var(--s2) 0 var(--s3);background:linear-gradient(var(--bg) 78%,rgba(16,19,21,.86)) } }
+@media (max-width:900px){ .spine-frame{ flex:none;height:132px;max-height:132px } }
+@media (max-width:900px){ .spine-note{ display:none } }
+@media (max-width:900px){ .spine-cap{ font-size:var(--fs-12) } }
+html[data-theme="dark"]{--wrong:#d98b93}
+.btn{font:inherit;font-size:var(--fs-14);color:var(--ink);background:var(--paper2);border:1px solid var(--frame);border-radius:8px;padding:0 var(--s4);min-height:44px;cursor:pointer}
 .btn:hover{border-color:var(--sig)}
-.btn[aria-pressed="true"]{background:var(--sig);color:#0d1012;border-color:var(--sig);font-weight:var(--wt-600)}
-.dev-steps{display:flex;flex-wrap:wrap;gap:var(--sp-2);margin-bottom:var(--sp-3)}
-.step{font-size:var(--fs-12);color:var(--ink-dim);border:1px solid var(--line);border-radius:var(--r-sm);padding:var(--sp-1) var(--sp-2)}
-.step[aria-current="true"]{color:var(--sig-ink);border-color:var(--sig)}
-
-/* 人物墙 */
-.people{display:grid;grid-template-columns:repeat(auto-fill,minmax(9.5rem,1fr));gap:var(--sp-4);margin:0 0 var(--sp-4)}
-.person{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);padding:var(--sp-3);text-align:left}
-.person img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:var(--r-md);filter:grayscale(1) contrast(1.05)}
-.person b{display:block;font-size:var(--fs-14);margin-top:var(--sp-2)}
-.person span{display:block;font-size:var(--fs-12);color:var(--ink-dim);margin-top:var(--sp-1)}
-
-/* 找错游戏 */
-.quiz-q{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);padding:var(--sp-4);margin-bottom:var(--sp-4)}
-.quiz-q .lede{font-size:var(--fs-16);margin-bottom:var(--sp-3)}
-.quiz-opts{display:flex;flex-direction:column;gap:var(--sp-2)}
-.quiz-opts button{font:inherit;font-size:var(--fs-14);text-align:left;color:var(--ink);background:var(--paper-2);border:1px solid var(--line);border-radius:var(--r-md);padding:var(--sp-3) var(--sp-4);min-height:44px;cursor:pointer}
-.quiz-opts button:hover{border-color:var(--sig)}
-.quiz-opts button.good{border-color:var(--ok);background:rgba(111,208,140,.1)}
-.quiz-opts button.bad{border-color:var(--wrong);background:rgba(255,138,122,.1)}
-.quiz-why{font-size:var(--fs-14);color:var(--ink-dim);margin-top:var(--sp-2);display:none}
-.quiz-q.done .quiz-why{display:block}
-
-footer{border-top:1px solid var(--line);margin-top:var(--sp-7);padding:var(--sp-5) 0 var(--sp-7)}
-footer .inner{max-width:78rem;margin:0 auto;padding:0 var(--sp-4);font-size:var(--fs-14);color:var(--ink-dim)}
-footer a{color:var(--ink-dim)}
-
-/* ---------- 手机：场线缩到顶部 ---------- */
-@media (max-width:900px){
-  .shell{grid-template-columns:1fr;gap:var(--sp-5);padding-bottom:var(--sp-6)}
-  .spine{position:sticky;top:var(--nav-h);z-index:10;height:auto;padding:var(--sp-2) 0 var(--sp-3);background:linear-gradient(var(--bg) 78%,rgba(16,19,21,.86))}
-  .spine-frame{flex:none;height:132px;max-height:132px}
-  .spine-note{display:none}
-  .spine-cap{font-size:var(--fs-12)}
-  article{max-width:none}
-  h1{font-size:var(--fs-26)}
-  h2{font-size:var(--fs-20)}
-  .lede{font-size:var(--fs-16)}
-  section{padding:var(--sp-5) 0 var(--sp-4);scroll-margin-top:calc(var(--nav-h) + 148px)}
-}
-@media (prefers-color-scheme: light){
-  /* 单主题锁定：不跟随系统翻转，避免滚动中变脸 */
-}
+.btn[aria-pressed="true"]{background:var(--sig);color:#ffffff;border-color:var(--sig);font-weight:var(--wt-600)}
+.hard{border-left:3px solid var(--wrong);background:var(--paper);padding:var(--s3) var(--s4);border-radius:0 8px 8px 0;margin:var(--s5) 0;font-size:var(--fs-14);line-height:var(--lh-small);color:var(--dim)}
+.step{font-family:var(--mono);font-size:var(--fs-12);color:var(--sig2)}
+.say textarea{width:100%;min-height:88px;font:inherit;font-size:var(--fs-14);color:var(--ink);background:var(--paper2);border:1px solid var(--frame);border-radius:8px;padding:var(--s3)}
+.quiz-why{font-size:var(--fs-14);line-height:var(--lh-small);color:var(--dim);margin-top:var(--s2)}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+@media (max-width:900px){ nav.nav{display:block;overflow-x:auto;overflow-y:hidden;white-space:nowrap;-webkit-overflow-scrolling:touch;scrollbar-width:none} nav.nav::-webkit-scrollbar{display:none} nav.nav > a{display:inline-flex;white-space:nowrap} }
+.shell{max-width:78rem;margin:0 auto;padding:0 var(--s6) var(--s7);display:grid;grid-template-columns:minmax(0,0.85fr) minmax(0,1.15fr);gap:var(--s7);align-items:start}
+.inner{min-width:0}
+@media (max-width:900px){ .shell{grid-template-columns:1fr;gap:var(--s5);padding-bottom:var(--s6)} }
+.spine{background:none}
+@media (max-width:900px){ .spine{background:linear-gradient(var(--bg) 78%,color-mix(in srgb,var(--bg) 86%,transparent))} }
 </style>
 </head>
 <body>
-<a class="skip" href="#s1">跳到正文</a>
-
-<header class="topbar">
-  <div class="topbar-in">
-    <div class="brand">电与磁 <em>·</em> 一条线讲到底</div>
-    <nav class="rail" id="rail" aria-label="章节导航">
-      <a href="#s0">开场</a>
-      <a href="#s1">① 电</a>
-      <a href="#s2">② 场</a>
-      <a href="#s3">③ 高斯</a>
-      <a href="#s4">④ 电流</a>
-      <a href="#s5">⑤ 磁</a>
-      <a href="#s6">⑥ 变化生电</a>
-      <a href="#s7">⑦ 统一</a>
-      <a href="#s8">⑧ 应用</a>
-      <a href="#s9">⑨ 十八个人</a>
-      <a href="#quiz">找错</a>
-      <a href="#recite">讲一遍</a>
-    </nav>
-  </div>
-</header>
-
-<div class="shell">
+<div class="progress" id="progress" aria-hidden="true"></div>
+<nav class="nav" aria-label="章节导航">
+  <a href="#s0">开场</a>
+  <a href="#s1">① 电</a>
+  <a href="#s2">② 场</a>
+  <a href="#s3">③ 高斯</a>
+  <a href="#s4">④ 电流</a>
+  <a href="#s5">⑤ 磁</a>
+  <a href="#s6">⑥ 变化生电</a>
+  <a href="#s7">⑦ 统一</a>
+  <a href="#s8">⑧ 应用</a>
+  <a href="#s9">⑨ 人物</a>
+  <a href="#quiz">找错</a>
+  <a href="#recite">复述</a>
+  <button class="theme-btn" id="themeBtn" type="button" aria-label="切换明暗主题" title="切换明暗主题">◐</button>
+</nav>
+  <div class="shell">
   <aside class="spine" aria-label="场线主脊">
     <div class="spine-frame">
       <svg id="field" viewBox="0 0 360 520" preserveAspectRatio="xMidYMid slice" role="img" aria-label="随章节变化的电磁场线示意图"></svg>
@@ -226,196 +398,377 @@ footer a{color:var(--ink-dim)}
     <div class="spine-cap"><span><b id="spineName">静止的电荷</b></span><span id="spineHint">线越密，场越强</span></div>
     <p class="spine-note" id="spineNote">你正在看的这条线，会一路跟着你走到麦克斯韦。它变了，说明这东西的本质变了。</p>
   </aside>
+    <div class="inner">
 
-  <main>
-    <article>
-      <section id="s0">
-        <span class="st-no">开场</span>
-        <h1>电与磁，一条线讲到底</h1>
-        <p class="lede">这一页只有一个主角：<strong>场</strong>。你会先看见它是什么样，再看见它为什么会变，最后看见电和磁其实是同一件事。</p>
-        <p class="phenomenon"><b>先做三件桌上就能做的事。</b>一、塑料尺在头发上擦几下，靠近碎纸屑，纸屑会跳起来。二、冬天脱毛衣，噼啪响，关灯能看见小火花。三、把指南针放在通电的导线旁边，针会偏。</p>
-        <p>前两件是电，第三件是磁。它们在中学课本里是两章，在这一页里是<strong>同一条线的两段</strong>。</p>
-        <div class="guess" data-guess>
-          <p class="guess-q">那先说个不对劲的地方：尺子和纸屑<strong>没有碰到</strong>，头发和尺子也<strong>没有碰到</strong>。指南针和导线也没碰到。那它们是怎么互相推动的？</p>
-          <div class="guess-opts">
-            <button data-ok="0">空气把力传过去了</button>
-            <button data-ok="1">空间里留下了某种东西</button>
-            <button data-ok="0">有一种看不见的细线连着</button>
-          </div>
-          <p class="guess-fb">答案是第二个：<b>空间本身被改变了。</b>"空气传力"说不通——真空里电照样推；"细线连着"是古人的想法，后来被实验否掉了。往下七节，就是把这句话说清楚。</p>
-        </div>
-        <p class="hard">这一页会用到几个公式，但每个公式前面都先有一段现象。如果你某处卡住了，先记住现象，公式可以先放着。</p>
 
-        <figure>
-          <svg viewBox="0 0 640 200" role="img" aria-label="三件桌上实验：摩擦起电、脱毛衣火花、通电导线旁的指南针">
-            <rect x="0" y="0" width="640" height="200" fill="#171c1f"/>
-            <g stroke="#2a3438"><line x1="213" y1="20" x2="213" y2="180"/><line x1="426" y1="20" x2="426" y2="180"/></g>
-            <g fill="#e8eef0" font-family="sans-serif" font-size="12">
-              <text x="24" y="34">① 尺子与纸屑</text><text x="237" y="34">② 毛衣的火花</text><text x="450" y="34">③ 导线让磁针偏转</text>
-            </g>
-            <g stroke="#3fc7d4" stroke-width="2" fill="none">
-              <rect x="40" y="72" width="26" height="80" rx="4"/><path d="M96 100 l14 -8 v16 z"/><path d="M96 122 l14 -8 v16 z"/>
-              <path d="M150 60 l0 90"/><path d="M170 60 l0 90"/>
-            </g>
-            <g fill="#ffb454"><circle cx="150" cy="76" r="3"/><circle cx="170" cy="98" r="3"/><circle cx="152" cy="130" r="3"/></g>
-            <g stroke="#3fc7d4" stroke-width="2" fill="none"><path d="M262 120 q20 -34 40 0 t40 0"/></g>
-            <g fill="#ffb454"><path d="M300 92 l6 12 -12 0 z"/></g>
-            <g stroke="#3fc7d4" stroke-width="2" fill="none"><line x1="470" y1="120" x2="600" y2="120"/></g>
-            <g stroke="#ffb454" stroke-width="2" fill="none"><circle cx="535" cy="120" r="26"/><circle cx="535" cy="120" r="44"/></g>
-            <g transform="translate(500,58) rotate(-24)"><line x1="0" y1="0" x2="70" y2="0" stroke="#e8eef0" stroke-width="2"/><path d="M0 -4 l-8 4 l8 4 z" fill="#e8eef0"/></g>
-            <g fill="#a9b9be" font-family="sans-serif" font-size="12">
-              <text x="24" y="176">擦过的尺子把纸屑吸起来</text><text x="237" y="176">脱毛衣时的放电</text><text x="450" y="176">电流周围有磁场</text>
-            </g>
-          </svg>
-          <figcaption>三件都能在桌上做。① 和 ② 是电，③ 是磁——本页要说明它们是同一件事的两段。</figcaption>
-        </figure>
-        <figure>
-          <img src="assets/em-chain.webp" alt="电磁学概念链条全景图：九个概念、四道关卡，一条链走完" width="1600" height="868" loading="lazy" decoding="async">
-          <figcaption>整页的全景图：九个概念、四道关卡，一条链走完。往下每一节都是这条链上的一环。图由 archify 生成（架构/流程图工具），配色自成一套，与本页主色无关。</figcaption>
-        </figure>
-      </section>
+    <header id="s0">
+      <h1>电与磁：不接触，怎么推？</h1>
+      <div class="sub">用第一性原理 + 费曼学习法，把电和磁从一条链走完 · 给牧之</div>
+      <div class="claim">整页只想解决一个矛盾：</div>
+      <div class="big big-mark">不接触，也能推</div>
+      <p class="dim">电荷不碰你，你被电到；磁铁不碰铁，铁会动。</p>
+      <p class="dim">这句话现在看着像口号。走完这页，你会知道它每个字是什么意思，也会知道为什么"场"才是这个故事的主角。</p>
+      <div class="quote">"我们难以回避这一推断：光与在引起电磁现象的同一介质中传播的横波具有一致性。"<br>
+        <span class="dim">麦克斯韦，1862 年《论物理力线》第三部分。那年他算出电磁波的速度，跟当时人们测到的光速几乎一样，他决定不接受"巧合"这个解释。</span>
+      </div>
+      <div class="chain" aria-label="整页的链条">
+        <span>电荷</span><i>→</i><span>力</span><i>→</i><span>场</span><i>→</i><span>源的形状（高斯）</span><i>→</i><span>电流</span><i>→</i><span>磁</span><i>→</i><span>变化生电（法拉第）</span><i>→</i><span>统一（麦克斯韦）</span><i>→</i><span>应用</span>
+      </div>
+      <figure class="map">
+        <img src="assets/em-chain.webp" width="1600" height="867" loading="lazy" decoding="async"
+             alt="电磁链条全景图：从电荷、力、场，到高斯、电流、磁场、变化生电，最后统一为麦克斯韦四个方程">
+        <figcaption>整页的全景图：九个概念、四道关卡，一条链走完。<span class="bi-c">先看这张，再往下一节一节走</span>，每节都是这条链上的一环。图由 archify 生成（架构/流程图工具，配色自成一套，与本页主色无关）。</figcaption>
+      </figure>
+      <p class="dim">读法：每节开头是"上一章留下的坑"；遇到虚线框里的<span class="bi-s">先猜</span>，先押一个答案再看揭晓，猜错不扣分，猜过才记得住。</p>
+    </header>
 
-      <section id="s1">
-        <span class="st-no">① CH 01</span>
-        <h2>电是什么：会推、会吸，还能被"搬"走</h2>
-        <p class="phenomenon"><b>现象。</b>摩擦没有"造出"电。它只是把本来就在原子里的电子，从一个物体搬到了另一个物体上。擦完，尺子多了电子（带负电），头发少了电子（带正电）。</p>
-        <p>电荷只有两种脾气：<strong>同种相斥，异种相吸</strong>。这一页后面所有的"吸"和"斥"，追到底都是这一条。</p>
-        <p>电量小到什么程度？得按<strong>个数</strong>数。一个电子带的电量永远是同一个数，叫元电荷：</p>
-        <div class="fig"><span class="k">e</span> = 1.602 176 634 × 10⁻¹⁹ <span class="u">库仑（2019 年后这是定义值，不再有测量误差）</span></div>
-        <p>反着算一下：1 库仑是多少个电子？ <span class="mono">1 ÷ 1.602×10⁻¹⁹ = 6.24 × 10¹⁸</span> ——六百多亿亿个。所以"1 库仑"是个大得离谱的电量，日常生活里你遇到的通常是微库仑级（百万分之一库仑）。</p>
-        <h3>力有多大：库仑定律</h3>
-        <div class="fig">F = <span class="k">k</span> · q₁ q₂ / r²　　<span class="k">k</span> = 8.99 × 10⁹ <span class="u">N·m²/C²</span></div>
-        <p>跟两个电量相乘成正比，跟距离的平方成反比。光看公式没感觉，代入数字才有：</p>
-        <table>
-          <thead><tr><th>两个电荷</th><th>距离</th><th>力</th><th>什么感觉</th></tr></thead>
-          <tbody>
-            <tr><td>各 1 库仑</td><td class="num">1 米</td><td class="num">8.99 × 10⁹ N</td><td>≈ 92 万吨压上来。所以现实里不存在"1 库仑的带电小球"。</td></tr>
-            <tr><td>各 1 微库仑</td><td class="num">10 厘米</td><td class="num">0.90 N</td><td>≈ 托起一个鸡蛋。这才是摩擦起电的真实档位。</td></tr>
-          </tbody>
-          <caption>数字按库仑定律实算，不是估的。</caption>
-        </table>
+    <section id="s1">
+      <div class="sec-no">CH 01</div>
+      <h2>电是什么：会推、会吸，还能被"搬"走</h2>
+      <p>先做件真事：塑料尺在头发上快速擦几下，靠近碎纸屑，纸屑会跳起来贴上去。冬天脱毛衣会噼啪响，关灯还能看到小火花。</p>
+      <p><span class="hl">先纠正一个说法：摩擦没有"造出"电。</span>它只是把本来就在原子里的电子，从一个物体搬到了另一个物体上。擦完之后，尺子上多了电子（带负电），头发上少了电子（带正电）。</p>
+      <p>而电荷只有两种脾气：<b>同种互相推开，异种互相吸引</b>。这页后面所有的"吸"和"斥"，追到底都是这一条。</p>
 
-        <div class="dev" id="dev-inverse">
+      <h3>电量小到什么程度？得按"个数"数</h3>
+      <p>一个电子带的电量永远是同一个数，叫
+        <button type="button" class="term-inline" data-def="最小的、不能再分的电量单位。任何物体带的电量都是它的整数倍：不是"通常"，而是原则上只能这样。">元电荷</button>：
+        <span class="mono">e = 1.602176634 × 10⁻¹⁹ 库仑</span>。这个数现在是定义值（2019 年国际单位制改版后，它不再有测量误差）。</p>
+      <p>反着算一下：1 库仑是多少个电子？<span class="mono">1 ÷ 1.602176634 × 10⁻¹⁹ = 6.24 × 10¹⁸</span> 个，六百多亿亿个。所以"1 库仑"是个大得离谱的电量，你在生活里遇到的通常是"微库仑"级别（1 微库仑 = 百万分之一库仑）。</p>
+
+      <h3>力有多大：库仑定律</h3>
+      <p>两个电荷之间的力，跟"两个电量相乘"成正比，跟"距离的平方"成反比：</p>
+      <div class="eq">F = k · q₁ · q₂ / r²<span class="note">k = 8.99 × 10⁹ N·m²/C²（库仑常数）；r 是两个电荷之间的距离</span></div>
+<div class="dev" id="dev-inverse">
           <div class="dev-h"><b>装置 ①　距离一翻倍，力剩多少？</b><span>拖一拖</span></div>
           <input type="range" min="20" max="200" value="100" step="5" aria-label="拖动改变两个电荷之间的距离">
           <div class="dev-out">
             <svg viewBox="0 0 260 96" role="img" aria-label="两个电荷之间的距离与力的大小变化">
               <line x1="20" y1="70" x2="240" y2="70" stroke="#2a3438"/>
-              <circle id="inv-a" cx="50" cy="70" r="9" fill="#3fc7d4"/><text x="50" y="52" fill="#3fc7d4" font-size="12" text-anchor="middle" font-family="monospace">+</text>
-              <circle id="inv-b" cx="180" cy="70" r="9" fill="#ffb454"/><text x="180" y="52" fill="#ffb454" font-size="12" text-anchor="middle" font-family="monospace">−</text>
-              <g id="inv-arrow" stroke="#ffb454" stroke-width="2"><path d="M70 70 H110"/><path d="M110 70 l-8 -5 v10 z" fill="#ffb454" stroke="none"/></g>
+              <circle id="inv-a" cx="50" cy="70" r="9" fill="var(--sig)"/><text x="50" y="52" fill="var(--sig)" font-size="12" text-anchor="middle" font-family="monospace">+</text>
+              <circle id="inv-b" cx="180" cy="70" r="9" fill="var(--wrong)"/><text x="180" y="52" fill="var(--wrong)" font-size="12" text-anchor="middle" font-family="monospace">−</text>
+              <g id="inv-arrow" stroke="var(--wrong)" stroke-width="2"><path d="M70 70 H110"/><path d="M110 70 l-8 -5 v10 z" fill="var(--wrong)" stroke="none"/></g>
               <text id="inv-sep" x="115" y="94" fill="#a9b9be" font-size="12" text-anchor="middle" font-family="monospace">10 cm</text>
             </svg>
             <div class="dev-read">F ≈ <b id="inv-f">0.90</b> N</div>
           </div>
-          <p class="quiz-why" style="display:block">距离从 10 cm 拉到 20 cm（翻倍），力变成 <span class="mono">1/2² = 1/4</span>。试着把滑块拖到最右端，看着这个数掉下去——这就是"平方反比"的手感，不用背。</p>
+          <p class="quiz-why" style="display:block">距离从 10 cm 拉到 20 cm（翻倍），力变成 <span class="mono">1/2² = 1/4</span>。试着把滑块拖到最右端，看着这个数掉下去，这就是"平方反比"的手感，不用背。</p>
         </div>
-      </section>
+      <p>光看公式没感觉，代入两个真实数字就有感觉了：</p>
+      <div class="tw"><table class="cmp">
+        <caption>算一遍才知道"静电的力"是什么量级（数字都按公式实算）</caption>
+        <thead><tr><th>两个电荷</th><th>距离</th><th>力</th><th>什么感觉</th></tr></thead>
+        <tbody>
+          <tr><td>各 1 库仑</td><td>1 米</td><td>8.99 × 10⁹ 牛</td><td>≈ 92 万吨的重物压上来。所以现实里根本没有"1 库仑的带电小球"这种东西。</td></tr>
+          <tr><td>各 1 微库仑</td><td>10 厘米</td><td>0.90 牛</td><td>≈ 托起一个鸡蛋的力气。这才是摩擦起电的真实档位。</td></tr>
+        </tbody>
+      </table></div>
 
-      <section id="s2">
-        <span class="st-no">② CH 02</span>
-        <h2>场是什么：空间里写下的一份"说明书"</h2>
-        <p class="phenomenon"><b>现象。</b>把第二个电荷放到任何一个位置，它受到的力立刻就能算出来——不需要等信号传过去。这说明：<strong>空间里已经写好了每个位置的答案。</strong></p>
-        <p>这份"说明书"就是<strong>场</strong>。每一点都记着两件事：这个方向、这个大小。</p>
-        <figure>
-          <svg viewBox="0 0 640 220" role="img" aria-label="场线的三条读法：疏密表示强弱、方向表示力的方向、起于正电荷止于负电荷">
-            <rect x="0" y="0" width="640" height="220" fill="#171c1f"/>
-            <g stroke="#3fc7d4" stroke-width="1.6" fill="none" opacity=".9">
-              <path d="M160 110 L60 40"/><path d="M160 110 L60 110"/><path d="M160 110 L60 180"/>
-              <path d="M160 110 L260 40"/><path d="M160 110 L260 110"/><path d="M160 110 L260 180"/>
-              <path d="M160 110 L160 20"/><path d="M160 110 L160 200"/>
-            </g>
-            <circle cx="160" cy="110" r="12" fill="#3fc7d4"/><text x="160" y="115" fill="#0d1012" font-size="14" font-weight="700" text-anchor="middle">+</text>
-            <g stroke="#3fc7d4" stroke-width="1.2" fill="none" opacity=".55" stroke-dasharray="3 4">
-              <circle cx="160" cy="110" r="40"/><circle cx="160" cy="110" r="72"/>
-            </g>
-            <g fill="#a9b9be" font-family="sans-serif" font-size="12">
-              <text x="300" y="46">近处线密 → 力大</text><text x="300" y="72">远处线疏 → 力小</text><text x="300" y="98">线的方向 = 正电荷受力方向</text><text x="300" y="124">线起于正、止于负，不会打结</text><text x="300" y="150">线永不相交（否则同一点有两个方向）</text><text x="300" y="176">总共画几条不重要，疏密比才有意义</text>
-            </g>
-            <g stroke="#ffb454" stroke-width="0" fill="#ffb454"><circle cx="470" cy="196" r="3"/></g>
-          </svg>
-          <figcaption>图的左侧就是右侧那条主脊里的东西：场线。三条读法要学会——疏密、方向、起止。</figcaption>
-        </figure>
-        <p>注意最后一条：<strong>画几条是画图人的选择，不是自然的规定</strong>。所以"场线密度"必须有约定才可比——下一节的高斯定律就是给这个约定定规矩的。</p>
-        <div class="guess" data-guess>
-          <p class="guess-q">如果把电荷的电量翻倍，一个位置的场会怎样？</p>
-          <div class="guess-opts">
-            <button data-ok="0">不变，因为位置没变</button>
-            <button data-ok="1">翻倍，因为源头翻倍了</button>
-            <button data-ok="0">变成四倍</button>
-          </div>
-          <p class="guess-fb">翻倍。<b>场与源头电荷成正比，与位置的距离平方成反比</b>——两句话，一条说源头，一条说空间。</p>
+      <figure class="fig">
+    <svg viewBox="0 0 640 260" role="img" aria-label="平方反比：距离翻倍，力剩四分之一">
+      <line x1="60" y1="210" x2="600" y2="210" stroke="var(--rule)"/>
+      <line x1="60" y1="210" x2="60" y2="40" stroke="var(--rule)"/>
+      <text x="560" y="232" font-family="ui-monospace,monospace" font-size="14" fill="var(--dim)">距离 r</text>
+      <text x="20" y="48" font-family="ui-monospace,monospace" font-size="14" fill="var(--dim)">力 F</text>
+      <path d="M96,58 C132,150 210,192 600,204" stroke="var(--sig)" stroke-width="2" fill="none"/>
+      <circle cx="96" cy="58" r="4" fill="var(--sig)"/>
+      <circle cx="204" cy="192" r="4" fill="var(--sig)"/>
+      <line x1="96" y1="58" x2="96" y2="210" stroke="var(--frame)" stroke-dasharray="3 3"/>
+      <line x1="204" y1="192" x2="204" y2="210" stroke="var(--frame)" stroke-dasharray="3 3"/>
+      <text x="72" y="230" font-family="ui-monospace,monospace" font-size="14" fill="var(--dim)">r</text>
+      <text x="180" y="230" font-family="ui-monospace,monospace" font-size="14" fill="var(--dim)">2r</text>
+      <text x="118" y="76" font-family="var(--font)" font-size="14" fill="var(--ink)">F</text>
+      <text x="222" y="186" font-family="var(--font)" font-size="14" fill="var(--ink)">F/4</text>
+      <g transform="translate(360,60)">
+        <text x="0" y="0" font-family="ui-monospace,monospace" font-size="14" fill="var(--dim)">距离 ×1 / ×2 / ×3</text>
+        <rect x="0" y="16" width="120" height="18" fill="var(--sig)"/>
+        <text x="130" y="30" font-family="ui-monospace,monospace" font-size="14" fill="var(--dim)">1</text>
+        <rect x="0" y="52" width="30" height="18" fill="var(--sig)"/>
+        <text x="130" y="66" font-family="ui-monospace,monospace" font-size="14" fill="var(--dim)">1/4</text>
+        <rect x="0" y="88" width="13" height="18" fill="var(--sig)"/>
+        <text x="130" y="102" font-family="ui-monospace,monospace" font-size="14" fill="var(--dim)">1/9</text>
+        <line x1="0" y1="126" x2="300" y2="126" stroke="var(--ruleSoft)"/>
+        <text x="0" y="150" font-family="var(--font)" font-size="14" fill="var(--ink)">同样一份影响摊在更大的球面上</text>
+        <text x="0" y="172" font-family="ui-monospace,monospace" font-size="14" fill="var(--dim)">球面积 4πr²：面积翻 4 倍，每点只剩 1/4</text>
+      </g>
+    </svg>
+    <figcaption><span class="fc-t">图 1 · 平方反比是怎么来的</span> 左：力随距离的下降曲线。右：把同一份影响摊在半径 ×1 / ×2 / ×3 的球面上，每个点分到 1 / 1/4 / 1/9。数字按 F = kq₁q₂/r² 实算。<br>来源与许可：本页自绘矢量图（SVG），无外部素材。</figcaption>
+  </figure>
+
+      <div class="predict">
+        <div class="predict-q">先猜一猜：把两个电荷之间的距离从 1 厘米拉到 2 厘米，它们之间的力会变成原来的几分之一？</div>
+        <div class="predict-row">
+          <button type="button" class="pg" data-guess="一半（1/2）">一半（1/2）</button>
+          <button type="button" class="pg" data-guess="四分之一（1/4）">四分之一（1/4）</button>
+          <button type="button" class="pg" data-guess="不变">不变</button>
         </div>
-        <p class="sing">
-          <span class="say"><textarea rows="2" aria-label="用自己的话说说什么是场" placeholder="用你自己的话说：场是什么？（不评分，写给自己看）"></textarea></span>
-        </p>
-      </section>
+        <div class="predict-fb" data-fb role="status" aria-live="polite"></div>
+        <div data-answer hidden>
+          <p><b>答案：四分之一。</b>因为公式里是 <span class="mono">r²</span>：距离变成 2 倍，分母变成 2×2 = 4 倍，力就只剩 1/4。</p>
+          <p>顺手推到 3 倍、10 倍：距离 3 倍 → 力剩 <span class="mono">1/9</span>；距离 10 倍 → 力剩 <span class="mono">1/100</span>。这种"跟距离平方成反比"的规律，物理里到处都是（万有引力也是它），所以值得记住它的形状，而不是背下数字。</p>
+        </div>
+      </div>
 
-      <section id="s3">
-        <span class="st-no">③ CH 03</span>
-        <h2>高斯：给场找到源头</h2>
-        <p class="phenomenon"><b>现象。</b>在一个电荷外面随便套一个封闭的袋子（球、方块、歪的都行），数一数有多少条场线穿出去——<strong>不管袋子多大，穿出去的线条数都一样。</strong></p>
-        <p>这就是高斯定律：<strong>穿过封闭面的总线条数，只由面里包了多少电荷决定</strong>。面变大变小时，线变稀但数目不变。</p>
-        <div class="fig">∮ <span class="k">E</span> · d<span class="k">A</span> = <span class="k">Q</span> / ε₀　　<span class="u">Q = 面内包住的总电荷；ε₀ = 8.854 × 10⁻¹² F/m</span></div>
-        <div class="dev" id="dev-gauss">
+      <h3>法拉第：一个没受过数学训练的人，怎么改写物理</h3>
+      <p>1791 年 9 月 22 日，法拉第生在伦敦南边的纽因顿巴茨，父亲是铁匠。家里穷，<b>14 岁那年</b>他去了一家书店兼装订铺（老板叫乔治·里博）当学徒，一当七年。装订铺的好处是：<b>每本经手的书他都能读</b>。</p>
+      <p>1812 年，他去听了化学家戴维的讲座，把听讲笔记整理装订成册寄给戴维，请他给一份工作。第二年，他成了戴维实验室的助手；1825 年当上皇家研究院实验室主任，1833 年被聘为第一任富勒化学教授。这段经历决定了后来的一切：<b>他不是从方程出发的人，他是从"手上"出发的人。</b></p>
+      <p>他 1821 年先做出了<b>第一台把电能变成运动的装置</b>（通电导线绕着磁铁转），那是电动机的祖宗。真正改变一切的是十年后：<span class="bi">1831 年 8 月 29 日</span>（据其实验日记），他在一个铁环两侧各绕一组线圈，一组接电池、一组接电流表。接通和断开的<b>那一瞬间</b>，电流表指针跳了一下，稳定之后又回到零。这个跳动说明：<b>不是"电生电"，是"变化生电"</b>。同年的十月到十一月，他又把磁铁塞进、拔出线圈，得到同一个结果。皇家研究院自己的说法是：<b>法拉第 1831 年就发明了发电机，但整套技术（包括白炽灯）普及用了将近 50 年。</b></p>
+      <p>他后来还做出了电解定律、发现了抗磁性。1867 年 8 月 25 日他在汉普顿宫的家中去世，75 岁。</p>
+      <p>接下来他做了一件更抽象的事：<b>把"场"画出来</b>，用一簇簇"力线"（lines of force）表示力的方向与疏密。在别人眼里那是辅助线，在他眼里那是真东西。他还做过一个把电和光连起来的实验：1845 年，他发现磁场能让偏振光的振动面旋转（法拉第效应），<b>这是光和电磁第一次被实验绑在一起</b>。麦克斯韦后来做的，就是把他这套图变成方程。</p>
+
+      <h3>麦克斯韦：把图翻译成方程，顺手算出了光速</h3>
+      <p>麦克斯韦 1831 年出生，<span class="bi">恰好是法拉第做出感应实验的同一年</span>。他走的是另一条路：数学极好。他做的事可以概括成四步：</p>
+      <div class="eqset">
+        <div class="row"><div class="f">1855 · 论法拉第的力线</div><div class="r">把法拉第画的那套力线，第一次写成数学</div></div>
+        <div class="row"><div class="f">1861–62 · 论物理力线</div><div class="r">建模型，补上"位移电流"：变化的电场也生磁场</div></div>
+        <div class="row"><div class="f">1864 · 电磁场的动力学理论</div><div class="r">提出光是电磁波；1865 年正式发表论文</div></div>
+        <div class="row"><div class="f">1873 · 电磁通论</div><div class="r">完整的方程组写成书，电磁学从此有了一整套法则</div></div>
+      </div>
+      <p>关键在于第三步：<b>位移电流</b>。这一步不修修补补，它是为了让"变化的电场也能生磁场"成立。加进这一项之后，方程自动长出一件事：<b>场能自己接力往前跑</b>，而且跑的速度可以从实验室里量到的电学常数算出来。<b>他算出的那个速度，就是当时人们测到的光速。</b></p>
+      <p>1879 年，他 48 岁去世。<b>实验验证要等到 1887 年（赫兹）</b>，他没能看到。</p>
+
+      <div class="tw"><table class="cmp">
+        <caption>两个人，两种走法：这张表比任何"天才神话"都实在</caption>
+        <thead><tr><th></th><th>法拉第 Faraday</th><th>麦克斯韦 Maxwell</th></tr></thead>
+        <tbody>
+          <tr><td><span class="bi-s">出身</span></td><td>铁匠之子，装订学徒，自学</td><td>爱丁堡律师家庭，数学训练完整</td></tr>
+          <tr><td><span class="bi-s">工具</span></td><td>实验 + 图像（力线）</td><td>方程 + 模型（场）</td></tr>
+          <tr><td><span class="bi-s">关键一步</span></td><td>1831 年：变化生电</td><td>1861–62 年：位移电流</td></tr>
+          <tr><td><span class="bi-s">留下的东西</span></td><td>感应定律、力线、法拉第效应</td><td>方程组、光是电磁波</td></tr>
+          <tr><td><span class="bi-s">局限</span></td><td>没有数学语言，说不清"为什么"</td><td>模型是脚手架，多年没等来实验</td></tr>
+        </tbody>
+      </table></div>
+      <p class="dim">读法：这张表想说一件很实际的事：<span class="bi-s">一个人不必样样都行</span>。法拉第不会数学，麦克斯韦没做过多少实验，但他们各自把一件事做到了别人做不到的深度，然后相互补上。</p>
+
+      <div class="tracks">
+        <div class="track-tabs" role="tablist" aria-label="视角切换：人在现场 / 纸上的理">
+          <button type="button" class="tt" role="tab" aria-selected="true" data-track="human">人在现场</button>
+          <button type="button" class="tt" role="tab" aria-selected="false" data-track="paper">纸上的理</button>
+        </div>
+        <div class="track-panel" data-track-panel="human">
+          <span class="who">同一个问题，另一个人怎么咬着牙量出来的</span>
+          <p>电荷之间的力很小，小到你根本感觉不到，怎么测？<b>1785 年，法国人库仑用了一架扭秤</b>：把带电小球挂在一条极细的丝线上，另一个小球靠近它，丝线被拧转一个角度。力看不见，但<b>角度看得见</b>：他把"看不见的力"翻译成"看得见的刻度"。</p>
+          <p>更有意思的是顺序：1767 年，普里斯特利就已经<b>猜</b>过电荷的力跟距离平方成反比，理由很漂亮：他是从牛顿的万有引力类推的（引力是平方反比，"电荷大概也一样"）。但"猜"不算数，要有人真做实验量出来，所以 1785 年库仑的扭秤实验才是这门学问的起点。</p>
+          <p class="dim">这个故事值得记住：科学里"想到"和"证明"是两件事，而"想到"经常发生在前，只是没人当回事。</p>
+        </div>
+        <div class="track-panel" data-track-panel="paper" hidden>
+          <span class="who">把现场收进来，只看规则本身</span>
+          <p>为什么偏偏是"平方"？因为影响要从源头往外摊开。想象源头朝四面八方发出影响，距离 r 处，这些影响摊在一层球面上；球面面积是 <span class="mono">4πr²</span>。距离翻倍，同样的影响摊在 4 倍大的面积上，每一点分到的就只剩 1/4。</p>
+          <p>这个"摊薄"的直觉，比公式本身更值钱：<b>第三章的高斯，说的就是这件事</b>：把一层闭合曲面上的场加起来，总数只跟里面包了多少电荷有关。</p>
+        </div>
+      </div>
+          <div class="callout">
+        <span class="tag">一句话</span>
+        <p class="co">摩擦不"造"电，只是把电子从一边搬到另一边，力的大小随距离按 1/r² 摊薄：距离翻倍，力只剩四分之一。</p>
+      </div>
+  <p class="dim">术语：电荷（正/负两种"属性"）、元电荷、库仑定律、平方反比（距离翻倍，效果降到 1/4）。</p>
+    </section>
+
+    <section id="s2">
+      <div class="sec-no">CH 02</div>
+      <h2>场是什么：空间里写好的一份"说明书"</h2>
+      <div class="pit"><b>上一章留下的坑：</b>两个电荷根本不接触，中间是真空，凭什么能互相推？<b>是谁把力递过去的？</b></div>
+      <p>牛顿那一代人就为这件事头疼。他们的处理方式是：承认力就是能隔着空间直接作用：这叫"超距作用"，但说白了只是给"我解释不了"起了个名字。牛顿自己也不满意。</p>
+      <p>法拉第换了个想法：<b>力不是从电荷"飞"过去的，空间里本来就一直在传递它。</b>他想象空间里布满了看不见的"力线"，像一张绷紧的网；电荷只是让这张网变了形，而网里任何一处的变化，都会被旁边的网线接住。</p>
+      <p class="hl">于是有了一个可以不靠数学就理解的定义：场，就是"空间里每一个点上写好的一条规则"：如果把一个电荷放到这个点，它会被推向哪个方向、被推多大力。</p>
+      <p>一句话区分两个容易混的概念：<b>场不是力</b>。场是空间的状态；力是场对电荷起作用的结果。就像"水流的趋势"和"你伸手被冲的力"不是一回事。</p>
+
+      <h3>凭什么说场是真的，而不是想象出来的？</h3>
+      <p>三条证据，一条比一条硬：</p>
+      <p><b>① 它能被显影。</b>把磁铁放在纸下，纸上撒铁屑，铁屑会自己排成一条条弧线，那张图不是画的，是场自己"画"出来的。</p>
+      <p><b>② 能量真的存在里面。</b>发电厂的电不是从电线里冒出来的，是从"变化的场"里出来的（第六章会看到）；闪电把能量先存在空气的电场里，再一次性放出来。</p>
+      <p><b>③ 它的变化要花时间传。</b>场不是瞬间铺满整个宇宙的，它的变化以有限速度传播，这个速度恰好是光速，而这件事直接导致了无线电（第七章）。</p>
+
+      <figure class="fig">
+    <svg viewBox="0 0 640 260" role="img" aria-label="场线的三条读法">
+      <circle cx="220" cy="130" r="16" fill="none" stroke="var(--wrong)" stroke-width="2"/>
+      <text x="212" y="136" font-family="var(--font)" font-size="14" fill="var(--wrong)">+</text>
+      <circle cx="420" cy="130" r="16" fill="none" stroke="var(--sig)" stroke-width="2"/>
+      <line x1="412" y1="130" x2="428" y2="130" stroke="var(--sig)" stroke-width="2"/>
+      <g stroke="var(--frame)" fill="none" stroke-width="1.5">
+        <path d="M236,130 C300,130 340,130 404,130" marker-end="url(#ah)"/>
+        <path d="M232,116 C300,80 350,80 410,116" marker-end="url(#ah)"/>
+        <path d="M232,144 C300,180 350,180 410,144" marker-end="url(#ah)"/>
+        <path d="M226,108 C290,40 370,40 418,110" marker-end="url(#ah)"/>
+        <path d="M226,152 C290,220 370,220 418,150" marker-end="url(#ah)"/>
+      </g>
+      <defs><marker id="ah" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="6" markerHeight="6" orient="auto">
+        <path d="M0,0 L8,4 L0,8 z" fill="var(--dim)"/></marker></defs>
+      <g transform="translate(60,220)">
+        <text x="0" y="0" font-family="ui-monospace,monospace" font-size="14" fill="var(--dim)">读法 ①  线的方向 = 正电荷被推的方向（箭头从正到负）</text>
+        <text x="0" y="18" font-family="ui-monospace,monospace" font-size="14" fill="var(--dim)">读法 ②  线的疏密 = 场强（挤在一起的地方力大）</text>
+        <text x="0" y="36" font-family="ui-monospace,monospace" font-size="14" fill="var(--dim)">读法 ③  线不会相交（同一点不可能有两个方向）</text>
+      </g>
+    </svg>
+    <figcaption><span class="fc-t">图 2 · 场线怎么读</span> 左边是 +、右边是 −，五条线只是示意图，真实空间里是无限多。虚线不是"路"：场充满整个空间，线只是把方向画出来。<br>来源与许可：本页自绘矢量图（SVG）。</figcaption>
+  </figure>
+
+      <div class="tracks">
+        <div class="track-tabs" role="tablist" aria-label="视角切换：人在现场 / 纸上的理">
+          <button type="button" class="tt" role="tab" aria-selected="true" data-track="human">人在现场</button>
+          <button type="button" class="tt" role="tab" aria-selected="false" data-track="paper">纸上的理</button>
+        </div>
+        <div class="track-panel" data-track-panel="human">
+          <span class="who">一个没受过数学训练的人，怎么把场想出来</span>
+          <p>法拉第出身很差：只念过小学，13 岁去送报纸，后来在书店当<b>装订学徒</b>。他靠装订时读别人订的书自学，又去听公开讲座、厚着脸皮把笔记寄给科学家，才进了实验室当助手。</p>
+          <p>他不会写方程的数学，只会画图。于是他画力线、画磁力线、把每一次实验记成一本厚厚的日记。<b>他不是用数学推出场的，是用图和手感"看见"场的。</b>这也解释了你问的那件事：学历低为什么能做出伟大的发现，因为他把"看见"这件事做到了极限。</p>
+          <p class="dim">代价也很真实：他的想法当时被很多数学家嫌弃，因为"说不清、写不下来"。真正把它写成公式的，是比他小 40 岁的麦克斯韦。</p>
+        </div>
+        <div class="track-panel" data-track-panel="paper" hidden>
+          <span class="who">把现场收进来，只看规则本身</span>
+          <p>怎么把"场"变成一个可以量的东西？用<b>试探电荷</b>：在一个点上放一个很小的正电荷（小到不打扰原来的场），看它被推向哪个方向、受多大力，然后除以它的电量：得到的量就叫<b>电场强度 E</b>，单位是牛/库仑（N/C）。</p>
+          <p>于是场可以被完整描述：<b>每个点给一个箭头</b>（方向=正电荷受力方向，长度=强弱）。这张"箭头图"就是电场线图的严格版本。</p>
+          <p class="dim">为什么要"试探"？因为电荷本身也会改变场。测量工具必须尽量不干扰被测对象：这个原则在量子力学里会变成一件天大的事。</p>
+        </div>
+      </div>
+          <div class="callout">
+        <span class="tag">反直觉点</span>
+        <p class="co">场不是"为了好懂画的辅助线"，它是真实存在、能存能量、能自己传播的东西：电磁波就是场在跑。</p>
+      </div>
+  <p class="dim">术语：场（空间的状态，不是力）、场强 E、电场线、试探电荷。</p>
+    </section>
+
+    <section id="s3">
+      <div class="sec-no">CH 03</div>
+      <h2>高斯：给场找到源头</h2>
+      <div class="pit"><b>上一章留下的坑：</b>法拉第画出了力线，可这张网<b>从哪里来、到哪里去</b>？为什么有的地方线密、有的地方线稀？</div>
+<div class="dev" id="dev-gauss">
           <div class="dev-h"><b>装置 ②　袋子画多大，穿过的线会变吗？</b><span>拖一拖</span></div>
           <input type="range" min="40" max="130" value="70" step="5" aria-label="拖动改变高斯面的半径">
           <div class="dev-out">
             <svg viewBox="0 0 260 120" role="img" aria-label="高斯面半径变化时，穿过的场线总数不变">
-              <g stroke="#3fc7d4" stroke-width="1.4" fill="none" id="gauss-lines" opacity=".85"></g>
-              <circle id="gauss-ring" cx="130" cy="60" r="70" fill="none" stroke="#ffb454" stroke-width="1.6" stroke-dasharray="5 5"/>
-              <circle cx="130" cy="60" r="10" fill="#3fc7d4"/><text x="130" y="65" fill="#0d1012" font-size="14" font-weight="700" text-anchor="middle">+</text>
+              <g stroke="var(--sig)" stroke-width="1.4" fill="none" id="gauss-lines" opacity=".85"></g>
+              <circle id="gauss-ring" cx="130" cy="60" r="70" fill="none" stroke="var(--wrong)" stroke-width="1.6" stroke-dasharray="5 5"/>
+              <circle cx="130" cy="60" r="10" fill="var(--sig)"/><text x="130" y="65" fill="#0d1012" font-size="14" font-weight="700" text-anchor="middle">+</text>
             </svg>
             <div class="dev-read">穿过 <b id="gauss-n">8</b> 条</div>
           </div>
-          <p class="quiz-why" style="display:block">面变大，线变稀，但<span class="mono">总数不变</span>——因为源头电荷没变。<strong>这就是"场有源头"的意思</strong>：电场的源头是电荷，这一点电和磁不一样（磁没有单独的"磁荷"）。</p>
+          <p class="quiz-why" style="display:block">面变大，线变稀，但<span class="mono">总数不变</span>，因为源头电荷没变。<strong>这就是"场有源头"的意思</strong>：电场的源头是电荷，这一点电和磁不一样（磁没有单独的"磁荷"）。</p>
         </div>
-        <p class="hard">这里有个容易滑过去的点：高斯定律对"任意形状的袋子"都成立，这件事本身不显然。它的证明需要一点积分，这里先记住结论和它的物理含义。</p>
-      </section>
+      <p>想象一个气球，把一团电荷整个包在里面。然后数一数：有多少条电场线穿过气球的表面。</p>
+      <p>诡异的结论是：<span class="hl">不管你把气球吹得多大、捏成什么古怪形状，穿出去的线数都一样，而且只取决于里面装了多少电荷。</span>气球胀大时，线在表面变稀了，但面上的总条数不变。</p>
+      <p>这就是高斯的想法（正式名字叫高斯定律）：<b>把场的"流出"和电荷的"多少"锁在一起</b>。它回答的是"场从哪来"，而库仑定律回答的只是"两个电荷之间多大力"。所以高斯定律是更一般的那一条。</p>
+      <p>它还有一个漂亮的推论：<b>电场线只能起于正电荷、止于负电荷</b>。场上没有"凭空冒出来的线"，线多出来的地方，一定藏着电荷。</p>
 
-      <section id="s4">
-        <span class="st-no">④ CH 04</span>
-        <h2>电流：让电荷动起来</h2>
-        <p class="phenomenon"><b>现象。</b>按开关，灯<strong>立刻</strong>亮。但导线里那些电子，其实爬得很慢——每秒零点几毫米。</p>
-        <p>不矛盾：动起来的是<strong>推挤</strong>，不是电子本身。就像水管里全是水，你一开水龙头，出口立刻出水，但水管里那滴水要很久才流到出口。电信号的速度接近光速：</p>
-        <div class="fig"><span class="k">c</span> ≈ 3 × 10⁸ <span class="u">m/s</span>　　vs　　<span class="k">v</span><span class="u">(电子漂移)</span> ≈ 0.1 <span class="u">mm/s</span>　　<span class="u">—— 差了十二个数量级</span></div>
-        <p>电流是电荷的<em>流动</em>，单位时间流过多少电荷：<span class="mono">I = Q / t</span>，1 安培 = 每秒 1 库仑，也就是每秒约 <span class="mono">6.24 × 10¹⁸</span> 个电子。</p>
-        <div class="guess" data-guess>
-          <p class="guess-q">灯亮的速度，由什么决定？</p>
-          <div class="guess-opts">
-            <button data-ok="0">电子从开关跑到灯泡的速度</button>
-            <button data-ok="1">电场在导线里建立起来的速度</button>
-            <button data-ok="0">电池的容量</button>
-          </div>
-          <p class="guess-fb">第二个。<b>电流不是"电子搬家"，是电场在导线里几乎同时铺开</b>。这条认知很关键——它是后面"磁由电流产生"的基础。</p>
+      <figure class="fig">
+    <svg viewBox="0 0 640 260" role="img" aria-label="高斯面：面画多大，穿过的线总数一样">
+      <circle cx="180" cy="130" r="14" fill="none" stroke="var(--wrong)" stroke-width="2"/>
+      <text x="174" y="135" font-family="var(--font)" font-size="14" fill="var(--wrong)">+</text>
+      <circle cx="180" cy="130" r="52" fill="none" stroke="var(--sig)" stroke-width="1.5" stroke-dasharray="4 4"/>
+      <circle cx="180" cy="130" r="96" fill="none" stroke="var(--sig)" stroke-width="1.5"/>
+      <g stroke="var(--rule)">
+        <line x1="180" y1="130" x2="280" y2="130"/><line x1="180" y1="130" x2="248" y2="198"/>
+        <line x1="180" y1="130" x2="180" y2="230"/><line x1="180" y1="130" x2="112" y2="198"/>
+        <line x1="180" y1="130" x2="80" y2="130"/><line x1="180" y1="130" x2="112" y2="62"/>
+        <line x1="180" y1="130" x2="180" y2="30"/><line x1="180" y1="130" x2="248" y2="62"/>
+      </g>
+      <text x="164" y="20" font-family="ui-monospace,monospace" font-size="14" fill="var(--dim)">8 条</text>
+      <g transform="translate(340,52)">
+        <text x="0" y="0" font-family="var(--font)" font-size="14" fill="var(--ink)">不管面画多大，穿出去的线总数不变</text>
+        <text x="0" y="24" font-family="ui-monospace,monospace" font-size="14" fill="var(--dim)">小面：线密 → 每点分得多</text>
+        <text x="0" y="44" font-family="ui-monospace,monospace" font-size="14" fill="var(--dim)">大面：线稀 → 每点分得少</text>
+        <line x1="0" y1="62" x2="260" y2="62" stroke="var(--ruleSoft)"/>
+        <text x="0" y="86" font-family="var(--font)" font-size="14" fill="var(--sig)">∮ E · dA = Q / ε₀</text>
+        <text x="0" y="110" font-family="ui-monospace,monospace" font-size="14" fill="var(--dim)">左边是"形状"，右边只有"里面装了"</text>
+        <text x="0" y="130" font-family="ui-monospace,monospace" font-size="14" fill="var(--dim)">多少电荷"：与面的半径、形状无关</text>
+        <text x="0" y="158" font-family="ui-monospace,monospace" font-size="14" fill="var(--dim)">把电荷放在面外，穿进 = 穿出，净额 0</text>
+      </g>
+    </svg>
+    <figcaption><span class="fc-t">图 3 · 高斯的面</span> 虚线是同一个电荷的两个面。面越大，线越稀，但穿过面的总条数一样：这条定律只跟"里面包了多少电荷"有关。<br>来源与许可：本页自绘矢量图（SVG）。</figcaption>
+  </figure>
+
+      <div class="tracks">
+        <div class="track-tabs" role="tablist" aria-label="视角切换：人在现场 / 纸上的理">
+          <button type="button" class="tt" role="tab" aria-selected="true" data-track="human">人在现场</button>
+          <button type="button" class="tt" role="tab" aria-selected="false" data-track="paper">纸上的理</button>
         </div>
-        <p>电荷动起来之后，屏幕右边的场线会变：从"四散的直线"变成"围着导线转的圈"。下一节就是这件事的发现现场。</p>
-      </section>
-      <section id="s5">
-        <span class="st-no">⑤ CH 05</span>
-        <h2>磁：一次课堂上的意外，把两条线接上了</h2>
-        <p class="phenomenon"><b>现象。</b>1820 年，奥斯特在课堂上把通电导线放在小磁针上方，磁针<strong>动了</strong>。这一下把"电"和"磁"两门课接成了一条。</p>
-        <p>关键条件是：<strong>电荷必须动</strong>。静止的电荷只产生电场；一旦运动起来，空间里就多出一样东西——磁场。它的场线和电场完全不同：电场线从电荷出发向外，磁场线是<strong>围着导线转的闭合圈</strong>，没有起点也没有终点。</p>
-        <figure>
-          <svg viewBox="0 0 640 210" role="img" aria-label="左边是静止电荷的电场线，右边是电流周围的同心圆形磁场线">
-            <rect width="640" height="210" fill="#171c1f"/>
-            <g fill="#e8eef0" font-family="sans-serif" font-size="12"><text x="24" y="30">静止的电荷：只有电场</text><text x="352" y="30">动起来的电荷：多了磁场</text></g>
-            <g stroke="#2a3438"><line x1="320" y1="20" x2="320" y2="200"/></g>
-            <g stroke="#3fc7d4" stroke-width="1.5" fill="none" opacity=".85">
-              <path d="M110 110 L40 50"/><path d="M110 110 L40 110"/><path d="M110 110 L40 170"/><path d="M110 110 L180 50"/><path d="M110 110 L180 110"/><path d="M110 110 L180 170"/><path d="M110 110 L110 30"/><path d="M110 110 L110 190"/>
-            </g>
-            <circle cx="110" cy="110" r="11" fill="#3fc7d4"/>
-            <g stroke="#3fc7d4" stroke-width="2" fill="none"><line x1="400" y1="110" x2="580" y2="110"/></g>
-            <g fill="#3fc7d4"><path d="M580 110 l-9 -5 v10 z"/></g>
-            <g stroke="#ffb454" stroke-width="2" fill="none" opacity=".95">
-              <circle cx="450" cy="110" r="26"/><circle cx="450" cy="110" r="46"/><circle cx="450" cy="110" r="66"/><circle cx="450" cy="110" r="86"/>
-            </g>
-            <g fill="#ffb454" font-family="sans-serif" font-size="12"><text x="352" y="196">磁场线围着导线转，是闭合的圈</text></g>
-          </svg>
-          <figcaption>电场的线有头有尾（起于正、止于负）；磁场的线是闭合圈。这个差别一直保留到麦克斯韦方程组里。</figcaption>
-        </figure>
-        <p>同一条导线旁边，磁针怎么偏？用<strong>右手定则</strong>：右手大拇指指电流方向，四指绕的方向就是磁场方向。别背公式，先用手试一次。</p>
-        <div class="dev" id="dev-rhr">
+        <div class="track-panel" data-track-panel="human">
+          <span class="who">一个把答案在抽屉里压了 32 年的人</span>
+          <p>高斯是数学史上最锋利的人之一，被称为"数学王子"。但他有个出名的习惯：<b>很多东西想出来就写进私人笔记，不发表。</b></p>
+          <p>这条高斯定律，他 <b>1835 年就写出来了，直到 1867 年才发表</b>，前后隔了 32 年，那时他已经去世。也就是说，电学在很长一段时间里少了一块关键拼图，而拼图就躺在人家抽屉里。</p>
+          <p class="dim">这件事对你有两个用处：一是"想到"和"说出来"是两回事，说出来才能被别人用；二是科学史不是一条直线，它经常被人的习惯和运气拖慢。</p>
+        </div>
+        <div class="track-panel" data-track-panel="paper" hidden>
+          <span class="who">把现场收进来，只看规则本身</span>
+          <p>严格写法（你只需要见过它，不用现在会算）：</p>
+          <div class="eq">∮ E · dA = Q / ε₀<span class="note">左边＝闭合面上场的总和；右边＝面里包住的电荷 ÷ 真空电容率 ε₀</span></div>
+          <p>读法：把某个闭合面上一圈一圈的电场加起来（∮ 表示"绕一整圈累加"），结果等于面里包住的电荷 Q 除以一个常数 ε₀（真空中的电容率）。左边是场的形状，右边是源的多少，这就是"给场找到源头"的意思。</p>
+          <p class="dim">类比：它跟"水管的进水量 = 管子里的水变化"是同一类账。这条定律后来成为麦克斯韦四条方程里的第一条。</p>
+        </div>
+      </div>
+          <div class="callout">
+        <span class="tag">一句话</span>
+        <p class="co">面画多大都不改变"穿过它的总条数"，只改变"每一点分到多少"。这就是∮E·dA = Q/ε₀ 的全部内容。</p>
+      </div>
+  <p class="dim">术语：通量（穿过去的总量）、闭合曲面、场线；以及一个只在名字上出现的常数 ε₀。</p>
+    </section>
+
+    <section id="s4">
+      <div class="sec-no">CH 04</div>
+      <h2>电流：让电荷动起来</h2>
+      <div class="pit"><b>上一章留下的坑：</b>前面讲的电荷都是"待着不动"的。<b>如果它们动起来，会怎样？</b></div>
+      <p>动起来就是<b>电流</b>。定义很朴素：每秒通过多少电荷。1 安培 = 每秒流过 1 库仑（换算一下：每秒约 6.24 × 10¹⁸ 个电子）。</p>
+      <p>但光有电荷不够，还得有东西"推"它们动，这就是<b>电压</b>。这里有个特别容易记混的地方：</p>
+      <p><b>电流说的是"每秒过多少"，电压说的是"每个电荷能带走多少能量"。</b>电压的单位是伏特；1 伏特的意思是把 1 库仑电荷搬过去，能做 1 焦耳的功。水管类比好用（水压推水流），但一定记住它只是类比：电压不是"力量的大小"，是"每一份电荷的能量差"。</p>
+      <p>电池在这套系统里的角色是<b>电梯</b>：它靠化学反应把电荷从低处"搬"回高处（每搬一份都要消耗化学能）。电梯不停地把电荷送回高位，电荷再从导线里落下去，这个循环就是电路。</p>
+      <p>路上有"摩擦"，就是<b>电阻</b>。电荷在导体里一路碰撞、一路把能量交给原子，原子振动加剧，温度就上来了。白炽灯的钨丝正是靠这个"发热"，才亮起来。</p>
+
+      <figure class="fig">
+    <svg viewBox="0 0 640 260" role="img" aria-label="电流里跑得快的是信号不是电子">
+      <rect x="40" y="60" width="560" height="70" fill="none" stroke="var(--frame)"/>
+      <g fill="none" stroke="var(--frame)">
+        <circle cx="90" cy="95" r="9"/><circle cx="170" cy="95" r="9"/><circle cx="250" cy="95" r="9"/>
+        <circle cx="330" cy="95" r="9"/><circle cx="410" cy="95" r="9"/><circle cx="490" cy="95" r="9"/><circle cx="560" cy="95" r="9"/>
+      </g>
+      <g fill="var(--sig)">
+        <circle cx="130" cy="95" r="4"/><circle cx="210" cy="95" r="4"/><circle cx="290" cy="95" r="4"/>
+        <circle cx="370" cy="95" r="4"/><circle cx="450" cy="95" r="4"/><circle cx="525" cy="95" r="4"/>
+      </g>
+      <line x1="60" y1="45" x2="120" y2="45" stroke="var(--sig)" stroke-width="2" marker-end="url(#a2)"/>
+      <defs><marker id="a2" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="6" markerHeight="6" orient="auto">
+        <path d="M0,0 L8,4 L0,8 z" fill="var(--sig)"/></marker></defs>
+      <text x="126" y="49" font-family="ui-monospace,monospace" font-size="14" fill="var(--dim)">电子漂移 7.3 × 10⁻⁵ m/s ≈ 26 厘米/小时</text>
+      <line x1="60" y1="160" x2="560" y2="160" stroke="var(--ink)" stroke-width="2" marker-end="url(#a3)"/>
+      <defs><marker id="a3" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="6" markerHeight="6" orient="auto">
+        <path d="M0,0 L8,4 L0,8 z" fill="var(--ink)"/></marker></defs>
+      <text x="60" y="184" font-family="ui-monospace,monospace" font-size="14" fill="var(--dim)">电场推动的"信号" ≈ 0.7c；开关一合，全屋的灯几乎同时亮</text>
+      <text x="40" y="218" font-family="var(--font)" font-size="14" fill="var(--ink)">铜线里挤满自由电子（蓝点），它们只是在原地慢慢挪；</text>
+      <text x="40" y="240" font-family="var(--font)" font-size="14" fill="var(--ink)">真正"快"的是推它们的那份电场。</text>
+    </svg>
+    <figcaption><span class="fc-t">图 4 · 电流里跑得快的是什么</span> 1 A 通过 1 mm² 铜线，电子漂移速度 ≈ 7.3 × 10⁻⁵ m/s（每小时 26 厘米）；而电场信号以 ≈ 0.7c 传播。<br>来源与许可：本页自绘矢量图（SVG）；数值按一手法算（见页脚来源）。</figcaption>
+  </figure>
+
+      <div class="predict">
+        <div class="predict-q">先猜一猜：在 1 平方毫米粗的铜线里通 1 安培电流，导线里的电子平均每秒走多远？</div>
+        <div class="predict-row">
+          <button type="button" class="pg" data-guess="跟光速差不多，接近 30 万公里/秒">跟光速差不多，接近 30 万公里/秒</button>
+          <button type="button" class="pg" data-guess="每秒几米，人跑步的速度">每秒几米，人跑步的速度</button>
+          <button type="button" class="pg" data-guess="每小时只有二十几厘米，比蜗牛还慢">每小时只有二十几厘米，比蜗牛还慢</button>
+        </div>
+        <div class="predict-fb" data-fb role="status" aria-live="polite"></div>
+        <div data-answer hidden>
+          <p><b>答案：每小时只有二十几厘米。</b>按铜的电子密度（8.5 × 10²⁸ 个/立方米）实算，漂移速度约 <span class="mono">7.3 × 10⁻⁵ 米/秒</span>，也就是 <b>0.073 毫米/秒、26 厘米/小时</b>。蜗牛一小时都不止走这么点。</p>
+          <p>那为什么开灯是"瞬间"亮的？因为沿导线传下去的不是电子本身，而是<b>电场的变化</b>，它以接近光速的速度前进（约 2.1 × 10⁸ 米/秒，是光速的 70% 左右）。跟电子漂移速度比，差大约 <span class="mono">10¹²</span> 倍（一万亿倍）。</p>
+          <p>想象一条挤满了人的长走廊：你在这一头推一下，那一头立刻就有人被挤出来，<b>但被挤出去的那个人，并不是从你这里一路走过去的。</b>电流就是这样：传得快的是"挤压"，走得慢的是"人"。</p>
+        </div>
+      </div>
+
+          <div class="callout miss">
+        <span class="tag">常见错</span>
+        <p class="co">以为"电流就是电子跑得飞快"。真实情况：电子每小时只挪 26 厘米，快的是推它们的电场信号（≈0.7c）。</p>
+      </div>
+  <p class="dim">术语：电流（安培）、电压（伏特，每单位电荷的能量差）、电阻（欧姆）、漂移速度。</p>
+    </section>
+
+    <section id="s5">
+      <div class="sec-no">CH 05</div>
+      <h2>磁：一次课堂上的意外，把两条线接上了</h2>
+      <div class="pit"><b>上一章留下的坑：</b>到这里全在讲电。那磁铁呢？磁和电是两门毫不相干的学问吗？</div>
+      <p>1820 年，丹麦人奥斯特在上课时把一根通着电的导线靠近一枚指南针，<b>磁针转开了</b>。就这么一个动作，把两门学问接到了一起：<b>电流的周围，有磁场。</b></p>
+      <p>消息传开之后，安培在同一个方向上接着往下挖：既然电流能产生磁，那磁铁自己会不会就是"一圈圈微小电流"的集合？这个想法叫<b>分子电流</b>，它把"磁铁"从神秘物变成了"电的另一种表现"，一块磁铁里，无数微小的电流各自绕圈，方向一致，合起来就是一个大磁场。</p>
+      <p>方向怎么定？有一条不用背公式的规则，叫
+        <button type="button" class="term-inline" data-def="右手定则：对一根直导线，右手握住导线、拇指指向电流方向，四指弯曲的方向就是磁感线绕圈的方向。对螺线管（线圈）：四指顺着电流绕的方向，拇指指向的那端就是 N 极。">右手定则</button>。</p>
+      <p>换句话说：<span class="hl">电和磁不是两门学问，是同一头大象的两条腿。</span>到这一步，只剩下一个问题没解决，反过来行不行？</p>
+<div class="dev" id="dev-rhr">
           <div class="dev-h"><b>装置 ④　手一翻，磁场就反向</b><span>点按钮切换电流方向</span></div>
           <div class="dev-steps">
             <button class="btn" id="rhr-fwd" aria-pressed="true">电流 →</button>
@@ -425,195 +778,596 @@ footer a{color:var(--ink-dim)}
           </div>
           <div class="dev-out">
             <svg viewBox="0 0 260 130" role="img" aria-label="电流方向改变时，导线周围磁场圈的绕向随之反向">
-              <line x1="24" y1="65" x2="236" y2="65" stroke="#3fc7d4" stroke-width="2"/>
-              <path id="rhr-wire-head" d="M236 65 l-10 -6 v12 z" fill="#3fc7d4"/>
-              <g id="rhr-circles" stroke="#ffb454" stroke-width="2" fill="none">
+              <line x1="24" y1="65" x2="236" y2="65" stroke="var(--sig)" stroke-width="2"/>
+              <path id="rhr-wire-head" d="M236 65 l-10 -6 v12 z" fill="var(--sig)"/>
+              <g id="rhr-circles" stroke="var(--wrong)" stroke-width="2" fill="none">
                 <circle cx="130" cy="65" r="24"/><circle cx="130" cy="65" r="42"/><circle cx="130" cy="65" r="62"/>
               </g>
-              <path id="rhr-dir" d="M154 65 a24 24 0 0 1 -24 24" stroke="#ffb454" stroke-width="3" fill="none"/>
-              <path id="rhr-dir-head" d="M130 89 l6 -6 l-8 -2 z" fill="#ffb454"/>
+              <path id="rhr-dir" d="M154 65 a24 24 0 0 1 -24 24" stroke="var(--wrong)" stroke-width="3" fill="none"/>
+              <path id="rhr-dir-head" d="M130 89 l6 -6 l-8 -2 z" fill="var(--wrong)"/>
               <text id="rhr-label" x="24" y="26" fill="#a9b9be" font-size="12">电流向右：磁场从纸面看是顺时针</text>
             </svg>
             <div class="dev-read">B 绕向 <b id="rhr-way">顺时针</b></div>
         </div>
-        <p class="hard">这里先跳过一件事：磁铁为什么也有磁场？它内部有微观的环形电流（电子自旋和轨道运动）。这句话现在只需要知道结论，细节留到以后。</p>
-      </section>
 
-      <section id="s6">
-        <span class="st-no">⑥ CH 06</span>
-        <h2>变化生电：法拉第的那十年</h2>
-        <p class="phenomenon"><b>现象。</b>磁铁插进线圈，电流表动一下；磁铁停在线圈里不动，表回零；磁铁拔出来，表又动一下——<strong>反向</strong>。</p>
-        <p>奥斯特说明"电能生磁"。法拉第反过来想：磁能不能生电？他试了近十年，一直失败。原因是他一直让磁铁<strong>静止</strong>。</p>
-        <p>答案是：只有磁通量<strong>变化</strong>时才产生电流。<strong>静止的磁铁不产生电，"变化"才是开关。</strong></p>
-        <div class="fig">ε = − d<span class="k">Φ</span> / d<span class="k">t</span>　　<span class="u">磁通量变化多快，感应电动势就多大（负号 = 它总是"反抗"这个变化）</span></div>
-        <div class="dev" id="dev-induction">
+      <div class="tw"><table class="cmp">
+        <caption>磁场的大小，感受一下跨度（典型量级）</caption>
+        <thead><tr><th>场景</th><th>磁场强度</th></tr></thead>
+        <tbody>
+          <tr><td>地磁场（我们脚下的这颗星球）</td><td>约 25–65 微特斯拉（μT）</td></tr>
+          <tr><td>冰箱贴的磁铁</td><td>约 5 毫特斯拉（mT），比地磁场强约 100 倍</td></tr>
+          <tr><td>医院核磁共振（MRI）</td><td>1.5–3 特斯拉（T），是地磁场的一百万倍量级</td></tr>
+        </tbody>
+      </table></div>
+      <figure class="fig">
+    <svg viewBox="0 0 640 260" role="img" aria-label="奥斯特实验：通电导线让磁针偏转">
+      <line x1="320" y1="20" x2="320" y2="240" stroke="var(--ink)" stroke-width="3"/>
+      <line x1="320" y1="60" x2="320" y2="86" stroke="var(--sig)" stroke-width="2" marker-end="url(#a4)"/>
+      <defs><marker id="a4" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0,0 L8,4 L0,8 z" fill="var(--sig)"/></marker></defs>
+      <text x="330" y="60" font-family="ui-monospace,monospace" font-size="14" fill="var(--dim)">电流 I</text>
+      <g fill="none" stroke="var(--sig)" stroke-width="1.5">
+        <ellipse cx="320" cy="150" rx="60" ry="26"/><ellipse cx="320" cy="150" rx="105" ry="44"/>
+        <ellipse cx="320" cy="150" rx="150" ry="62"/>
+      </g>
+      <g transform="translate(320,150)">
+        <line x1="-34" y1="0" x2="34" y2="0" stroke="var(--wrong)" stroke-width="3"/>
+        <path d="M34,0 L24,-7 L24,7 z" fill="var(--wrong)"/>
+        <circle cx="0" cy="0" r="3" fill="var(--ink)"/>
+      </g>
+      <text x="368" y="140" font-family="ui-monospace,monospace" font-size="14" fill="var(--dim)" fill="var(--wrong)">磁针被拧偏了</text>
+      <g transform="translate(40,30)">
+        <text x="0" y="0" font-family="var(--font)" font-size="14" fill="var(--ink)">右手定则</text>
+        <text x="0" y="22" font-family="ui-monospace,monospace" font-size="14" fill="var(--dim)">拇指 = 电流方向</text>
+        <text x="0" y="40" font-family="ui-monospace,monospace" font-size="14" fill="var(--dim)">四指弯曲 = 磁感线绕行方向</text>
+        <line x1="0" y1="56" x2="200" y2="56" stroke="var(--ruleSoft)"/>
+        <text x="0" y="78" font-family="ui-monospace,monospace" font-size="14" fill="var(--dim)">1820 年，奥斯特在课堂上</text>
+        <text x="0" y="96" font-family="ui-monospace,monospace" font-size="14" fill="var(--dim)">把导线放在磁针上方</text>
+        <text x="0" y="114" font-family="ui-monospace,monospace" font-size="14" fill="var(--dim)">磁针偏了一下：两条线接上了</text>
+      </g>
+    </svg>
+    <figcaption><span class="fc-t">图 5 · 奥斯特的那一下偏转</span> 导线通电后，磁针不再指南北，而是绕着导线转：磁场是一圈一圈的同心圆，不是从导线"喷"出去的。<br>来源与许可：本页自绘矢量图（SVG）。</figcaption>
+  </figure>
+
+          <div class="callout">
+        <span class="tag">反直觉点</span>
+        <p class="co">电和磁不是两门学问。1820 年奥斯特那一偏，说明电流周围本来就有磁场，磁不是"另一种东西"。</p>
+      </div>
+  <p class="dim">术语：磁场（符号 B，单位特斯拉）、磁感线、右手定则、分子电流。</p>
+    </section>
+
+    <section id="s6">
+      <div class="sec-no">CH 06</div>
+      <h2>变化生电：法拉第的那十年</h2>
+      <div class="pit"><b>上一章留下的坑：</b>电流能生磁，已经证明了。<b>那反过来呢，磁能不能生电？</b>如果能，就意味着可以用磁铁发电。</div>
+      <p>法拉第就是被这个问题咬住的人。他把线圈和磁铁翻来覆去地试，试了很久，都不成功，把磁铁放在线圈里，电流表不动。</p>
+      <p>1831 年，他换了打法：不用一根磁铁，而是把两组线圈绕在同一个铁环上，给其中一组通断电流，然后去看另一组。<b>在"通"和"断"的那一瞬间，另一组线圈的电流表动了</b>，可一直通电的时候，指针却回到零。</p>
+      <p>答案在这里：<span class="hl">磁本身不生电，<b>磁的变化</b>才生电。</span>静止的磁铁一文不值，动的、变的、被切断的磁场，才能把电"摇"出来。名字叫<b>电磁感应</b>。</p>
+
+      <figure class="fig">
+    <svg viewBox="0 0 640 260" role="img" aria-label="变化才生电：磁铁动才有电流">
+      <g fill="none" stroke="var(--ink)" stroke-width="1.5">
+        <rect x="60" y="70" width="90" height="90" rx="4"/>
+        <circle cx="105" cy="115" r="30"/>
+      </g>
+      <text x="76" y="60" font-family="ui-monospace,monospace" font-size="14" fill="var(--dim)">线圈</text>
+      <g id="mag">
+        <rect x="185" y="96" width="52" height="38" fill="var(--wrong)"/>
+        <text x="196" y="122" font-family="var(--font)" font-size="14" fill="#fff">N</text>
+      </g>
+      <line x1="245" y1="115" x2="300" y2="115" stroke="var(--frame)" stroke-dasharray="3 3" marker-end="url(#a5)"/>
+      <defs><marker id="a5" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0,0 L8,4 L0,8 z" fill="var(--dim)"/></marker></defs>
+      <text x="248" y="106" font-family="ui-monospace,monospace" font-size="14" fill="var(--dim)">插 / 拔</text>
+      <g transform="translate(360,40)">
+        <circle cx="70" cy="70" r="46" fill="none" stroke="var(--frame)"/>
+        <line x1="70" y1="70" x2="70" y2="34" stroke="var(--sig)" stroke-width="2"/>
+        <text x="24" y="132" font-family="ui-monospace,monospace" font-size="14" fill="var(--dim)">电流表：指到 0 = 没有电流</text>
+      </g>
+      <g transform="translate(40,200)">
+        <text x="0" y="0" font-family="var(--font)" font-size="14" fill="var(--ink)">磁铁插进去 → 有电流　　｜　　磁铁停住 → 0　　｜　　拔出来 → 反向电流</text>
+        <text x="0" y="24" font-family="ui-monospace,monospace" font-size="14" fill="var(--dim)">充电器、发电机、变压器、无线充电，全部靠这一条</text>
+      </g>
+    </svg>
+    <figcaption><span class="fc-t">图 6 · 变化才生电</span> 关键是"变"：同样一块磁铁，不动的瞬间电流表就回零。直流在变压器面前是死的，原因就在这里。<br>来源与许可：本页自绘矢量图（SVG）。</figcaption>
+  </figure>
+
+      <div class="predict">
+        <div class="predict-q">先猜一猜：下面三种情况，线圈里产生的电流哪一种最大？</div>
+        <div class="predict-row">
+          <button type="button" class="pg" data-guess="一块超大的磁铁静止地放在线圈正中间">一块超大的磁铁静止地放在线圈正中间</button>
+          <button type="button" class="pg" data-guess="一块小磁铁快速穿进线圈、又快速抽出来">一块小磁铁快速穿进线圈、又快速抽出来</button>
+          <button type="button" class="pg" data-guess="在线圈旁边放一块磁铁，什么都不做，放上一整天">在线圈旁边放一块磁铁，什么都不做，放上一整天</button>
+        </div>
+        <div class="predict-fb" data-fb role="status" aria-live="polite"></div>
+        <div data-answer hidden>
+          <p><b>答案：快速穿进又抽出来的那块小磁铁。</b>决定感应电流大小的不是磁铁"多大"、放了"多久"，而是<b>磁通量变化的快慢</b>，变化越快，电越猛。另外两种情况的变化率都是零，所以电流表一动不动。</p>
+          <p>这条规律还有一个"倔脾气"叫楞次定律：<b>感应出来的电流，总是拼命反抗引起它的那个变化</b>。你往线圈里塞磁铁，线圈就产生一个"推你出去"的磁场；你把磁铁往外拔，它又反过来"拉你一把"。它不好相处，但正是这份倔强保证了能量守恒，不然你轻轻一推就能凭空得到电能，永动机就成真了。</p>
+        </div>
+      </div>
+
+      <div class="tracks">
+        <div class="track-tabs" role="tablist" aria-label="视角切换：人在现场 / 纸上的理">
+          <button type="button" class="tt" role="tab" aria-selected="true" data-track="human">人在现场</button>
+          <button type="button" class="tt" role="tab" aria-selected="false" data-track="paper">纸上的理</button>
+        </div>
+        <div class="track-panel" data-track-panel="human">
+          <span class="who">十年试错，换来一句"只有变化才生电"</span>
+          <p>法拉第的笔记本里写满了失败的记录：换更强的磁铁、换更粗的线圈、换更近的距离，都不行。最后成功的那一刻，他做对的一件事<b>不是让磁更强，而是让它动起来</b>。</p>
+          <p>这件事能解释一个常被误解的现象：<b>发电厂里没有"电池"，只有转动的磁铁</b>。水电让水轮机转、火电让蒸汽轮机转、风电让叶片转，转动的机械能，被"变化的磁场"翻译成电。整个现代文明的电，本质上都是法拉第这一条的后代。</p>
+          <p class="dim">顺便回答你最初的疑问：法拉第没学历、没数学，但他有一个别人没有的东西，<span class="bi-s">愿意在某一个问题上耗十年</span>。这在今天依然是稀缺能力。</p>
+        </div>
+        <div class="track-panel" data-track-panel="paper" hidden>
+          <span class="who">把现场收进来，只看规则本身</span>
+          <p>严格写法（只需见过）：</p>
+          <div class="eq">ℰ = − N · ΔΦ / Δt<span class="note">ℰ＝感应电动势；N＝匝数；ΔΦ/Δt＝磁通量的变化率；负号＝楞次定律（反抗变化）</span></div>
+<div class="dev" id="dev-induction">
           <div class="dev-h"><b>装置 ③　磁铁动，才有电</b><span>拖一拖，或按按钮</span></div>
           <input type="range" min="0" max="100" value="0" step="1" aria-label="拖动磁铁穿过线圈">
           <div class="dev-out">
             <svg viewBox="0 0 260 110" role="img" aria-label="磁铁在线圈中移动时电流表指针偏转，静止时不偏转">
               <g stroke="#2a3438" fill="none"><line x1="20" y1="70" x2="240" y2="70"/></g>
-              <g id="ind-coil" stroke="#3fc7d4" stroke-width="2" fill="none">
+              <g id="ind-coil" stroke="var(--sig)" stroke-width="2" fill="none">
                 <ellipse cx="130" cy="70" rx="10" ry="30"/><ellipse cx="150" cy="70" rx="10" ry="30"/><ellipse cx="170" cy="70" rx="10" ry="30"/>
               </g>
               <g id="ind-magnet" transform="translate(60,70)">
-                <rect x="-22" y="-11" width="22" height="22" fill="#ff8a7a"/><rect x="0" y="-11" width="22" height="22" fill="#3fc7d4"/>
+                <rect x="-22" y="-11" width="22" height="22" fill="#ff8a7a"/><rect x="0" y="-11" width="22" height="22" fill="var(--sig)"/>
                 <text x="-11" y="4" fill="#0d1012" font-size="12" text-anchor="middle" font-weight="700">N</text><text x="11" y="4" fill="#0d1012" font-size="12" text-anchor="middle" font-weight="700">S</text>
               </g>
-              <g id="ind-needle" transform="translate(226,70)"><line x1="0" y1="0" x2="0" y2="-26" stroke="#ffb454" stroke-width="2"/><circle cx="0" cy="0" r="3" fill="#ffb454"/></g>
+              <g id="ind-needle" transform="translate(226,70)"><line x1="0" y1="0" x2="0" y2="-26" stroke="var(--wrong)" stroke-width="2"/><circle cx="0" cy="0" r="3" fill="var(--wrong)"/></g>
               <text x="226" y="100" fill="#a9b9be" font-size="12" text-anchor="middle" font-family="monospace">电流表</text>
             </svg>
             <div class="dev-read">I ≈ <b id="ind-i">0.00</b></div>
           </div>
-          <p class="quiz-why" style="display:block">停在两端不动时读数接近 0；<span class="mono">只有移动过程中才有读数</span>，而且反向移动时符号翻转。这就是发电厂里所有发电机的原理——水推着磁铁动起来，电就出来了。</p>
+          <p class="quiz-why" style="display:block">停在两端不动时读数接近 0；<span class="mono">只有移动过程中才有读数</span>，而且反向移动时符号翻转。这就是发电厂里所有发电机的原理：水推着磁铁动起来，电就出来了。</p>
         </div>
-        <p class="say"><textarea rows="2" aria-label="用自己的话说说法拉第的发现" placeholder="用一句话说：为什么磁铁停着不动，就没有电流？"></textarea></p>
-      </section>
-
-      <section id="s7">
-        <span class="st-no">⑦ CH 07</span>
-        <h2>统一：把四条规则并成一句话</h2>
-        <p class="phenomenon"><b>现象。</b>把"电生磁"和"磁生电"两条并排放在一起，会发现它们是对称的——一边变，另一边就动。</p>
-        <p>麦克斯韦做的事，是把这个对称性写成方程，然后发现了一个要命的后果：<strong>变化的电场会产生磁场，这个磁场的变化又会产生电场——它可以自己接力跑下去</strong>，不需要任何电荷，也不需要任何磁铁。</p>
-        <figure>
-          <svg viewBox="0 0 640 180" role="img" aria-label="电场与磁场互相接力，向远处传播形成电磁波">
-            <rect width="640" height="180" fill="#171c1f"/>
-            <path d="M40 90 q30 -50 60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0" stroke="#3fc7d4" stroke-width="2" fill="none"/>
-            <g stroke="#ffb454" stroke-width="2" fill="none" opacity=".95">
-              <path d="M52 90 l0 -18"/><path d="M82 90 l0 18"/><path d="M112 90 l0 -18"/><path d="M142 90 l0 18"/><path d="M172 90 l0 -18"/><path d="M202 90 l0 18"/><path d="M232 90 l0 -18"/><path d="M262 90 l0 18"/><path d="M292 90 l0 -18"/><path d="M322 90 l0 18"/><path d="M352 90 l0 -18"/><path d="M382 90 l0 18"/><path d="M412 90 l0 -18"/><path d="M442 90 l0 18"/><path d="M472 90 l0 -18"/><path d="M502 90 l0 18"/><path d="M532 90 l0 -18"/><path d="M562 90 l0 18"/><path d="M592 90 l0 -18"/>
-            </g>
-            <g font-family="sans-serif" font-size="12"><text x="40" y="30" fill="#3fc7d4">电场</text><text x="88" y="30" fill="#ffb454">磁场</text><text x="40" y="160" fill="#a9b9be">两者互相垂直，一起向远处跑</text></g>
-          </svg>
-          <figcaption>电场（青）与磁场（琥珀）互相垂直，互相生成，一起向前传播。这就是电磁波。</figcaption>
-        </figure>
-        <p>接着算它的速度：从两个电磁常数算出来的传播速度是 <span class="mono">1/√(ε₀μ₀) ≈ 3 × 10⁸ m/s</span>——正好是<strong>光速</strong>。</p>
-        <p>于是麦克斯韦写下那句话：<strong>光就是电磁波</strong>。二十多年后赫兹在实验室里造出了它，证明了这件事。</p>
-        <h3>在麦克斯韦之前，法拉第先把它做出来了</h3>
-        <p>法拉第没受过多少数学训练。他 1791 年出生在伦敦南边，家里是铁匠，14 岁去装订铺当学徒。他靠装订书的时候读书自学，后来进了皇家研究院当戴维的助手。</p>
-        <p>1821 年，他让一根通电的导线绕着磁铁转起来，这是人类第一台电动机的雏形。真正关键的是 1831 年 8 月 29 日：他在一个铁环两侧各绕一组线圈，一组通断电，另一组的电流表就动。<strong>变化的磁场能生电，不是磁本身。</strong>他在《实验日记》里记下了这一天。今天所有发电站、所有充电器，做事的都是这一条。</p>
-        <p>他没有方程，他画"力线"。当时很多人觉得那只是画着好看的曲线，麦克斯韦却把它当了真。1845 年他还发现：磁场能让偏振光的偏振面转一个角度（法拉第效应）。这是光第一次被电和磁碰到。</p>
-        <h3>麦克斯韦把力线写成方程，用了四步</h3>
-        <table>
-          <caption>每一步都只做一件事，四步走完，电磁波就自己跑出来了。</caption>
-          <thead><tr><th>年份</th><th>他做了什么</th><th>多出来什么</th></tr></thead>
-          <tbody>
-            <tr><td class="num">1855–56</td><td>把法拉第的力线翻译成数学</td><td>场第一次有了方程</td></tr>
-            <tr><td class="num">1861–62</td><td>补上"位移电流"这一项</td><td>变化的电场也能生磁</td></tr>
-            <tr><td class="num">1864–65</td><td>用韦伯与科尔劳施测的电磁比值算传播速度</td><td>速度算出来正好是光速</td></tr>
-            <tr><td class="num">1873</td><td>出版《电磁通论》</td><td>四条规则并成一组方程</td></tr>
-          </tbody>
-        </table>
-        <p>两个人，两种走法：法拉第把现象攒到足够多，麦克斯韦把现象写成方程。少一个都不行，需要量的先量，需要写的先写。这一页里每一环几乎都能对到某一个人身上，就是这个意思。</p>
-        <p class="hard">这一站是真的难。上面那段"自己接力"的推导，完整版要用偏微分方程。这一页的目标不是让你会算，而是让你知道<strong>四条规则并成一条之后，多出来的是"波"</strong>。</p>
-        <p class="say"><textarea rows="2" aria-label="用自己的话说说麦克斯韦的发现" placeholder="用一句话说：为什么电磁波不需要电线也能传播？"></textarea></p>
-      </section>
-
-      <section id="s8">
-        <span class="st-no">⑧ CH 08</span>
-        <h2>应用：插座里为什么是交流</h2>
-        <p class="phenomenon"><b>现象。</b>家里的插座给的是<strong>交流电</strong>：中国是 220 V、50 Hz——每秒方向翻转 100 次。为什么不给直流？</p>
-        <p>因为<strong>变压器只能用交流</strong>。变压器靠"变化生电"工作：变化的磁场在线圈里感应出电压。直流不变化，变压器就失效。</p>
-        <p>而变压器是远距离输电的关键：发电厂用高压（几十万伏）送出去，路上损耗小；到小区再降到 220 V 送进家。没有交流，就没有现代电网。</p>
-        <p>这就是 1880 年代那场"电流之战"：爱迪生推直流（他已经铺了直流电网），特斯拉和西屋推交流。<strong>交流赢了，因为它能变压。</strong></p>
-        <table>
-          <thead><tr><th></th><th>直流 DC</th><th>交流 AC</th></tr></thead>
-          <tbody>
-            <tr><td>方向</td><td>不变</td><td>周期性反向（中国 50 Hz）</td></tr>
-            <tr><td>能不能变压</td><td>不能（用变压器）</td><td>能——靠电磁感应</td></tr>
-            <tr><td>远距离输电</td><td>损耗大</td><td>高压送、低压用，损耗小</td></tr>
-            <tr><td>历史结果</td><td>爱迪生阵营</td><td>特斯拉/西屋阵营，胜出</td></tr>
-          </tbody>
-        </table>
-        <p>顺带一句：你手机充电器把交流变成低压直流——所以它其实是"电流之战"两边在同一个插头里握手。</p>
-        <h3>1882 年 9 月 4 日，珍珠街</h3>
-        <p>爱迪生在曼哈顿珍珠街建了第一座商用发电站：六台 100 千瓦的直流发电机，总容量 600 千瓦，送出去的是 110 伏直流。开业当天接了 82 户、点了 400 盏灯（另有资料记的是 59 户，这里按维基条目记的 82 户）。两年后涨到 508 户、10,164 盏灯。1890 年，这座电站毁于一场火灾。</p>
-        <p>它证明了一件事：电可以像自来水一样，从一家工厂送到一整片街区。</p>
-        <h3>交流是怎么翻盘的</h3>
-        <p>1886 年 3 月，斯坦利在马萨诸塞州大巴林顿做出第一条多电压交流系统；同年秋天，布法罗出现了第一张商业交流电网。真正定局的是 1888 年 7 月：西屋买下特斯拉的多相感应电机专利。一套能发电、能变压、能驱动电机的组合就此凑齐。</p>
-        <p class="hard">这段历史不好看。1888 年 6 月，布朗（Harold Brown）在爱迪生的支持下当众用交流电电死猫狗，想证明交流危险，演示用的设备借自爱迪生实验室。1890 年 8 月 6 日，第一把电椅用的正是西屋的交流发电机。技术被当成武器，是这一页里最该记住的一课。</p>
-      </section>
-
-      <section id="s9">
-        <span class="st-no">⑨ 人物</span>
-        <h2>这条链上的十八个人</h2>
-        <p>顺着这条线走下来，每一站都对应一个具体的人。从富兰克林的风筝到密立根的油滴，两百年的接力。</p>
-        <div class="people">
-          <div class="person"><img src="assets/pt-benjamin-franklin.webp" alt="本杰明·富兰克林肖像" width="152" height="203" loading="lazy"><b>本杰明·富兰克林</b><span>1706–1790 · 风筝实验：闪电就是电</span></div>
-          <div class="person"><img src="assets/pt-joseph-priestley.webp" alt="约瑟夫·普利斯特利肖像" width="152" height="203" loading="lazy"><b>约瑟夫·普利斯特利</b><span>1733–1804 · 更早猜到"跟距离平方成反比"</span></div>
-          <div class="person"><img src="assets/pt-charles-augustin-de-coulomb.webp" alt="查尔斯·库仑肖像" width="152" height="203" loading="lazy"><b>查尔斯·库仑</b><span>1736–1806 · 用扭秤把静电力测成平方反比（1785）</span></div>
-          <div class="person"><img src="assets/pt-alessandro-volta.webp" alt="亚历山德罗·伏打肖像" width="152" height="203" loading="lazy"><b>亚历山德罗·伏打</b><span>1745–1827 · 伏打电堆：第一块能持续供电的电池（1799）</span></div>
-          <div class="person"><img src="assets/pt-andr-marie-amp-re.webp" alt="安德烈-马里·安培肖像" width="152" height="203" loading="lazy"><b>安德烈-马里·安培</b><span>1775–1836 · 把"电流生磁"算成了规律</span></div>
-          <div class="person"><img src="assets/pt-hans-christian-rsted.webp" alt="汉斯·奥斯特肖像" width="152" height="203" loading="lazy"><b>汉斯·奥斯特</b><span>1777–1851 · 课堂意外：电流让磁针动了（1820）</span></div>
-          <div class="person"><img src="assets/pt-carl-friedrich-gauss.webp" alt="卡尔·高斯肖像" width="152" height="203" loading="lazy"><b>卡尔·高斯</b><span>1777–1855 · 给场找到了源头</span></div>
-          <div class="person"><img src="assets/pt-georg-ohm.webp" alt="格奥尔格·欧姆肖像" width="152" height="203" loading="lazy"><b>格奥尔格·欧姆</b><span>1789–1854 · 欧姆定律：电压与电流成正比</span></div>
-          <div class="person"><img src="assets/pt-faraday-dec.webp" alt="迈克尔·法拉第肖像" width="152" height="203" loading="lazy"><b>迈克尔·法拉第</b><span>1791–1867 · 十年实验，找到"变化生电"（1831）</span></div>
-          <div class="person"><img src="assets/pt-heinrich-lenz.webp" alt="海因里希·楞次肖像" width="152" height="203" loading="lazy"><b>海因里希·楞次</b><span>1804–1865 · 楞次定律：感应电流总要"对抗"变化（1834）</span></div>
-          <div class="person"><img src="assets/pt-james-prescott-joule.webp" alt="詹姆斯·焦耳肖像" width="152" height="203" loading="lazy"><b>詹姆斯·焦耳</b><span>1818–1889 · 热与功是一回事：能量守恒</span></div>
-          <div class="person"><img src="assets/pt-gustav-kirchhoff.webp" alt="古斯塔夫·基尔霍夫肖像" width="152" height="203" loading="lazy"><b>古斯塔夫·基尔霍夫</b><span>1824–1887 · 电路两条定律；1860 年提出"黑体"</span></div>
-          <div class="person"><img src="assets/pt-james-clerk-maxwell.webp" alt="詹姆斯·克拉克·麦克斯韦肖像" width="152" height="203" loading="lazy"><b>詹姆斯·克拉克·麦克斯韦</b><span>1831–1879 · 把四条并成一条，看见了光</span></div>
-          <div class="person"><img src="assets/pt-thomas-edison.webp" alt="托马斯·爱迪生肖像" width="152" height="203" loading="lazy"><b>托马斯·爱迪生</b><span>1847–1931 · 对手阵营；电灯与直流电网</span></div>
-          <div class="person"><img src="assets/pt-jj-thomson.webp" alt="约瑟夫·汤姆孙肖像" width="152" height="203" loading="lazy"><b>约瑟夫·汤姆孙</b><span>1856–1940 · 1897 年把电子揪出来（阴极射线）</span></div>
-          <div class="person"><img src="assets/pt-nikola-tesla.webp" alt="尼古拉·特斯拉肖像" width="152" height="203" loading="lazy"><b>尼古拉·特斯拉</b><span>1856–1943 · 交流电与感应电动机</span></div>
-          <div class="person"><img src="assets/pt-heinrich-hertz.webp" alt="海因里希·赫兹肖像" width="152" height="203" loading="lazy"><b>海因里希·赫兹</b><span>1857–1894 · 把电磁波真的做出来（1887–1888）</span></div>
-          <div class="person"><img src="assets/pt-robert-millikan.webp" alt="罗伯特·密立根肖像" width="152" height="203" loading="lazy"><b>罗伯特·密立根</b><span>1868–1953 · 油滴实验量出元电荷（1909）</span></div>
+          <p>读法：感应出的电动势 E，等于"穿过线圈的<b>磁通量 Φ</b>的变化率"乘以匝数 N，前面的负号就是楞次定律那份倔强。磁通量可以粗暴理解成"穿过线圈的磁感线总条数"。</p>
+          <p>所以要让发电机发电，办法只有两个：<b>让磁场的强度变</b>，或者<b>让线圈和磁场的相对位置变</b>。真实的发电机两者都用：磁铁转、线圈不动，穿过的条数一刻不停地在变，电就源源不断地流出来了。</p>
         </div>
+      </div>
+          <div class="callout miss">
+        <span class="tag">常见错</span>
+        <p class="co">以为磁铁放进线圈就能一直发电。只有"在变"才有电流：停住=0，这正是变压器只对交流有用的原因。</p>
+      </div>
+  <p class="dim">术语：电磁感应、磁通量 Φ、电动势、楞次定律（"反抗变化"）。</p>
+    </section>
 
-        <h3>改变历史的六个实验</h3>
-        <p>这条线上的每一步，都不是靠想出来的，是靠一个装置试出来的。六个实验，六个装置：</p>
-        <table>
-          <thead><tr><th>年</th><th>实验</th><th>装置</th><th>它改变了什么</th></tr></thead>
-          <tbody>
-            <tr><td class="num">1785</td><td><b>库仑扭秤</b></td><td>一根丝线吊着横杆，靠扭转角度读出力的比例</td><td>「平方反比」从猜变成了测——第一个把静电力量出来的实验</td></tr>
-            <tr><td class="num">1799</td><td><b>伏打电堆</b></td><td>铜片、锌片、浸盐水的纸交替叠成一柱</td><td>第一次有了能持续供电的东西；电学从"玩火花"变成可以做实验</td></tr>
-            <tr><td class="num">1820</td><td><b>奥斯特的课堂意外</b></td><td>通电导线 + 一枚小磁针</td><td>电和磁第一次被看见有关系——整个电磁学从这里拐弯</td></tr>
-            <tr><td class="num">1831</td><td><b>法拉第的感应实验</b></td><td>一个线圈、一块磁铁、一个检流计</td><td>磁铁「动」才有电流：变化生电，这是发电机的起点</td></tr>
-            <tr><td class="num">1887–1888</td><td><b>赫兹的电磁波实验</b></td><td>火花隙（发射端）+ 环形天线（接收端）</td><td>麦克斯韦纸上算出来的波，被真的造了出来</td></tr>
-            <tr><td class="num">1909</td><td><b>密立根油滴实验</b></td><td>两片电极板之间悬浮的带电油滴</td><td>电荷是一份一份的，这一份有多大第一次被量出来</td></tr>
-          </tbody>
-        </table>
-        <p class="note">油滴实验是密立根与哈维·弗莱彻（Harvey Fletcher）共同完成的——教科书上常只写前者的名字。</p>
-      </section>
+    <section id="s7">
+      <div class="sec-no">CH 07</div>
+      <h2>统一：把四条规则并成一句话</h2>
+      <div class="pit"><b>上一章留下的坑：</b>我们已经有了四条各自为战的规则，电荷的力、场的来源、电流生磁、变化生电。<b>它们能不能被写成一整套？</b></div>
+      <p>做这件事的人是麦克斯韦。他比法拉第小 40 岁，是个数学极好的人。他干的事可以一句话概括：<b>把法拉第的图，翻译成方程。</b></p>
+      <p>他在 1861 至 1862 年的《论物理力线》里先做了两件事：一是把电场和磁场的关系写成模型；二是补上了一个大胆的项，<b>位移电流</b>：即使在真空中什么电荷都没有，<b>变化的电场也能维持磁场</b>。这看起来像为了凑公式硬加的，但物理后果巨大：电场变化生磁场，磁场变化生电场，两者互相接力，就能自己往前跑，这就是<b>电磁波</b>。</p>
+      <p>1862 年，他用当时已有的实验数据去算这个"接力"的速度，得到的结果跟当时测到的光速几乎一致。他没有说"好巧"，他在 1864 年的论文《电磁场的动力学理论》里写下：</p>
+      <div class="quote">"这些结果的一致性似乎表明，光与磁是同一物质的两种属性，而光是按照电磁定律在电磁场中传播的电磁扰动。"<br>
+        <span class="dim">麦克斯韦，1864 年。翻译成今天的话：<span class="bi-s">光是电磁波</span>，你眼睛看到的东西，用的是同一条规律。</span></div>
+      <p>完整的方程组出现在 1873 年的《电磁通论》里。今天我们在课本上看到的"麦克斯韦方程组"是四条：</p>
+      <div class="eqset">
+        <div class="row"><div class="f">① 高斯定律（电场）</div><div class="r">电场线的源头是电荷（第三章）</div></div>
+        <div class="row"><div class="f">② 高斯定律（磁场）</div><div class="r">磁感线永远闭合，没有单独的磁单极（第五章）</div></div>
+        <div class="row"><div class="f">③ 法拉第定律</div><div class="r">变化的磁场生电场（第六章）</div></div>
+        <div class="row"><div class="f">④ 安培–麦克斯韦定律</div><div class="r">电流与变化的电场都生磁场（第五、七章）</div></div>
+      </div>
+      <p>最惊人的地方在于：<b>第二、三条几乎对称。</b>电场变了生磁场，磁场变了生电场，谁也不欠谁。正因为这对对称，电与磁才不是"两门学问"，而是同一件事的两种看法，所以今天它叫"电<b>磁</b>学"，不叫"电学和磁学"。</p>
+      <p>顺便说速度：真空中电磁波的速度是 <span class="mono">c = 1/√(ε₀μ₀) = 299 792 458 米/秒</span>。这个数现在是我们<b>定义</b>出来的（1983 年起，一米就是"光在 1/299792458 秒里走的距离"），所以它不再有误差。</p>
 
-      <section id="quiz">
-        <span class="st-no">找错</span>
-        <h2>两轮找错：把刚才的东西压一遍</h2>
-        <div class="quiz-q" data-quiz>
-          <p class="lede">第一轮：下面哪句是错的？</p>
-          <div class="quiz-opts">
-            <button data-correct="1">"电线里的电子以接近光速流动，所以灯立刻亮。"</button>
-            <button data-correct="0">"静止的磁铁放在线圈里，不会产生电流。"</button>
-            <button data-correct="0">"变压器的原理是电磁感应。"</button>
-          </div>
-          <p class="quiz-why">错在第一句：<strong>电子爬得极慢</strong>（零点几毫米每秒）；快到光速的是<strong>电场在导线里铺开的速度</strong>，也就是信号的速度。灯亮得快，不是因为电子跑得快。</p>
+      <figure class="fig">
+    <svg viewBox="0 0 640 220" role="img" aria-label="电场与磁场互相接力，形成电磁波">
+      <g fill="none" stroke="var(--sig)" stroke-width="1.5">
+        <path d="M60,110 C100,50 140,50 180,110 C220,170 260,170 300,110"/>
+      </g>
+      <g fill="none" stroke="var(--wrong)" stroke-width="1.5" stroke-dasharray="4 3">
+        <path d="M300,110 C340,60 380,60 420,110 C460,160 500,160 540,110"/>
+      </g>
+      <text x="60" y="40" font-family="var(--font)" font-size="14" fill="var(--sig)">电场 E 变化 →</text>
+      <text x="330" y="186" font-family="var(--font)" font-size="14" fill="var(--wrong)">→ 生出磁场 B，B 再变化又生出 E</text>
+      <line x1="60" y1="200" x2="560" y2="200" stroke="var(--ink)" stroke-width="1.5" marker-end="url(#a6)"/>
+      <defs><marker id="a6" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="7" markerHeight="7" orient="auto">
+        <path d="M0,0 L8,4 L0,8 z" fill="var(--ink)"/></marker></defs>
+      <text x="320" y="216" text-anchor="middle" font-family="var(--monoFont)" font-size="14" fill="var(--dim)">一路接力，不需要任何介质：c = 299 792 458 m/s</text>
+    </svg>
+    <figcaption><span class="fc-t">图 7 · 场自己在跑</span> 一个电荷晃一下，扰动就自己往外传。麦克斯韦算出的速度正好是光速，他因此写下"光是电磁波"。<br>来源与许可：本页自绘矢量图（SVG）。</figcaption>
+  </figure>
+
+      <div class="tracks">
+        <div class="track-tabs" role="tablist" aria-label="视角切换：人在现场 / 纸上的理">
+          <button type="button" class="tt" role="tab" aria-selected="true" data-track="human">人在现场</button>
+          <button type="button" class="tt" role="tab" aria-selected="false" data-track="paper">纸上的理</button>
         </div>
-        <div class="quiz-q" data-quiz>
-          <p class="lede">第二轮：下面哪句是错的？</p>
-          <div class="quiz-opts">
-            <button data-correct="0">"电场线起于正电荷、止于负电荷。"</button>
-            <button data-correct="1">"磁场也像电场一样，有单独的'磁荷'作为源头。"</button>
-            <button data-correct="0">"穿过封闭面的电场线总数，只由面内的电荷决定。"</button>
-          </div>
-          <p class="quiz-why">错在第二句：<strong>至今没有发现单独的磁荷（磁单极子）</strong>。磁场的线永远是闭合的圈——正因如此，麦克斯韦方程里"磁"那条才写成"穿过封闭面为零"。这也正是电与磁<strong>不完全对称</strong>的地方。</p>
+        <div class="track-panel" data-track-panel="human">
+          <span class="who">他没能等到实验证明的那一天</span>
+          <p>理论写完了，但谁来验证？把电磁波真正"抓在手里"的人是德国人赫兹：1887 年，他用一对金属球之间的电火花产生电磁振荡，在房间另一头用一个断开的金属环接收到了同样的火花，<b>电磁波是真的存在</b>，1888 年他把结果发表出来。后来"赫兹"成了频率的单位，你手机上的 5G 就是按这个单位算的。</p>
+          <p>而麦克斯韦<b>没能看到这一天</b>：他生于 1831 年，1879 年就去世了，年仅 48 岁。赫兹做出实验是 1887 年，晚了 8 年。他一生都在跟自己的模型较劲，直到死都不知道自己是不是对的。</p>
+          <p class="dim">这件事值得记住：重大的正确，常常在一段"还没有证据"的时间里被独自相信着。</p>
         </div>
-      </section>
+        <div class="track-panel" data-track-panel="paper" hidden>
+          <span class="who">把现场收进来，只看规则本身</span>
+          <p>用一句话说清四条方程的分工：<b>前两条说"场的源头是什么"，后两条说"场怎么变化、怎么互相产生"。</b>把它们合起来看，会得到一个不讲情面的结论：</p>
+          <p>如果你把一条"场"扰动出来（比如让一个电荷猛地晃一下），这个扰动会自己往外传，电场变化生磁场，磁场变化重生电场，一路接力，不需要任何介质。<b>真空本身就能传播电磁波。</b></p>
+          <p class="dim">这正是 19 世纪的人们最不敢相信的地方：他们假设宇宙里充满一种叫"以太"的介质，光靠它传播。后来实验（迈克耳孙–莫雷）没能找到以太，爱因斯坦干脆把"以太"删了，光不需要介质，它就是场自己的波动。</p>
+        </div>
+      </div>
+          <div class="callout">
+        <span class="tag">一句话</span>
+        <p class="co">前两条方程说"场的源头"，后两条说"场怎么互相产生"。合起来看，场能自己接力往前跑，那就是光。</p>
+      </div>
+  <p class="dim">术语：位移电流、电磁波、麦克斯韦方程组、磁单极子（目前还没有人找到）、以太（被删掉的概念）。</p>
+    </section>
 
-      <section id="recite">
-        <span class="st-no">最后一关</span>
-        <h2>用 60 秒，把这一页讲一遍</h2>
-        <p class="lede">检验标准只有一个：<strong>能不能不用公式，讲给一个没学过的人听。</strong>讲不下去的地方，就是你真正没懂的地方——回到那一节。</p>
-        <p class="say"><textarea rows="4" aria-label="用自己的话把整页讲一遍" placeholder="按这条线走：不接触怎么推 → 场是什么 → 源头在哪 → 动起来会怎样 → 变化又能生出什么 → 为什么光是电磁波"></textarea></p>
-        <p class="hard">如果只能记住一句：<strong>电荷产生电场；电荷一动，就有磁场；磁场一变，又生出电场——它们可以自己接力，光就是这么跑的。</strong></p>
-      </section>
-    </article>
-  </main>
-</div>
+    <section id="s8">
+      <div class="sec-no">CH 08</div>
+      <h2>应用：插座里为什么是交流，以及那场"电流之战"</h2>
+      <div class="pit"><b>上一章留下的坑：</b>规律齐了，电也能发电了。<b>可是家里插座的电，为什么是"交流"，而不是像电池那样的直流？</b></div>
+      <p>先分清两种电：</p>
+      <div class="tw"><table class="cmp">
+        <caption>直流（DC）与交流（AC）：一句话 + 生活里的例子</caption>
+        <thead><tr><th></th><th>直流 DC</th><th>交流 AC</th></tr></thead>
+        <tbody>
+          <tr><td><span class="bi-s">方向</span></td><td>始终朝一个方向流</td><td>周期性地来回反向</td></tr>
+          <tr><td><span class="bi-s">典型来源</span></td><td>电池、充电宝、光伏板、手机充电后的电池</td><td>插座、发电厂、高压输电线</td></tr>
+          <tr><td><span class="bi-s">中国标准</span></td><td>手机电池约 3.7–4.4 伏</td><td>220 伏、<span class="bi-s">50 赫兹</span>（一秒来回 50 次，方向每秒改变 100 次，一个周期 20 毫秒）</td></tr>
+          <tr><td><span class="bi-s">好处</span></td><td>电压稳定，电子设备直接用</td><td><span class="bi-s">电压可以方便地升降</span>，适合远距离输送</td></tr>
+        </tbody>
+      </table></div>
+      <p>关键在那个"好处"上。输电的损耗是 <b>I²R</b>，电流越大，损耗按<b>平方</b>涨。而功率 = 电压 × 电流，所以想送同样的功率，<b>电压抬得越高，电流就可以越小</b>，损耗断崖式下降。于是"能不能方便地改变电压"，成了输电的头号问题。</p>
+      <p>而改变电压的装置叫<b>变压器</b>，它工作的原理<b>恰恰是第六章的法拉第</b>：两组线圈套在同一个铁芯上，一组通交流，铁芯里的磁通量不停变化，另一组线圈就被感应出电压；两边电压之比，等于匝数之比。注意，<span class="hl">变压器只对"变化"有反应，所以直流在它面前是死的</span>。这就是交流胜出的技术根因，不是谁的营销更厉害。</p>
+      <p class="dim">（补一句今天的情况：超长距离输电和海底电缆现在会用回直流，因为靠现代电力电子设备可以先把交流"换"成超高压直流、到了再换回来。但一百年前没有这些设备，交流是唯一现实的解。）</p>
 
-<footer>
-  <div class="inner">
-    <p>电与磁 · 一条线讲到底 —— 内容与图解为本页自制；人物肖像取自 Wikimedia Commons 的公有领域文件（作者均已逝世超过一百年）。</p>
-    <p>读数与数值按 SI 定义值与库仑定律实算；历史时间点（奥斯特 1820、法拉第 1831、麦克斯韦 1865、赫兹 1887）以通行说法为准。</p>
+      <h3>那场"电流之战"：谁贡献了什么</h3>
+      <p>19 世纪末，美国的电力系统在直流和交流之间打了一场商战，史称"电流之战"（War of the Currents）。把事实按时间摆出来，比讲立场清楚得多：</p>
+      <details open>
+        <summary>时间线 · 电流之战（1879 → 1893）</summary>
+        <div class="body">
+      <p><b>1879 年</b>，爱迪生宣布发明电灯。但要说清楚：在他之前，亨利·戈培尔和约瑟夫·斯万等人都做出过白炽灯，斯万还在 1878 年（早爱迪生一年）先申请了白炽灯专利，后来双方还打过专利官司。爱迪生真正做成的是<b>把电灯商业化</b>：做出能长久使用、能大批量生产的灯泡。</p>
+      <p><b>1882 年 9 月 4 日</b>，爱迪生的珍珠街发电站在纽约投运：六台 100 千瓦的直流发电机、总容量 600 千瓦、出口电压 <b>110 伏直流</b>，开业时接的是 <b>82 户、400 盏灯</b>（另一些资料记作 59 户，<span class="bi">两说并存，我按维基百科词条的 82 户写，并标明这处分歧</span>）。两年后（1884）它带的用户涨到 <b>508 户、10,164 盏灯</b>。1890 年这座电站失火烧毁，只剩一台发电机，今天还摆在迪尔伯恩的格林菲尔德村博物馆里。</p>
+      <p><b>1886 年</b>这一年，交流完成了从"实验室"到"能卖"的跳跃：3 月，斯坦利在西屋的支持下于马萨诸塞州大巴林顿装起第一套"多电压"交流供电系统；到秋天，西屋、斯坦利和沙伦伯格已经在纽约州布法罗建成了美国第一套商业交流电网。西屋电气公司本身就是 1886 年初成立的。</p>
+      <p><b>1887 年</b>，特斯拉做出了一种在交流电上运行、不用电刷的<b>感应电动机</b>，靠"旋转磁场"转动（他说这个原理 1882 年就在脑子里转过了）。</p>
+      <p><b>1888 年 7 月</b>，企业家威斯汀豪斯（西屋）买下了特斯拉的多相感应电动机和变压器专利许可，价格是 6 万美元的现金加股票，外加每台电机每马力 2.5 美元的使用费，并高薪聘请特斯拉当了一年顾问。交流从"想法"变成了"生意"。</p>
+      <p><b>1893 年</b>，芝加哥世博会上多相交流系统大规模亮相，同年特斯拉为尼亚加拉瀑布的水电站提供咨询，那座水电站后来以交流发电、远距离送电，成了交流电的决定性示范。</p>
+      <p>这场仗打得很难看，而且有据可查：1888 年 6 月，工程师哈罗德·布朗出来打交流，声称高压交流更危险，并且<b>公开用动物做电击演示</b>来"证明"；爱迪生把西奥兰治实验室的场地、设备和人手借给了他，还替他向地方政府的电学审查背书，甚至替他分担了部分宣传费用（这些往来在 1889 年 8 月被偷出的信件公开）。1888 年 11 月，西屋反驳布朗"交流电已致死 30 人"的说法，杂志核查后认为其中最多只有两例能归到西屋的装置上。1890 年 8 月 6 日，第一把电椅执行死刑时用的<b>正是西屋的交流发电机</b>，这件事本身也是被推动出来的结果。西屋后来评价那次行刑："他们用一把斧头会干得更好。"</p>
+      <p>所以两个人的位置可以这样放：<b>爱迪生给了世界"电可以照明"这件事和市场；特斯拉给了世界"电可以远距离输送"的形状。</b>今天我们插座里的 220V 交流，站在特斯拉那一边。<span class="dim">顺便说一句：这场仗打得很难看，双方都用过舆论攻击（包括公开用动物做电击演示，来渲染对方的电更危险）。</span></p>
+        </div>
+      </details>
+
+          <div class="callout miss">
+        <span class="tag">常见错</span>
+        <p class="co">以为交流赢是因为"更先进"。真正的分水岭是"能不能方便地升降电压"：损耗按 I²R 涨，抬电压降电流才省；而变压器只对变化有反应。</p>
+      </div>
+  <p class="dim">术语：直流 DC、交流 AC、频率（赫兹）、变压器、匝数比、损耗 I²R、多电压交流系统、电椅（技术被当成武器的一段历史）。</p>
+    </section>
+
+    <section id="s9">
+      <div class="sec-no">CH 09</div>
+      <h2>这条链上的十八个人</h2>
+      <p>每人只写一句话：<b>他解决了链条上的哪一环。</b>看清楚谁在量、谁在写、谁在把它变成能卖的东西。</p>
+      <details open>
+        <summary>十八个人 · 名录（点一下可收起）</summary>
+        <div class="body">
+      <p>每人只写一句话：<b>他解决了链条上的哪一环。</b></p>
+      <div class="sci-grid">
+        <div class="sci"><img class="pt" src="assets/pt-charles-augustin-de-coulomb.webp" alt="查尔斯·库仑肖像" width="46" height="58" loading="lazy" decoding="async"><div class="nm">查尔斯·库仑</div><div class="yr">1736–1806</div><div class="did">1785 年用扭秤把"电的力"量出来：与距离平方成反比。</div><div class="link">环节：力有多大</div></div>
+        <div class="sci"><img class="pt" src="assets/pt-joseph-priestley.webp" alt="约瑟夫·普里斯特利肖像" width="46" height="58" loading="lazy" decoding="async"><div class="nm">约瑟夫·普里斯特利</div><div class="yr">1733–1804</div><div class="did">1767 年就猜到平方反比（从万有引力类推），但只是猜想。</div><div class="link">环节：提出猜测</div></div>
+        <div class="sci"><img class="pt" src="assets/pt-hans-christian-rsted.webp" alt="汉斯·奥斯特肖像" width="46" height="58" loading="lazy" decoding="async"><div class="nm">汉斯·奥斯特</div><div class="yr">1777–1851</div><div class="did">1820 年发现通电导线能让磁针偏转，电与磁第一次接上。</div><div class="link">环节：电生磁</div></div>
+        <div class="sci"><img class="pt" src="assets/pt-andr-marie-amp-re.webp" alt="安德烈-马里·安培肖像" width="46" height="58" loading="lazy" decoding="async"><div class="nm">安德烈-马里·安培</div><div class="yr">1775–1836</div><div class="did">用数学把电流与磁的关系写清楚；提出"分子电流"解释磁铁。</div><div class="link">环节：写清规则</div></div>
+        <div class="sci"><img class="pt" src="assets/pt-carl-friedrich-gauss.webp" alt="卡尔·高斯肖像" width="46" height="58" loading="lazy" decoding="async"><div class="nm">卡尔·高斯</div><div class="yr">1777–1855</div><div class="did">1835 年写出"场与源的账"（高斯定律），1867 年才发表。</div><div class="link">环节：场的源头</div></div>
+        <div class="sci"><img class="pt" src="assets/pt-faraday-dec.webp" alt="迈克尔·法拉第肖像" width="46" height="58" loading="lazy" decoding="async"><div class="nm">迈克尔·法拉第</div><div class="yr">1791–1867</div><div class="did">1831 年发现电磁感应；用"力线"把场画了出来。</div><div class="link">环节：变化生电</div></div>
+        <div class="sci"><img class="pt" src="assets/pt-james-clerk-maxwell.webp" alt="詹姆斯·克拉克·麦克斯韦肖像" width="46" height="58" loading="lazy" decoding="async"><div class="nm">詹姆斯·克拉克·麦克斯韦</div><div class="yr">1831–1879</div><div class="did">1864 年提出光是电磁波，1873 年写下完整的方程组。</div><div class="link">环节：统一</div></div>
+        <div class="sci"><img class="pt" src="assets/pt-heinrich-hertz.webp" alt="海因里希·赫兹肖像" width="46" height="58" loading="lazy" decoding="async"><div class="nm">海因里希·赫兹</div><div class="yr">1857–1894</div><div class="did">1887 年用实验证实电磁波存在，1888 年发表。</div><div class="link">环节：实证</div></div>
+        <div class="sci"><img class="pt" src="assets/pt-nikola-tesla.webp" alt="尼古拉·特斯拉肖像" width="46" height="58" loading="lazy" decoding="async"><div class="nm">尼古拉·特斯拉</div><div class="yr">1856–1943</div><div class="did">1887 年做出交流感应电动机；多相交流体系成为今天的电网基础。</div><div class="link">环节：让它可用</div></div>
+        <div class="sci"><img class="pt" src="assets/pt-benjamin-franklin.webp" alt="本杰明·富兰克林肖像" width="46" height="58" loading="lazy" decoding="async"><div class="nm">本杰明·富兰克林</div><div class="yr">1706–1790</div><div class="did">1752 年前后用风筝把闪电引进莱顿瓶，证明闪电就是电；避雷针由此而来。</div><div class="link">环节：把天空的电拉下来</div></div>
+        <div class="sci"><img class="pt" src="assets/pt-alessandro-volta.webp" alt="亚历山德罗·伏打肖像" width="46" height="58" loading="lazy" decoding="async"><div class="nm">亚历山德罗·伏打</div><div class="yr">1745–1827</div><div class="did">1800 年做出"伏打电堆"（铜片锌片夹盐水布），第一个能持续供电的电源。</div><div class="link">环节：让电不停下来</div></div>
+        <div class="sci"><img class="pt" src="assets/pt-georg-ohm.webp" alt="格奥尔格·欧姆肖像" width="46" height="58" loading="lazy" decoding="async"><div class="nm">格奥尔格·欧姆</div><div class="yr">1789–1854</div><div class="did">1827 年发表欧姆定律：电压、电流、电阻三者的定量关系。</div><div class="link">环节：量出电流的规矩</div></div>
+        <div class="sci"><img class="pt" src="assets/pt-james-prescott-joule.webp" alt="詹姆斯·焦耳肖像" width="46" height="58" loading="lazy" decoding="async"><div class="nm">詹姆斯·普雷斯科特·焦耳</div><div class="yr">1818–1889</div><div class="did">1840 年给出电流发热的定量关系（Q = I²Rt），后人叫焦耳定律。</div><div class="link">环节：电变热，怎么算</div></div>
+        <div class="sci"><img class="pt" src="assets/pt-heinrich-lenz.webp" alt="海因里希·楞次肖像" width="46" height="58" loading="lazy" decoding="async"><div class="nm">海因里希·楞次</div><div class="yr">1804–1865</div><div class="did">1834 年提出楞次定律：感应出来的电流，方向总是"反抗变化"。</div><div class="link">环节：给感应定方向</div></div>
+        <div class="sci"><img class="pt" src="assets/pt-jj-thomson.webp" alt="约瑟夫·汤姆孙肖像" width="46" height="58" loading="lazy" decoding="async"><div class="nm">约瑟夫·约翰·汤姆孙</div><div class="yr">1856–1940</div><div class="did">1897 年用阴极射线管测出电子的电荷质量比，把电子抓了出来。</div><div class="link">环节：电到底是什么在动</div></div>
+        <div class="sci"><img class="pt" src="assets/pt-robert-millikan.webp" alt="罗伯特·密立根肖像" width="46" height="58" loading="lazy" decoding="async"><div class="nm">罗伯特·密立根</div><div class="yr">1868–1953</div><div class="did">1909 年用油滴实验把电子的电荷量称出来：e ≈ 1.602 × 10⁻¹⁹ 库仑。</div><div class="link">环节：一个电子带多少电</div></div>
+        <div class="sci"><img class="pt" src="assets/pt-gustav-kirchhoff.webp" alt="古斯塔夫·基尔霍夫肖像" width="46" height="58" loading="lazy" decoding="async"><div class="nm">古斯塔夫·基尔霍夫</div><div class="yr">1824–1887</div><div class="did">1845 年提出两条电路定律（节点电流、回路电压），今天所有电路课的第一课。</div><div class="link">环节：给电路立账本</div></div>
+        <div class="sci"><img class="pt" src="assets/pt-thomas-edison.webp" alt="托马斯·爱迪生肖像" width="46" height="58" loading="lazy" decoding="async"><div class="nm">托马斯·爱迪生</div><div class="yr">1847–1931</div><div class="did">1882 年建成珍珠街发电站（110V 直流，59 户）；把电灯变成商品。</div><div class="link">环节：让它普及</div></div>
+      </div>
+      <h3>六个实验，把电磁学钉死</h3>
+      <p>这页讲的每一条规则，背后都有一个具体的装置和一个具体的年份。<b>物理不是从"道理"开始的，是从"装置"开始的。</b></p>
+      <div class="tw"><table class="cmp">
+        <caption>决定性实验一览：谁、哪一年、用什么装置、把什么钉死了</caption>
+        <thead><tr><th>年份</th><th>实验</th><th>装置（一句话）</th><th>把什么钉死了</th></tr></thead>
+        <tbody>
+          <tr><td>1785</td><td>库仑扭秤</td><td>用一根细丝悬挂的小球，看电荷的力把丝扭多少</td><td>电的力与距离平方成反比</td></tr>
+          <tr><td>1800</td><td>伏打电堆</td><td>铜片、锌片夹着盐水浸过的布，一层层叠起来</td><td>电可以持续地流，不再靠摩擦一闪</td></tr>
+          <tr><td>1820</td><td>奥斯特偏转</td><td>一根通电导线横在磁针上方，磁针自己偏了</td><td>电与磁是连着的</td></tr>
+          <tr><td>1831</td><td>法拉第感应环</td><td>铁环两侧各绕一组线圈，一组通断电、一组接电流表</td><td>变化的磁场能生电</td></tr>
+          <tr><td>1887</td><td>赫兹火花</td><td>一边用电火花产生振荡，几米外用断开的金属环接收</td><td>电磁波真实存在</td></tr>
+          <tr><td>1909</td><td>密立根油滴</td><td>让带电油滴悬浮在两块金属板之间，调电压把它停住</td><td>电荷是一个个的，有最小单位</td></tr>
+        </tbody>
+      </table></div>
+      <p class="science-credit">肖像来源：Wikimedia Commons，公有领域（经各人 Wikipedia 条目主图接口取得，未作美化；黑白处理只为版面统一）。</p>
+        </div>
+      </details>
+      <div class="callout">
+        <span class="tag">一句话</span>
+        <p class="co">十个人分三种角色：做实验的（库仑、奥斯特、法拉第、赫兹）、写方程的（高斯、安培、麦克斯韦）、把它送进千家万户的（爱迪生、特斯拉）。</p>
+      </div>
+    </section>
+
+    <section id="quiz">
+      <div class="sec-no">CHECK</div>
+      <h2>找错游戏：两轮，把你刚学到的东西压一遍</h2>
+      <p>这些题面<b>不是随便编的</b>，它们都是关于电与磁最常见的错误说法（有的连大人都答错）。答完会逐条告诉你错在哪。</p>
+
+      <div class="quiz-lv" data-quiz="lv1">
+        <span class="lv-tag">第一轮 · 基础</span>
+        <div class="ask">下面 5 句话里，<span class="bi-s">只有一句是对的</span>。选出那句对的。</div>
+        <div class="opts">
+          <button type="button" class="opt" data-ok="1">摩擦起电是把电子从一个物体搬到另一个物体上，不是凭空造出了电。</button>
+          <button type="button" class="opt" data-ok="0">电流就是电子在导线里以接近光速的速度飞跑。</button>
+          <button type="button" class="opt" data-ok="0">一个物体可以带 1.5 个电子那么多的电量。</button>
+          <button type="button" class="opt" data-ok="0">"场"其实就是"力"的另一个说法。</button>
+          <button type="button" class="opt" data-ok="0">磁铁只要放在线圈里，不管动不动，都能一直发电。</button>
+        </div>
+        <div class="qfb" data-fb-first hidden></div>
+        <div class="qfb" data-fb hidden></div>
+        <div class="qscore" data-score aria-live="polite"></div>
+      </div>
+
+      <div class="quiz-lv" data-quiz="lv2">
+        <span class="lv-tag">第二轮 · 进阶</span>
+        <div class="ask">下面 5 句话里，<span class="bi-s">只有一句是错的</span>。找出那句错的。</div>
+        <div class="opts">
+          <button type="button" class="opt" data-ok="0">变化的磁场会在周围产生电场。</button>
+          <button type="button" class="opt" data-ok="0">电磁波可以在真空中传播，不需要任何介质。</button>
+          <button type="button" class="opt" data-ok="0">一根通着恒定电流的直导线，它周围磁场的强弱不随时间变化。</button>
+          <button type="button" class="opt" data-ok="0">穿过线圈的磁通量保持不变时，线圈里不会出现感应电动势。</button>
+          <button type="button" class="opt" data-ok="1">光的速度和电磁波的速度只是数字上巧合相同，两者其实没有关系。</button>
+        </div>
+        <div class="qfb" data-fb-first hidden></div>
+        <div class="qfb" data-fb hidden></div>
+        <div class="qscore" data-score aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section id="recite">
+      <div class="sec-no">FINISH</div>
+      <h2>最后一关：用 60 秒讲出来</h2>
+      <p>费曼学习法的终点不是"我看懂了"，而是<b>"我能讲出来"</b>。现在按下计时，用 60 秒对着空气讲一遍：<b>电是什么，场是什么，为什么说不接触也能推，交流为什么赢了。</b>讲不顺的地方，就说明那里还没真懂，回去看那一节。</p>
+      <div class="recite">
+        <button type="button" class="btn" id="reciteStart">开始 60 秒</button>
+        <span class="timer" id="reciteTimer" aria-live="polite">60s</span>
+        <button type="button" class="ghost" id="reciteReset">重置</button>
+      </div>
+      <textarea id="reciteBox" placeholder="把你要讲的话写在这里（会自动保存在你自己的浏览器里，不会上传）。"></textarea>
+      <div class="recite">
+        <button type="button" class="btn" id="reciteSave">保存到本机</button>
+        <span class="save-note" id="reciteNote">已保存的字数：0</span>
+      </div>
+
+      <div class="final fadein">
+        <div class="dim">示范（试着念一遍，看会不会打结）</div>
+        <p class="one-shot">"电荷互相推的时候根本不接触，所以中间一定有东西在传力，那东西就是场：空间里每一点都写好了'放一个电荷会被推向哪、多大力'。电场线从电荷出发，穿过多大一个球面，条数只跟里面装了多少电荷有关，这是高斯说的。电流动起来，周围就有磁场，奥斯特是偶然发现的；反过来，只有磁场<span class="bi">变化</span>的时候才会生出电，这是法拉第找了十年才明白的事。麦克斯韦把这几条写成一套方程，发现电场和磁场能互相接力地往前跑，速度正好是光速，所以光是电磁波，赫兹后来用实验证实了。至于家里插座为什么是交流：因为变压器改变电压的原理就是'变化的磁场生电'，而变压器只对变化有反应，所以交流才能一路升压送出去、降压送到你家。插座里那个方向每秒变一百次的东西，是特斯拉那一派的胜利。"</p>
+      </div>
+    </section>
+
+    <footer>
+      <div class="rule"></div>
+      <p class="dim">
+        <span class="bi-s">数据与事实来源</span>（史实与年份均按下列来源核对，未核到的一律不写）：维基百科中文版条目《电磁感应》《麦克斯韦方程组》《电流战争》《高斯定律》《海因里希·赫兹》《托马斯·爱迪生》《尼古拉·特斯拉》；英文版条目《Coulomb's law》《Hans Christian Ørsted》。常数采用国际单位制定义值（元电荷 e = 1.602176634 × 10⁻¹⁹ C；光速 c = 299 792 458 m/s）。力与速度量级为按公式实算（1 C–1 C 相距 1 m：8.99 × 10⁹ N；1 μC–1 μC 相距 10 cm：0.90 N；1 A 通过 1 mm² 铜线：电子漂移 ≈ 7.3 × 10⁻⁵ m/s）。
+      </p>
+      <p class="dim">
+        页面自包含：没有外部字体、没有外部脚本、没有追踪，断网也能看。手机、平板、电脑、桌面端均可读；打印会自动展开全部内容。
+      </p>
+      <p class="dim">为牧之做的第 N 本小册子 · Per Aspera Ad Astra</p>
+    </footer>
+    </div>
   </div>
-</footer>
+
+
 <script>
+(function () {
+  'use strict';
+
+  /* ---------- 1. 主题 ---------- */
+  var root = document.documentElement;
+  var themeBtn = document.getElementById('themeBtn');
+  function applyThemeLabel() {
+    var dark = root.getAttribute('data-theme') === 'dark';
+    if (themeBtn) {
+      themeBtn.textContent = dark ? '◑' : '◐';
+      themeBtn.setAttribute('aria-label', dark ? '切换到亮色主题' : '切换到暗色主题');
+    }
+  }
+  if (themeBtn) {
+    themeBtn.addEventListener('click', function () {
+      var dark = root.getAttribute('data-theme') === 'dark';
+      if (dark) { root.removeAttribute('data-theme'); } else { root.setAttribute('data-theme', 'dark'); }
+      try { localStorage.setItem('em-theme', dark ? 'light' : 'dark'); } catch (e) {}
+      applyThemeLabel();
+    });
+  }
+  applyThemeLabel();
+
+  /* ---------- 2. 阅读进度条 + 章节高亮 ---------- */
+  var bar = document.getElementById('progress');
+  var barFill = document.createElement('i');
+  if (bar) { bar.appendChild(barFill); }
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav a'));
+  var targets = navLinks.map(function (a) {
+    return document.querySelector(a.getAttribute('href'));
+  });
+  function onScroll() {
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    var p = max > 0 ? (h.scrollTop || document.body.scrollTop) / max : 0;
+    if (barFill) { barFill.style.width = Math.min(100, Math.max(0, p * 100)) + '%'; }
+    var idx = -1;
+    for (var i = 0; i < targets.length; i++) {
+      if (targets[i] && targets[i].getBoundingClientRect().top <= 150) { idx = i; }
+    }
+    navLinks.forEach(function (a, i) { a.classList.toggle('on', i === idx); });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  onScroll();
+
+  /* ---------- 3. 先猜后验（三个 block，正确项索引见 CORRECT_IDX） ---------- */
+  var CORRECT_IDX = [1, 2, 1]; // 依次对应：库仑平方反比 / 电子漂移速度 / 感应电流
+  var predictBlocks = Array.prototype.slice.call(document.querySelectorAll('.predict'));
+  predictBlocks.forEach(function (block, bi) {
+    var btns = Array.prototype.slice.call(block.querySelectorAll('button[data-guess]'));
+    var fb = block.querySelector('[data-fb]');
+    var ans = block.querySelector('[data-answer]');
+    btns.forEach(function (b, i) {
+      b.addEventListener('click', function () {
+        var okIdx = CORRECT_IDX[bi];
+        btns.forEach(function (x, j) {
+          x.disabled = true;
+          if (j === okIdx) { x.classList.add('right'); }
+          if (j === i && i !== okIdx) { x.classList.add('wrong'); }
+        });
+        if (fb) {
+          fb.className = 'predict-fb ' + (i === okIdx ? 'ok' : 'miss');
+          fb.innerHTML = (i === okIdx ? '✓ 猜对了。' : '✗ 你猜的是「' + b.textContent.trim() + '」。') +
+            ' 真正的答案在下面，先看一眼你差在哪里。';
+        }
+        if (ans) { ans.hidden = false; }
+      });
+    });
+  });
+
+  /* ---------- 4. 术语注解（点击展开白话解释） ---------- */
+  document.addEventListener('click', function (ev) {
+    var t = ev.target.closest ? ev.target.closest('.term-inline') : null;
+    if (!t) { return; }
+    var open = t.getAttribute('aria-expanded') === 'true';
+    var next = t.nextElementSibling;
+    if (open) {
+      t.setAttribute('aria-expanded', 'false');
+      if (next && next.classList.contains('term-def')) { next.hidden = true; }
+    } else {
+      t.setAttribute('aria-expanded', 'true');
+      if (!(next && next.classList.contains('term-def'))) {
+        next = document.createElement('div');
+        next.className = 'term-def';
+        t.parentNode.insertBefore(next, t.nextSibling);
+      }
+      next.textContent = t.getAttribute('data-def') || '';
+      next.hidden = false;
+    }
+  });
+
+  /* ---------- 5. 视角开关（每节双轨） ---------- */
+  Array.prototype.slice.call(document.querySelectorAll('.tracks')).forEach(function (wrap) {
+    var tabs = Array.prototype.slice.call(wrap.querySelectorAll('.track-tabs button'));
+    var panels = Array.prototype.slice.call(wrap.querySelectorAll('.track-panel'));
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        var key = tab.getAttribute('data-track');
+        tabs.forEach(function (t) { t.setAttribute('aria-selected', t === tab ? 'true' : 'false'); });
+        panels.forEach(function (p) { p.hidden = p.getAttribute('data-track-panel') !== key; });
+      });
+    });
+  });
+
+  /* ---------- 6. 两级找错题 ---------- */
+  var EXPLAIN = {
+    lv1: [
+      '对。摩擦起电只是电子的搬家：尺子多拿了电子，头发少了电子。电子本来就在原子里，"造出电"是错觉。',
+      '错。电子在导线里漂移得极慢：1 平方毫米铜线通 1 安培时约 0.073 毫米/秒（每小时 26 厘米）。传得快的是电场的变化，接近光速：两者差约一万亿倍。',
+      '错。电量是量子化的，只能是元电荷的整数倍，"1.5 个电子的电量"不会出现。',
+      '错。场是空间的状态（每一点写好了"放一个电荷会被推向哪、多大力"），力是场对电荷的作用。说"场就是力"，等于说"地图就是走路"。',
+      '错。磁铁静止时磁通量不变，感应电动势为零。必须"变化"才行：这正是法拉第找了十年才明白的那一句。'
+    ],
+    lv2: [
+      '对。这就是法拉第定律：变化的磁场在周围产生电场。',
+      '对。电磁波是场自己的波动，不需要介质传播：19 世纪假设的"以太"后来被删掉了。',
+      '对。恒定电流产生恒定磁场：强弱不随时间变。注意区分"电荷在动"和"磁场在变"。',
+      '对。磁通量不变 → 变化率为零 → 感应电动势为零。',
+      '★ 这句是错的。电磁波的速度就是光速，因为两者本来就是同一种东西：光是波长落在人眼可见范围的电磁波。这不是巧合，而是从麦克斯韦方程组推出来的，后来由赫兹的实验证实。'
+    ]
+  };
+  Array.prototype.slice.call(document.querySelectorAll('.quiz-lv')).forEach(function (box) {
+    var key = box.getAttribute('data-quiz');
+    var opts = Array.prototype.slice.call(box.querySelectorAll('.opt'));
+    var lines = EXPLAIN[key] || [];
+    var fbFirst = box.querySelector('[data-fb-first]');
+    var fb = box.querySelector('[data-fb]');
+    var scoreEl = box.querySelector('[data-score]');
+    opts.forEach(function (opt, i) {
+      opt.addEventListener('click', function () {
+        var picked = i;
+        opts.forEach(function (o) { o.disabled = true; });
+        var okIdx = -1;
+        opts.forEach(function (o, j) { if (o.getAttribute('data-ok') === '1') { okIdx = j; } });
+        if (opts[okIdx]) { opts[okIdx].classList.add('right'); }
+        if (picked !== okIdx) { opts[picked].classList.add('wrong'); }
+        if (fbFirst) {
+          fbFirst.hidden = false;
+          fbFirst.innerHTML = picked === okIdx
+            ? '✓ 第一关过了。下面逐条告诉你，为什么另外四句都错。'
+            : '✗ 你选的是第 ' + (picked + 1) + ' 句，正确答案是第 ' + (okIdx + 1) + ' 句。别急，看下面逐条解释。错一次比看十遍记得牢。';
+        }
+        if (fb) {
+          fb.hidden = false;
+          fb.innerHTML = lines.map(function (txt, j) {
+            return '<div class="line"><b>' + (j + 1) + '．</b>' + txt + '</div>';
+          }).join('');
+        }
+        if (scoreEl) { scoreEl.textContent = (picked === okIdx ? '本轮得分：1 / 1' : '本轮得分：0 / 1'); }
+      });
+    });
+  });
+
+  /* ---------- 7. 60 秒复述 + 本地保存 ---------- */
+  var box = document.getElementById('reciteBox');
+  var timerEl = document.getElementById('reciteTimer');
+  var noteEl = document.getElementById('reciteNote');
+  var tHandle = null;
+  var left = 60;
+  function paint() {
+    if (timerEl) {
+      timerEl.textContent = left + 's';
+      timerEl.classList.toggle('low', left <= 10);
+    }
+  }
+  function stopTimer() { if (tHandle) { clearInterval(tHandle); tHandle = null; } }
+  var startBtn = document.getElementById('reciteStart');
+  if (startBtn) {
+    startBtn.addEventListener('click', function () {
+      stopTimer(); left = 60; paint();
+      tHandle = setInterval(function () {
+        left -= 1; paint();
+        if (left <= 0) { stopTimer(); if (timerEl) { timerEl.textContent = '时间到'; } }
+      }, 1000);
+    });
+  }
+  var resetBtn = document.getElementById('reciteReset');
+  if (resetBtn) {
+    resetBtn.addEventListener('click', function () { stopTimer(); left = 60; paint(); });
+  }
+  function countChars(s) { return (s || '').replace(/\s/g, '').length; }
+  function loadRecite() {
+    if (!box) { return; }
+    try {
+      var v = localStorage.getItem('em-recite');
+      if (v) { box.value = v; }
+    } catch (e) {}
+    if (noteEl) { noteEl.textContent = '已保存的字数：' + countChars(box.value); }
+  }
+  var saveBtn = document.getElementById('reciteSave');
+  if (saveBtn) {
+    saveBtn.addEventListener('click', function () {
+      try {
+        localStorage.setItem('em-recite', box.value);
+        if (noteEl) { noteEl.textContent = '已保存到这台设备的浏览器：' + countChars(box.value) + ' 字（不会上传）'; }
+      } catch (e) {
+        if (noteEl) { noteEl.textContent = '这台设备的浏览器不让保存（隐私模式），可以直接截图留存。'; }
+      }
+    });
+  }
+  loadRecite();
+  paint();
+})();
+</script>
+
+<script>
+/* ═══ 融合追加：场线主脊 + 装置驱动（源自 v2.1）═══ */
+
 /* ============ 场线主脊：数学驱动的 SVG ============ */
 (function(){
   var svg = document.getElementById('field');
@@ -626,10 +1380,10 @@ footer a{color:var(--ink-dim)}
 
   var CAPS = {
     single:  ['静止的电荷', '线越密，场越强', '一个电荷周围，场线向四面八方散开。它只说明"推的方向"，线条数本身没有物理意义。'],
-    gauss:   ['套一个封闭的袋子', '面画多大，穿过的总数不变', '袋子变大，线变稀，但穿出去的总条数不变——因为源头电荷没变。这就是"场有源头"。'],
+    gauss:   ['套一个封闭的袋子', '面画多大，穿过的总数不变', '袋子变大，线变稀，但穿出去的总条数不变，因为源头电荷没变。这就是"场有源头"。'],
     current: ['电荷动起来', '磁场线围成闭合的圈', '静止电荷只有电场；一旦动起来，空间里多出磁场。它的线是闭合的圈，没有起点终点。'],
     induction:['磁铁动，才有电', '变化才是开关', '磁铁静止时表针不动，移动时才有读数。法拉第花了近十年才想通这一点。'],
-    wave:    ['自己接力，跑出去', '电场与磁场互相生成', '变化的电场生磁场，变化的磁场生电场。不需要电荷，也不需要导线，它自己一路跑下去——这就是光。'],
+    wave:    ['自己接力，跑出去', '电场与磁场互相生成', '变化的电场生磁场，变化的磁场生电场。不需要电荷，也不需要导线，它自己一路跑下去，这就是光。'],
     dipole:  ['正负成对', '线从正极出发，回到负极', '两团电荷放在一起时，场线会弯成弧线：从正电荷出发，绕一圈回到负电荷。']
   };
 
@@ -637,28 +1391,28 @@ footer a{color:var(--ink-dim)}
   function clear(){ while(svg.firstChild) svg.removeChild(svg.firstChild); }
 
   function drawSingle(){
-    var g = el('g', {stroke:'#3fc7d4','stroke-width':1.6,fill:'none',opacity:.85});
+    var g = el('g', {stroke:'var(--sig)','stroke-width':1.6,fill:'none',opacity:.85});
     for(var i=0;i<12;i++){
       var a = i*Math.PI/6, r0 = 16, r1 = 250;
       g.appendChild(el('line', {x1:cx+r0*Math.cos(a), y1:cy+r0*Math.sin(a), x2:cx+r1*Math.cos(a), y2:cy+r1*Math.sin(a)}));
     }
     svg.appendChild(g);
-    svg.appendChild(el('circle', {cx:cx, cy:cy, r:13, fill:'#3fc7d4'}));
+    svg.appendChild(el('circle', {cx:cx, cy:cy, r:13, fill:'var(--sig)'}));
     var t = el('text', {x:cx, y:cy+5, fill:'#0d1012', 'font-size':14, 'font-weight':700, 'text-anchor':'middle'}); t.textContent='+'; svg.appendChild(t);
   }
 
   function drawGauss(r){
     drawSingle();
-    ['#ffb454'].forEach(function(c){
+    ['var(--wrong)'].forEach(function(c){
       svg.insertBefore(el('circle', {cx:cx, cy:cy, r:r, fill:'none', stroke:c, 'stroke-width':1.6, 'stroke-dasharray':'6 6', opacity:.9}), svg.lastChild);
     });
-    var t2 = el('text', {x:cx + r + 8, y:cy - r + 4, fill:'#ffb454', 'font-size':12}); t2.textContent = '高斯面'; svg.appendChild(t2);
+    var t2 = el('text', {x:cx + r + 8, y:cy - r + 4, fill:'var(--wrong)', 'font-size':12}); t2.textContent = '高斯面'; svg.appendChild(t2);
   }
 
   function drawDipole(){
     var a = {x: cx-90, y: cy}, b = {x: cx+90, y: cy};
     // 数值积分：从正电荷出发，沿电场方向前进
-    var g = el('g', {stroke:'#3fc7d4','stroke-width':1.4,fill:'none',opacity:.85});
+    var g = el('g', {stroke:'var(--sig)','stroke-width':1.4,fill:'none',opacity:.85});
     for(var k=0;k<12;k++){
       var ang = k*Math.PI/6, p = {x: a.x + 10*Math.cos(ang), y: a.y + 10*Math.sin(ang)}, d = 'M'+p.x.toFixed(1)+' '+p.y.toFixed(1);
       for(var step=0; step<420; step++){
@@ -678,38 +1432,38 @@ footer a{color:var(--ink-dim)}
       g.appendChild(el('path', {d:d}));
     }
     svg.appendChild(g);
-    svg.appendChild(el('circle', {cx:a.x, cy:a.y, r:12, fill:'#3fc7d4'}));
-    svg.appendChild(el('circle', {cx:b.x, cy:b.y, r:12, fill:'#ffb454'}));
+    svg.appendChild(el('circle', {cx:a.x, cy:a.y, r:12, fill:'var(--sig)'}));
+    svg.appendChild(el('circle', {cx:b.x, cy:b.y, r:12, fill:'var(--wrong)'}));
     [['+', a.x, a.y], ['−', b.x, b.y]].forEach(function(x){
       var t = el('text', {x:x[1], y:x[2]+5, fill:'#0d1012', 'font-size':14, 'font-weight':700, 'text-anchor':'middle'}); t.textContent = x[0]; svg.appendChild(t);
     });
   }
 
   function drawCurrent(){
-    var g = el('g', {stroke:'#3fc7d4','stroke-width':2,fill:'none'});
+    var g = el('g', {stroke:'var(--sig)','stroke-width':2,fill:'none'});
     g.appendChild(el('line', {x1:40, y1:cy, x2:W-40, y2:cy}));
-    var h = el('path', {d:'M'+(W-40)+' '+cy+' l-10 -6 v12 z', fill:'#3fc7d4', stroke:'none'}); g.appendChild(h);
+    var h = el('path', {d:'M'+(W-40)+' '+cy+' l-10 -6 v12 z', fill:'var(--sig)', stroke:'none'}); g.appendChild(h);
     svg.appendChild(g);
-    var g2 = el('g', {stroke:'#ffb454','stroke-width':2,fill:'none',opacity:.95});
+    var g2 = el('g', {stroke:'var(--wrong)','stroke-width':2,fill:'none',opacity:.95});
     [34,58,86,118].forEach(function(r){
       g2.appendChild(el('circle', {cx:cx, cy:cy, r:r, 'stroke-dasharray': r>90 ? '4 6' : 'none'}));
     });
     svg.appendChild(g2);
-    var t = el('text', {x:40, y:cy-14, fill:'#3fc7d4', 'font-size':12}); t.textContent='电流 →'; svg.appendChild(t);
-    var t2 = el('text', {x:cx+8, y:cy-124, fill:'#ffb454', 'font-size':12}); t2.textContent='磁场线（俯视成圈）'; svg.appendChild(t2);
+    var t = el('text', {x:40, y:cy-14, fill:'var(--sig)', 'font-size':12}); t.textContent='电流 →'; svg.appendChild(t);
+    var t2 = el('text', {x:cx+8, y:cy-124, fill:'var(--wrong)', 'font-size':12}); t2.textContent='磁场线（俯视成圈）'; svg.appendChild(t2);
   }
 
   function drawInduction(dt){
     var x0 = cx - 10 + (Math.sin(phase)*0.6) * 90;
-    var g = el('g', {stroke:'#3fc7d4','stroke-width':2,fill:'none'});
+    var g = el('g', {stroke:'var(--sig)','stroke-width':2,fill:'none'});
     [-14,0,14,28].forEach(function(o){ g.appendChild(el('ellipse', {cx:cx+o, cy:cy, rx:12, ry:64})); });
     svg.appendChild(g);
     var mag = el('g', {transform:'translate('+(x0)+','+cy+')'});
     mag.appendChild(el('rect', {x:-26, y:-16, width:26, height:32, fill:'#ff8a7a'}));
-    mag.appendChild(el('rect', {x:0, y:-16, width:26, height:32, fill:'#3fc7d4'}));
+    mag.appendChild(el('rect', {x:0, y:-16, width:26, height:32, fill:'var(--sig)'}));
     svg.appendChild(mag);
     var amp = Math.abs(Math.cos(phase)) * 60 + 8;
-    var g2 = el('g', {stroke:'#ffb454','stroke-width':1.6, fill:'none', opacity:.9});
+    var g2 = el('g', {stroke:'var(--wrong)','stroke-width':1.6, fill:'none', opacity:.9});
     [0,1,2].forEach(function(i){
       g2.appendChild(el('ellipse', {cx:cx+7, cy:cy, rx:30+i*22+amp, ry:70+i*14+amp, 'stroke-dasharray':'5 7'}));
     });
@@ -718,20 +1472,20 @@ footer a{color:var(--ink-dim)}
   }
 
   function drawWave(){
-    var g = el('g', {stroke:'#3fc7d4','stroke-width':2, fill:'none'});
+    var g = el('g', {stroke:'var(--sig)','stroke-width':2, fill:'none'});
     var d = 'M20 '+cy;
     for(var x=20; x<=W-20; x+=6){ d += ' L'+x+' '+(cy + 46*Math.sin((x/44) - phase*1.6)); }
     g.appendChild(el('path', {d:d}));
     svg.appendChild(g);
-    var g2 = el('g', {stroke:'#ffb454','stroke-width':2, opacity:.95});
+    var g2 = el('g', {stroke:'var(--wrong)','stroke-width':2, opacity:.95});
     for(var x2=20; x2<=W-20; x2+=22){
       var y = cy + 46*Math.sin((x2/44) - phase*1.6);
       var dy = Math.cos((x2/44) - phase*1.6) * 26;
       g2.appendChild(el('line', {x1:x2, y1:y, x2:x2, y2:y - dy}));
     }
     svg.appendChild(g2);
-    var t = el('text', {x:20, y:cy-70, fill:'#3fc7d4', 'font-size':12}); t.textContent='电场'; svg.appendChild(t);
-    var t2 = el('text', {x:60, y:cy+96, fill:'#ffb454', 'font-size':12}); t2.textContent='磁场（互相垂直）'; svg.appendChild(t2);
+    var t = el('text', {x:20, y:cy-70, fill:'var(--sig)', 'font-size':12}); t.textContent='电场'; svg.appendChild(t);
+    var t2 = el('text', {x:60, y:cy+96, fill:'var(--wrong)', 'font-size':12}); t2.textContent='磁场（互相垂直）'; svg.appendChild(t2);
   }
 
   function render(){
@@ -747,7 +1501,7 @@ footer a{color:var(--ink-dim)}
   }
 
   var MAP = {s0:'single', s1:'single', s2:'gauss', s3:'gauss', s4:'current', s5:'current', s6:'induction', s7:'wave', s8:'wave', s9:'dipole', quiz:'wave', recite:'wave'};
-  var sections = [].slice.call(document.querySelectorAll('main section'));
+  var sections = [].slice.call(document.querySelectorAll('.inner section, .inner header#s0'));
   var visible = true;
 
   function loop(){
@@ -765,10 +1519,10 @@ footer a{color:var(--ink-dim)}
         if(!en.isIntersecting) return;
         var id = en.target.id, next = MAP[id] || 'single';
         if(next !== state){ state = next; if(reduce){ render(); } }
-        var link = document.querySelector('.rail a[href="#'+id+'"]');
+        var link = document.querySelector('nav.nav a[href="#'+id+'"]');
         if(link){
-          [].forEach.call(document.querySelectorAll('.rail a'), function(a){ a.removeAttribute('aria-current'); });
-          link.setAttribute('aria-current', 'true');
+          [].forEach.call(document.querySelectorAll('nav.nav a'), function(a){ a.removeAttribute('aria-current'); a.classList.remove('on'); });
+          link.setAttribute('aria-current', 'true'); link.classList.add('on');
           link.scrollIntoView({block:'nearest', inline:'nearest'});
         }
       });
@@ -816,7 +1570,7 @@ footer a{color:var(--ink-dim)}
       var x2 = 130 + 140*Math.cos(ang), y2 = 60 + 140*Math.sin(ang);
       var l = document.createElementNS(NS, 'line');
       l.setAttribute('x1', x1); l.setAttribute('y1', y1); l.setAttribute('x2', x2); l.setAttribute('y2', y2);
-      l.setAttribute('stroke', '#3fc7d4'); l.setAttribute('stroke-width', '1.2');
+      l.setAttribute('stroke', 'var(--sig)'); l.setAttribute('stroke-width', '1.2');
       g.appendChild(l);
     }
   }
@@ -906,6 +1660,7 @@ document.addEventListener('click', function(e){
   fwd.addEventListener('click', function(){ set(false); });
   rev.addEventListener('click', function(){ set(true); });
 })();
+
 </script>
 </body>
 </html>
